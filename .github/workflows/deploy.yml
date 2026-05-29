@@ -20,20 +20,20 @@ jobs:
           key: ${{ secrets.CPANEL_SSH_KEY }}
           script: |
             set -e
-            if [ ! -d "~/himalayansciences-web" ]; then
+            if [ ! -d "$HOME/himalayansciences-web" ]; then
               echo "Repository not found on server. Cloning for the first time..."
-              git clone https://github.com/hics-nepal/himalayansciences-web.git ~/himalayansciences-web
-              cd ~/himalayansciences-web
+              git clone https://github.com/hics-nepal/himalayansciences-web.git "$HOME/himalayansciences-web"
+              cd "$HOME/himalayansciences-web"
               cp .env.example .env
               echo "DEBUG=False" >> .env
               echo "ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org" >> .env
             else
-              cd ~/himalayansciences-web
+              cd "$HOME/himalayansciences-web"
               git pull origin main
             fi
 
             # Locate cPanel LVE virtual environment
-            CPANEL_VENV=$(find ~/virtualenv -name "activate" | grep "himalayansciences-web" | head -n 1 || true)
+            CPANEL_VENV=$(find $HOME/virtualenv -name "activate" | grep "himalayansciences-web" | head -n 1 || true)
             if [ -n "$CPANEL_VENV" ]; then
               echo "Activating cPanel managed virtualenv: $CPANEL_VENV"
               source "$CPANEL_VENV"
