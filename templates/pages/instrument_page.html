@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Instrument</div>
+    <h1>{{ page.title }}</h1>
+    <div class="hero__sub mt-5">{{ page.summary }}</div>
+    <div class="mt-5">
+      <span class="badge badge--{{ page.status }}">{{ page.get_status_display }}</span>
+      {% if page.station_id %}
+      <span class="badge badge--active" style="margin-left:0.5rem;">Station {{ page.station_id }}</span>
+      {% endif %}
+    </div>
+  </section>
+
+  {% if station and latest_reading %}
+  <section class="section">
+    <div class="section__label">Live data — {{ station.location_name }} ({{ station.altitude_m }}m)</div>
+    <div class="data-widget">
+      <div class="data-widget__header">
+        <div class="data-widget__title">{{ station.name }}</div>
+        <div class="station-live">
+          <div class="station-live__dot" id="inst-dot"></div>
+          <span class="text-mono" style="font-size:0.75rem">
+            {{ latest_reading.timestamp|date:"d M Y H:i" }} UTC
+          </span>
+        </div>
+      </div>
+      <div class="data-widget__readings">
+        {% if latest_reading.temperature_c is not None %}
+        <div class="reading">
+          <div><span class="reading__value">{{ latest_reading.temperature_c|floatformat:1 }}</span><span class="reading__unit">°C</span></div>
+          <div class="reading__label">Temperature</div>
+        </div>
+        {% endif %}
+        {% if latest_reading.humidity_rh is not None %}
+        <div class="reading">
+          <div><span class="reading__value">{{ latest_reading.humidity_rh|floatformat:0 }}</span><span class="reading__unit">% RH</span></div>
+          <div class="reading__label">Humidity</div>
+        </div>
+        {% endif %}
+        {% if latest_reading.pressure_hpa is not None %}
+        <div class="reading">
+          <div><span class="reading__value">{{ latest_reading.pressure_hpa|floatformat:0 }}</span><span class="reading__unit">hPa</span></div>
+          <div class="reading__label">Pressure</div>
+        </div>
+        {% endif %}
+        {% if latest_reading.pm2_5 is not None %}
+        <div class="reading">
+          <div><span class="reading__value">{{ latest_reading.pm2_5|floatformat:1 }}</span><span class="reading__unit">µg/m³</span></div>
+          <div class="reading__label">PM 2.5</div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="section content">
+    <h2>What it measures</h2>
+    {{ page.what_it_measures|richtext }}
+  </section>
+
+  <section class="section content">
+    {{ page.body }}
+  </section>
+
+  {% if page.github_url %}
+  <div class="mt-6">
+    <a href="{{ page.github_url }}" class="text-mono" style="font-size:0.875rem;">
+      View hardware designs on GitHub →
+    </a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

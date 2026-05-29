@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ page.seo_title|default:page.title }} — HICS{% endblock %}</title>
+  <meta name="description" content="{% block description %}Himalayan Institute for Contextual Sciences — open science rooted in Nepal's geography.{% endblock %}">
+
+  {% load static wagtailcore_tags wagtailimages_tags %}
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="site-header__inner">
+
+      <a href="/" class="site-logo">
+        HICS<span>.</span>
+      </a>
+
+      <nav>
+        <ul class="site-nav">
+          <li><a href="/about/" {% if request.path == '/about/' %}class="active"{% endif %}>About</a></li>
+          <li><a href="/research/" {% if '/research/' in request.path %}class="active"{% endif %}>Research</a></li>
+          <li><a href="/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>Instruments</a></li>
+          <li><a href="/data/" {% if request.path == '/data/' %}class="active"{% endif %}>Data</a></li>
+          <li><a href="/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>Notes</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="station-live" id="header-station" aria-live="polite">
+        <div class="station-live__dot offline" id="station-dot"></div>
+        <span id="station-reading">—</span>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__inner">
+      <div>
+        <div>Himalayan Institute for Contextual Sciences</div>
+        <div class="site-footer__coords">Kathmandu, Nepal &nbsp;·&nbsp; 27.7172°N 85.3240°E</div>
+      </div>
+      <div>
+        <a href="https://github.com/hics-nepal">GitHub</a> &nbsp;·&nbsp;
+        <a href="/data/">Open Data</a> &nbsp;·&nbsp;
+        <a href="mailto:info@himalayansciences.org">info@himalayansciences.org</a>
+      </div>
+      <div class="text-dim">
+        All data published under CC BY 4.0 &nbsp;·&nbsp;
+        All instrument designs under CERN OHL
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="{% static 'js/main.js' %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

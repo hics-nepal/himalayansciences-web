@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">{{ page.get_note_type_display }} · {{ page.date|date:"d M Y" }}</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.location %}
+    <div class="text-mono text-muted mt-4" style="font-size:0.8125rem;">📍 {{ page.location }}</div>
+    {% endif %}
+    <div class="hero__sub mt-5">{{ page.summary }}</div>
+    {% if page.tags.all %}
+    <div class="mt-5" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+      {% for tag in page.tags.all %}
+      <a href="/notes/?tag={{ tag.slug }}" class="badge badge--planned" style="text-decoration:none;">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="section content">
+    {{ page.body }}
+  </section>
+</div>
+{% endblock %}

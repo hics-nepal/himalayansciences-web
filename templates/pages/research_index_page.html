@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Research</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% endif %}
+  </section>
+
+  <section class="section">
+    <div class="card-grid">
+      {% for prog in programmes %}
+      <a href="{{ prog.url }}" class="card">
+        <div class="card__label">{{ prog.get_programme_type_display }}</div>
+        <div class="card__title">{{ prog.title }}</div>
+        <div class="card__body">{{ prog.summary }}</div>
+        <span class="badge badge--{{ prog.status }}">{{ prog.get_status_display }}</span>
+      </a>
+      {% empty %}
+      <p class="text-muted">No research programmes published yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<div class="container">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__mission">{{ page.mission }}</div>
+    {% if page.intro %}
+    <div class="hero__sub">{{ page.intro|richtext }}</div>
+    {% endif %}
+  </section>
+
+  <!-- Live data -->
+  <section class="section">
+    <div class="section__label">Live instrument data</div>
+    <div class="data-widget">
+      <div class="data-widget__header">
+        <div class="data-widget__title" id="widget-station-name">
+          Loading...
+        </div>
+        <div class="station-live">
+          <div class="station-live__dot offline" id="widget-dot"></div>
+          <span
+            class="text-mono"
+            style="font-size:0.75rem"
+            id="widget-timestamp"
+            >—</span
+          >
+        </div>
+      </div>
+      <div class="data-widget__readings" id="widget-readings">
+        {% for key, label, unit in readings_config %}
+        <div class="reading">
+          <div>
+            <span class="reading__value" id="val-{{ key }}">—</span
+            ><span class="reading__unit">{{ unit }}</span>
+          </div>
+          <div class="reading__label">{{ label }}</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Instruments -->
+  <section class="section">
+    <div class="section__label">Instruments</div>
+    <div class="card-grid">
+      {% for instrument in instruments %}
+      <a href="{{ instrument.url }}" class="card">
+        <div class="card__label">{{ instrument.get_status_display }}</div>
+        <div class="card__title">{{ instrument.title }}</div>
+        <div class="card__body">{{ instrument.summary }}</div>
+        <span class="badge badge--{{ instrument.status }}"
+          >{{ instrument.get_status_display }}</span
+        >
+      </a>
+      {% empty %}
+      <p class="text-muted">No instruments published yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Latest notes -->
+  <section class="section">
+    <div class="section__label">Latest from the lab</div>
+    <div class="note-list">
+      {% for note in latest_notes %}
+      <a
+        href="{{ note.url }}"
+        class="note-item"
+        style="text-decoration:none;color:inherit;"
+      >
+        <div class="note-item__meta">
+          <div class="note-item__date mono">{{ note.date|date:"d M Y" }}</div>
+          <div class="note-item__type text-muted">
+            {{ note.get_note_type_display }}
+          </div>
+        </div>
+        <div>
+          <div class="note-item__title">{{ note.title }}</div>
+          <div class="note-item__summary">{{ note.summary }}</div>
+        </div>
+      </a>
+      {% empty %}
+      <p class="text-muted">No lab notes published yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Fetch latest sensor data and populate widget
+  fetch("/api/data/latest/?station=KTM-001")
+    .then((r) => r.json())
+    .then((d) => {
+      if (d.error) return;
+      document.getElementById("widget-station-name").textContent =
+        d.station_name + " · " + d.altitude_m + "m";
+      document.getElementById("widget-timestamp").textContent = new Date(
+        d.timestamp,
+      ).toLocaleString();
+      document.getElementById("widget-dot").classList.remove("offline");
+      document.getElementById("station-dot").classList.remove("offline");
+
+      const vals = {
+        temperature_c: d.temperature_c,
+        humidity_rh: d.humidity_rh,
+        pressure_hpa: d.pressure_hpa,
+        pm2_5: d.pm2_5,
+      };
+      for (const [key, val] of Object.entries(vals)) {
+        const el = document.getElementById("val-" + key);
+        if (el && val !== null) el.textContent = val.toFixed(1);
+      }
+      // Update header readout
+      document.getElementById("station-reading").textContent =
+        (d.temperature_c ? d.temperature_c.toFixed(1) + "°C " : "") +
+        (d.humidity_rh ? d.humidity_rh.toFixed(0) + "% RH " : "") +
+        (d.pressure_hpa ? d.pressure_hpa.toFixed(0) + " hPa" : "");
+    })
+    .catch(() => {});
+</script>
+{% endblock %}

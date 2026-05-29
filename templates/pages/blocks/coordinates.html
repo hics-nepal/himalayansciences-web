@@ -1,0 +1,11 @@
+<div class="data-widget" style="margin:var(--s5) 0;">
+  <div class="text-mono text-muted" style="font-size:0.75rem;margin-bottom:var(--s3);">
+    {% if value.label %}{{ value.label }}{% else %}Location{% endif %}
+  </div>
+  <div class="text-mono" style="font-size:0.875rem;line-height:1.8;">
+    {{ value.latitude }}°N &nbsp; {{ value.longitude }}°E
+    {% if value.altitude_m %}
+    <br>{{ value.altitude_m }}m asl
+    {% endif %}
+  </div>
+</div>

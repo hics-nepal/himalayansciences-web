@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Lab Notes</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% endif %}
+  </section>
+
+  {% if active_tag %}
+  <div class="mt-5">
+    <span class="text-mono text-muted" style="font-size:0.8125rem;">
+      Filtered by tag: <span class="text-accent">{{ active_tag }}</span>
+      &nbsp;·&nbsp; <a href="?">Clear filter</a>
+    </span>
+  </div>
+  {% endif %}
+
+  <section class="section">
+    <div class="note-list">
+      {% for note in notes %}
+      <a
+        href="{{ note.url }}"
+        class="note-item"
+        style="text-decoration:none;color:inherit;"
+      >
+        <div class="note-item__meta">
+          <div class="note-item__date mono">{{ note.date|date:"d M Y" }}</div>
+          <div class="note-item__type text-muted">{{ note.get_note_type_display }}</div>
+          {% if note.location %}
+          <div class="text-dim" style="font-size:0.6875rem;margin-top:var(--s2);">{{ note.location }}</div>
+          {% endif %}
+        </div>
+        <div>
+          <div class="note-item__title">{{ note.title }}</div>
+          <div class="note-item__summary">{{ note.summary }}</div>
+          {% if note.tags.all %}
+          <div class="mt-4" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            {% for tag in note.tags.all %}
+            <a href="?tag={{ tag.slug }}" class="badge badge--planned" style="text-decoration:none;">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </a>
+      {% empty %}
+      <p class="text-muted">No lab notes published yet.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

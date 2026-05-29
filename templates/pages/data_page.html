@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Open Data</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% endif %}
+  </section>
+
+  <!-- Stations -->
+  {% if stations %}
+  <section class="section">
+    <div class="section__label">Active stations</div>
+    <div class="card-grid">
+      {% for station in stations %}
+      <div class="card">
+        <div class="card__label">{{ station.station_id }}</div>
+        <div class="card__title">{{ station.name }}</div>
+        <div class="card__body">
+          {{ station.location_name }} · {{ station.altitude_m|floatformat:0 }}m<br>
+          {{ station.latitude|floatformat:4 }}°N {{ station.longitude|floatformat:4 }}°E
+        </div>
+        <div class="mt-5" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <a href="/api/data/latest/?station={{ station.station_id }}"
+             class="badge badge--active" style="text-decoration:none;">Latest JSON</a>
+          <a href="/api/data/download/?station={{ station.station_id }}"
+             class="badge badge--building" style="text-decoration:none;">Download CSV</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- API docs -->
+  {% if page.api_docs %}
+  <section class="section content">
+    <h2>API Reference</h2>
+    {{ page.api_docs|richtext }}
+  </section>
+  {% endif %}
+
+  <!-- Quick reference table -->
+  <section class="section">
+    <div class="section__label">Endpoints</div>
+    <table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.825rem;margin-top:var(--s4);">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border);">
+          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">Endpoint</th>
+          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/latest/</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">Latest reading (public JSON)</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/historical/?hours=24</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">Time series (public JSON)</td>
+        </tr>
+        <tr>
+          <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/download/</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">CSV download (public)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

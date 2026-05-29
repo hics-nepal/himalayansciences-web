@@ -1,0 +1,13 @@
+<div class="station-live" style="gap:0.75rem;">
+  <div class="station-live__dot {% if station.status != 'active' %}offline{% endif %}"></div>
+  <span class="text-mono" style="font-size:0.75rem;">
+    {{ station.station_id }} ·
+    {% if station.status == 'active' %}LIVE{% else %}{{ station.get_status_display|upper }}{% endif %}
+    · Last seen:
+    {% if station.last_seen %}
+      {{ station.last_seen|date:"d M H:i" }} UTC
+    {% else %}
+      never
+    {% endif %}
+  </span>
+</div>

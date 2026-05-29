@@ -1,0 +1,35 @@
+<div class="data-widget">
+  <div class="data-widget__header">
+    <div class="data-widget__title">
+      <span class="station-live__dot {% if station.status == 'active' %}{% else %}offline{% endif %}" style="display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:0.5rem;vertical-align:middle;"></span>
+      {{ station.station_id }} — {{ station.name }}
+    </div>
+    <div class="text-mono text-muted" style="font-size:0.75rem;">
+      {{ station.location_name }} · {{ station.altitude_m|floatformat:0 }}m
+    </div>
+  </div>
+  {% if reading %}
+  <div class="data-widget__readings">
+    {% if reading.temperature_c is not None %}
+    <div class="reading">
+      <div><span class="reading__value">{{ reading.temperature_c|floatformat:1 }}</span><span class="reading__unit">°C</span></div>
+      <div class="reading__label">Temperature</div>
+    </div>
+    {% endif %}
+    {% if reading.humidity_rh is not None %}
+    <div class="reading">
+      <div><span class="reading__value">{{ reading.humidity_rh|floatformat:0 }}</span><span class="reading__unit">% RH</span></div>
+      <div class="reading__label">Humidity</div>
+    </div>
+    {% endif %}
+    {% if reading.pressure_hpa is not None %}
+    <div class="reading">
+      <div><span class="reading__value">{{ reading.pressure_hpa|floatformat:0 }}</span><span class="reading__unit">hPa</span></div>
+      <div class="reading__label">Pressure</div>
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <p class="text-muted text-mono" style="font-size:0.8rem;">No readings yet.</p>
+  {% endif %}
+</div>

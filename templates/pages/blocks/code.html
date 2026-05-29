@@ -1,0 +1,8 @@
+<figure style="margin:var(--s5) 0;">
+  <pre><code class="language-{{ value.language }}">{{ value.code }}</code></pre>
+  {% if value.caption %}
+  <figcaption class="text-mono text-muted" style="font-size:0.75rem;margin-top:var(--s2);">
+    {{ value.caption }}
+  </figcaption>
+  {% endif %}
+</figure>

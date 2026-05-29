@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">{{ page.get_programme_type_display }}</div>
+    <h1>{{ page.title }}</h1>
+    <div class="hero__sub mt-5">{{ page.summary }}</div>
+    <span class="badge badge--{{ page.status }} mt-5">{{ page.get_status_display }}</span>
+  </section>
+
+  <section class="section content">
+    {{ page.body }}
+  </section>
+
+  {% if page.publications.all %}
+  <section class="section">
+    <div class="section__label">Publications</div>
+    <div class="note-list">
+      {% for pub in page.publications.all %}
+      <div class="note-item">
+        <div class="note-item__meta">
+          <div class="note-item__date">{{ pub.year }}</div>
+          <div class="note-item__type">{{ pub.journal }}</div>
+        </div>
+        <div>
+          <div class="note-item__title">{{ pub.title }}</div>
+          <div class="note-item__summary">{{ pub.authors }}</div>
+          {% if pub.doi %}
+          <a href="https://doi.org/{{ pub.doi }}" class="text-accent mt-4" style="font-size:0.85rem;font-family:var(--font-mono);">
+            doi:{{ pub.doi }}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

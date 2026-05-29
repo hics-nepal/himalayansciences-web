@@ -1,0 +1,1 @@
+# hics Django project package

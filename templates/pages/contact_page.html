@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Contact</div>
+    <h1>{{ page.title }}</h1>
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+  </section>
+
+  <section class="section content">
+    <div style="margin-top:var(--s5);">
+      <p>
+        <span class="text-mono text-muted" style="font-size:0.8125rem;">RESEARCH &amp; GENERAL</span><br>
+        <a href="mailto:{{ page.email_research }}" class="text-accent text-mono">{{ page.email_research }}</a>
+      </p>
+      {% if page.email_education %}
+      <p class="mt-5">
+        <span class="text-mono text-muted" style="font-size:0.8125rem;">EDUCATION</span><br>
+        <a href="mailto:{{ page.email_education }}" class="text-accent text-mono">{{ page.email_education }}</a>
+      </p>
+      {% endif %}
+    </div>
+    {% if page.body %}
+    <div class="mt-6">
+      {{ page.body|richtext }}
+    </div>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

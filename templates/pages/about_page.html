@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <h1>{{ page.title }}</h1>
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+  </section>
+
+  <section class="section content">
+    {{ page.body }}
+    {% if page.registration_info %}
+    <h2>Registration</h2>
+    {{ page.registration_info|richtext }}
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
