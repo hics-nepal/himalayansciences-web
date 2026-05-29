@@ -21,10 +21,25 @@ jobs:
           port: ${{ secrets.CPANEL_SSH_PORT || 22 }}
           script: |
             set -e
-            cd ~/himalayansciences-web
-            git pull origin main
-            source venv/bin/activate
-            pip install -r requirements.txt --quiet
+            if [ ! -d "~/himalayansciences-web" ]; then
+              echo "Repository not found on server. Cloning for the first time..."
+              git clone https://github.com/hics-nepal/himalayansciences-web.git ~/himalayansciences-web
+              cd ~/himalayansciences-web
+              python3.11 -m venv venv || python3 -m venv venv
+              source venv/bin/activate
+              pip install --upgrade pip --quiet
+              pip install -r requirements.txt --quiet
+              cp .env.example .env
+              echo "DEBUG=False" >> .env
+              echo "ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org" >> .env
+              echo "Please log in to cPanel to configure your production DATABASE credentials in ~/himalayansciences-web/.env!"
+            else
+              cd ~/himalayansciences-web
+              git pull origin main
+              source venv/bin/activate
+              pip install -r requirements.txt --quiet
+            fi
+
             DJANGO_SETTINGS_MODULE=hics.settings.production \
               python manage.py migrate --no-input
             DJANGO_SETTINGS_MODULE=hics.settings.production \
