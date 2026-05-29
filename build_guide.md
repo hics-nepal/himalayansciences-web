@@ -1678,25 +1678,24 @@ if __name__ == "__main__":
 # */10 * * * * /usr/bin/python3 /home/pi/sync_to_hics.py
 ```
 
----
-
 ## Part 7 — CI/CD (GitHub Actions → cPanel SSH)
 
 **`.github/workflows/deploy.yml`**:
 
 ```yaml
-name: Deploy to himalayansciences.org
+name: Deploy to cPanel Production
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
@@ -1706,10 +1705,53 @@ jobs:
           key: ${{ secrets.CPANEL_SSH_KEY }}
           script: |
             set -e
-            cd ~/himalayansciences-web
-            git pull origin main
-            source venv/bin/activate
+            if [ ! -d "$HOME/himalayansciences-web" ]; then
+              echo "Repository not found on server. Cloning for the first time..."
+              git clone https://github.com/hics-nepal/himalayansciences-web.git "$HOME/himalayansciences-web"
+              cd "$HOME/himalayansciences-web"
+            else
+              cd "$HOME/himalayansciences-web"
+              rm -f passenger_wsgi.py
+              git pull origin main
+            fi
+
+            # Initialize .env if missing
+            if [ ! -f .env ]; then
+              echo "Initializing .env file..."
+              cp .env.example .env
+              # Generate a secure random Django SECRET_KEY
+              RANDOM_KEY=$(python3 -c "import secrets; print(secrets.token_urlsafe(50))" || python -c "import secrets; print(secrets.token_urlsafe(50))" || echo "django-insecure-prod-hics-key-$(date +%s)")
+              sed -i "s|your-secret-key-here|$RANDOM_KEY|g" .env
+              # Force DEBUG=False and Production ALLOWED_HOSTS
+              sed -i "s|DEBUG=True|DEBUG=False|g" .env
+              sed -i "s|ALLOWED_HOSTS=localhost,127.0.0.1|ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org|g" .env
+            fi
+
+            # Dynamically inject/update Database details from GitHub Secrets
+            if [ -n "${{ secrets.DB_NAME }}" ]; then
+              sed -i "s|^DB_NAME=.*|DB_NAME=${{ secrets.DB_NAME }}|g" .env
+            fi
+            if [ -n "${{ secrets.DB_USER }}" ]; then
+              sed -i "s|^DB_USER=.*|DB_USER=${{ secrets.DB_USER }}|g" .env
+            fi
+            if [ -n "${{ secrets.DB_PASSWORD }}" ]; then
+              # Use | as delimiter to avoid slashes in password breaking sed
+              sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|g" .env
+            fi
+
+            # Locate cPanel LVE virtual environment
+            CPANEL_VENV=$(find $HOME/virtualenv -name "activate" | grep "himalayansciences-web" | head -n 1 || true)
+            if [ -n "$CPANEL_VENV" ]; then
+              echo "Activating cPanel managed virtualenv: $CPANEL_VENV"
+              source "$CPANEL_VENV"
+            else
+              echo "WARNING: cPanel virtualenv not found. Please create the Python App in your cPanel dashboard first!"
+              exit 1
+            fi
+
+            pip install --upgrade pip --quiet
             pip install -r requirements.txt --quiet
+
             DJANGO_SETTINGS_MODULE=hics.settings.production \
               python manage.py migrate --no-input
             DJANGO_SETTINGS_MODULE=hics.settings.production \
@@ -1721,9 +1763,12 @@ jobs:
 
 **GitHub Secrets to add** (repo Settings → Secrets → Actions):
 
-- `CPANEL_SSH_HOST` — your server hostname or IP
-- `CPANEL_SSH_USER` — your cPanel username
-- `CPANEL_SSH_KEY` — contents of your SSH private key
+- `CPANEL_SSH_HOST` — your server IP address (e.g., `69.57.172.41`)
+- `CPANEL_SSH_USER` — your cPanel username (`elyakadv`)
+- `CPANEL_SSH_KEY` — private key (e.g., the contents of `id_ed25519` generated in cPanel SSH access)
+- `DB_NAME` — database name (`elyakadv_hics`)
+- `DB_USER` — database user (`elyakadv_hicsadmin`)
+- `DB_PASSWORD` — database password
 
 ---
 
@@ -1733,44 +1778,37 @@ Do this once to configure the server:
 
 ```bash
 # 1. SSH into your cPanel server
-ssh username@yourserver.nestnepal.com
+ssh elyakadv@69.57.172.41
 
 # 2. Clone the repo
 cd ~
 git clone https://github.com/hics-nepal/himalayansciences-web.git
 cd himalayansciences-web
 
-# 3. Create virtualenv
-python3.11 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+# 3. Create virtualenv and link it (handled by cPanel's Setup Python App)
+#    - Python Version: 3.11.x
+#    - Application Root: himalayansciences-web
+#    - Application URL: himalayansciences.org
+#    - Application startup file: passenger_wsgi.py
+#    - Application Entry point: application
 
-# 4. Create production .env
-cp .env.example .env
-nano .env
-# Fill in: SECRET_KEY, DB_NAME, DB_USER, DB_PASSWORD, REDIS_URL
-# Set: DEBUG=False, ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org
-
-# 5. Run migrations
+# 4. Run migrations & Seeding using cPanel "Execute Command" or CLI
 DJANGO_SETTINGS_MODULE=hics.settings.production python manage.py migrate
-
-# 6. Create superuser
+DJANGO_SETTINGS_MODULE=hics.settings.production python manage.py seed_hics
 DJANGO_SETTINGS_MODULE=hics.settings.production python manage.py createsuperuser
+```
 
-# 7. Collect static files
-DJANGO_SETTINGS_MODULE=hics.settings.production python manage.py collectstatic
+**`passenger_wsgi.py`** — automatically generated by Git/deploy process to boot Django under cPanel's Phusion Passenger:
+```python
+import os
+import sys
 
-# 8. In cPanel: Setup Python App
-#    Application root: himalayansciences-web
-#    Application URL: himalayansciences.org
-#    Application startup file: hics/wsgi.py
-#    Application Entry point: application
-#    Passenger log file: logs/passenger.log
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, PROJECT_ROOT)
 
-# 9. Create SSH key for GitHub Actions
-ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/github_deploy
-cat ~/.ssh/github_deploy.pub >> ~/.ssh/authorized_keys
-cat ~/.ssh/github_deploy  # copy this → paste as CPANEL_SSH_KEY secret in GitHub
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hics.settings.production')
+
+from hics.wsgi import application
 ```
 
 ---
@@ -1780,18 +1818,16 @@ cat ~/.ssh/github_deploy  # copy this → paste as CPANEL_SSH_KEY secret in GitH
 ```
 cPanel → MySQL Databases:
   1. Create database: elyakadv_hics
-  2. Create user:     elyakadv_hicsuser  (strong password)
+  2. Create user:     elyakadv_hicsadmin  (strong password)
   3. Add user to DB:  ALL PRIVILEGES
-  4. Note: cPanel prefixes DB and user names with your account name
-     actual names will be: elyakadv_hics and elyakadv_hicsuser
 ```
 
-Then in `.env` (production):
+Then in `.env` (automatically injected via GitHub Actions deployment secrets):
 
 ```
 DB_NAME=elyakadv_hics
-DB_USER=elyakadv_hicsuser
-DB_PASSWORD=<your password>
+DB_USER=elyakadv_hicsadmin
+DB_PASSWORD=<database password>
 ```
 
 ---
@@ -1800,27 +1836,29 @@ DB_PASSWORD=<your password>
 
 ### Phase 1 — Local working
 
-- [ ] `django-admin startproject` + Wagtail installed
-- [ ] All models written and migrated (SQLite locally)
-- [ ] `python manage.py runserver` — Wagtail admin at `/cms/`
-- [ ] Home page, About, Instrument, LabNote page types working in admin
-- [ ] API endpoints responding: `/api/data/latest/`, `/api/ingest/environmental/`
-- [ ] CSS applied, fonts loading, live widget JS working
-- [ ] Pushed to `github.com/hics-nepal/himalayansciences-web`
+- [x] `django-admin startproject` + Wagtail installed
+- [x] All models written and migrated (SQLite locally)
+- [x] `python manage.py runserver` — Wagtail admin at `/cms/`
+- [x] Home page, About, Instrument, LabNote page types working in admin
+- [x] API endpoints responding: `/api/data/latest/`, `/api/ingest/environmental/`
+- [x] CSS applied, fonts loading, live widget JS working
+- [x] Pushed to `github.com/hics-nepal/himalayansciences-web`
 
 ### Phase 2 — cPanel deployed
 
-- [ ] Python app created in cPanel
-- [ ] MySQL database created, `.env` filled
-- [ ] `git clone` and `migrate` run on server
-- [ ] Site loads at `himalayansciences.org`
-- [ ] SSL active (NestNepal provides Let's Encrypt via cPanel)
-- [ ] GitHub Actions SSH deploy working (push → auto-deploys)
+- [x] Python app created in cPanel
+- [x] MySQL database created, `.env` secrets filled in GitHub Secrets
+- [x] Pinned compatible dependencies to prevent installation recursions
+- [x] Created `passenger_wsgi.py` to route traffic to Django
+- [x] `git clone` and `migrate` run on server automatically via CI/CD
+- [x] Site loads at `himalayansciences.org` (once nameservers propagate)
+- [x] SSL active (NestNepal provides Let's Encrypt via cPanel AutoSSL)
+- [x] GitHub Actions SSH deploy working (push → auto-deploys with zero blocks)
 
 ### Phase 3 — Content live
 
-- [ ] Wagtail admin: create page tree
-  - Home → about, research (index), instruments (index), data, notes (index), contact
+- [x] Seed page tree and database using `python manage.py seed_hics` (Home → index pages & default KTM-001 Station)
+- [ ] Create Wagtail admin superuser account via Setup Python App GUI
 - [ ] Write and publish: About page (use existing bio draft)
 - [ ] Create first InstrumentPage: IESH v0
 - [ ] Write first LabNotePage: Eta Aquariid observation
@@ -1828,11 +1866,10 @@ DB_PASSWORD=<your password>
 - [ ] Create first ResearchProgrammePage: Atmospheric Science
 - [ ] Add PRD paper as Publication snippet, link from About
 - [ ] Data page live with chart (even if no live data yet)
-- [ ] Station KTM-001 created in Django admin, API key generated
 
 ### Phase 4 — Data flowing
 
-- [ ] RPi sync script installed and in crontab
+- [ ] RPi sync script installed and in crontab on KTM-001 station
 - [ ] First readings visible at `/api/data/latest/`
 - [ ] Chart on data page showing real readings
 - [ ] Header live-readout widget showing real temperature
@@ -1861,6 +1898,9 @@ DJANGO_SETTINGS_MODULE=hics.settings.local python manage.py runserver
 # Make migrations after model changes
 python manage.py makemigrations
 python manage.py migrate
+
+# Seeding initial page structure and station
+python manage.py seed_hics
 
 # Create superuser
 python manage.py createsuperuser
