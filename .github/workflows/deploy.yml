@@ -18,27 +18,32 @@ jobs:
           host: ${{ secrets.CPANEL_SSH_HOST }}
           username: ${{ secrets.CPANEL_SSH_USER }}
           key: ${{ secrets.CPANEL_SSH_KEY }}
-          port: ${{ secrets.CPANEL_SSH_PORT || 22 }}
           script: |
             set -e
             if [ ! -d "~/himalayansciences-web" ]; then
               echo "Repository not found on server. Cloning for the first time..."
               git clone https://github.com/hics-nepal/himalayansciences-web.git ~/himalayansciences-web
               cd ~/himalayansciences-web
-              python3.11 -m venv venv || python3 -m venv venv
-              source venv/bin/activate
-              pip install --upgrade pip --quiet
-              pip install -r requirements.txt --quiet
               cp .env.example .env
               echo "DEBUG=False" >> .env
               echo "ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org" >> .env
-              echo "Please log in to cPanel to configure your production DATABASE credentials in ~/himalayansciences-web/.env!"
             else
               cd ~/himalayansciences-web
               git pull origin main
-              source venv/bin/activate
-              pip install -r requirements.txt --quiet
             fi
+
+            # Locate cPanel LVE virtual environment
+            CPANEL_VENV=$(find ~/virtualenv -name "activate" | grep "himalayansciences-web" | head -n 1 || true)
+            if [ -n "$CPANEL_VENV" ]; then
+              echo "Activating cPanel managed virtualenv: $CPANEL_VENV"
+              source "$CPANEL_VENV"
+            else
+              echo "WARNING: cPanel virtualenv not found. Please create the Python App in your cPanel dashboard first!"
+              exit 1
+            fi
+
+            pip install --upgrade pip --quiet
+            pip install -r requirements.txt --quiet
 
             DJANGO_SETTINGS_MODULE=hics.settings.production \
               python manage.py migrate --no-input
