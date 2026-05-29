@@ -1,12 +1,12 @@
 import os
 import sys
 
-# Define path to the project root directory
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, PROJECT_ROOT)
+# Load virtual environment packages
+VENV_PACKAGES = '/home/elyakadv/virtualenv/himalayansciences-web/3.11/lib/python3.11/site-packages'
+if VENV_PACKAGES not in sys.path:
+    sys.path.insert(0, VENV_PACKAGES)
 
-# Set the Django settings module environment variable
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hics.settings.production')
+sys.path.insert(0, os.path.dirname(__file__))
 
-# Import the Django WSGI application
-from hics.wsgi import application
+import hics.wsgi
+application = hics.wsgi.application

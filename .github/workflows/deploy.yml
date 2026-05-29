@@ -27,6 +27,7 @@ jobs:
             else
               cd "$HOME/himalayansciences-web"
               git checkout passenger_wsgi.py || true
+              git checkout hics/wsgi.py || true
               git pull origin main
             fi
 
