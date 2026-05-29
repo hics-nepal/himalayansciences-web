@@ -1,7 +1,7 @@
 import os
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from wagtail.models import Page
+from wagtail.models import Page, Site
 from pages.models import (
     HomePage, AboutPage, ResearchIndexPage, ResearchProgrammePage,
     InstrumentIndexPage, InstrumentPage, DataPage, LabNoteIndexPage, ContactPage
@@ -31,6 +31,18 @@ class Command(BaseCommand):
         except Exception as e:
             self.stdout.write(self.style.ERROR(f"Error finding HomePage: {e}"))
             return
+
+        # Update Wagtail Site object
+        try:
+            site = Site.objects.first()
+            if site:
+                site.hostname = "himalayansciences.org"
+                site.port = 443
+                site.site_name = "Himalayan Institute for Contextual Sciences"
+                site.save()
+                self.stdout.write(self.style.SUCCESS("Configured default Wagtail Site to himalayansciences.org (HTTPS)."))
+        except Exception as e:
+            self.stdout.write(self.style.WARNING(f"Could not configure Wagtail Site: {e}"))
 
         # 2. Add Index Pages if they don't exist
         # Helper to get or create child pages
