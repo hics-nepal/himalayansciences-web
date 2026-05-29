@@ -15,32 +15,65 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Starting HICS database seeding...")
 
-        # 1. Update the default HomePage
+        # 1. Get or Create the custom HomePage under the Wagtail Root node
         try:
             home_page = HomePage.objects.first()
-            if home_page:
+            if not home_page:
+                self.stdout.write("Custom HomePage not found. Creating it under the Wagtail Root node...")
+                # Get the absolute Root page node (depth 1)
+                root_page = Page.get_first_root_node()
+                if not root_page:
+                    root_page = Page.objects.get(id=1)
+                
+                # Check for any default Wagtail homepages at depth 2 (slug "home") and remove them
+                default_home = Page.objects.filter(depth=2).first()
+                if default_home:
+                    self.stdout.write(f"Removing default Wagtail page '{default_home.title}' to prevent conflicts.")
+                    default_home.delete()
+
+                # Create the custom HomePage instance
+                home_page = HomePage(
+                    title="Himalayan Institute for Contextual Sciences",
+                    slug="home",
+                    tagline="Science rooted in place. Data open to all.",
+                    mission="HICS conducts high-altitude physics, meteor astronomy, and environmental sensing to produce open-access contextual scientific research in the Himalayas.",
+                    intro="<p>Based in Kathmandu, Nepal, we build custom open-source scientific instruments (IESH) to monitor cosmic rays, air quality, and atmospheric parameters.</p>"
+                )
+                root_page.add_child(instance=home_page)
+                home_page.save_revision().publish()
+                self.stdout.write(self.style.SUCCESS("Created and published custom HomePage."))
+            else:
+                # HomePage already exists - just update its default details
                 home_page.title = "Himalayan Institute for Contextual Sciences"
                 home_page.tagline = "Science rooted in place. Data open to all."
                 home_page.mission = "HICS conducts high-altitude physics, meteor astronomy, and environmental sensing to produce open-access contextual scientific research in the Himalayas."
                 home_page.intro = "<p>Based in Kathmandu, Nepal, we build custom open-source scientific instruments (IESH) to monitor cosmic rays, air quality, and atmospheric parameters.</p>"
                 home_page.save()
                 self.stdout.write(self.style.SUCCESS("Updated default HomePage."))
-            else:
-                self.stdout.write(self.style.WARNING("HomePage not found. Please run migrations first."))
-                return
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Error finding HomePage: {e}"))
+            self.stdout.write(self.style.ERROR(f"Error initializing HomePage: {e}"))
             return
 
-        # Update Wagtail Site object
+        # Update Wagtail Site object to point to our custom HomePage
         try:
             site = Site.objects.first()
             if site:
+                site.root_page = home_page
                 site.hostname = "himalayansciences.org"
                 site.port = 443
                 site.site_name = "Himalayan Institute for Contextual Sciences"
                 site.save()
-                self.stdout.write(self.style.SUCCESS("Configured default Wagtail Site to himalayansciences.org (HTTPS)."))
+                self.stdout.write(self.style.SUCCESS("Configured default Wagtail Site to point to our custom HomePage at himalayansciences.org (HTTPS)."))
+            else:
+                # If no Site object exists, create one
+                Site.objects.create(
+                    hostname="himalayansciences.org",
+                    port=443,
+                    site_name="Himalayan Institute for Contextual Sciences",
+                    root_page=home_page,
+                    is_default_site=True
+                )
+                self.stdout.write(self.style.SUCCESS("Created and configured default Wagtail Site at himalayansciences.org (HTTPS)."))
         except Exception as e:
             self.stdout.write(self.style.WARNING(f"Could not configure Wagtail Site: {e}"))
 
