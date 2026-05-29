@@ -24,12 +24,21 @@ jobs:
               echo "Repository not found on server. Cloning for the first time..."
               git clone https://github.com/hics-nepal/himalayansciences-web.git "$HOME/himalayansciences-web"
               cd "$HOME/himalayansciences-web"
-              cp .env.example .env
-              echo "DEBUG=False" >> .env
-              echo "ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org" >> .env
             else
               cd "$HOME/himalayansciences-web"
               git pull origin main
+            fi
+
+            # Initialize .env if missing
+            if [ ! -f .env ]; then
+              echo "Initializing .env file..."
+              cp .env.example .env
+              # Generate a secure random Django SECRET_KEY
+              RANDOM_KEY=$(python3 -c "import secrets; print(secrets.token_urlsafe(50))" || python -c "import secrets; print(secrets.token_urlsafe(50))" || echo "django-insecure-prod-hics-key-$(date +%s)")
+              sed -i "s|your-secret-key-here|$RANDOM_KEY|g" .env
+              # Force DEBUG=False and Production ALLOWED_HOSTS
+              sed -i "s|DEBUG=True|DEBUG=False|g" .env
+              sed -i "s|ALLOWED_HOSTS=localhost,127.0.0.1|ALLOWED_HOSTS=himalayansciences.org,www.himalayansciences.org|g" .env
             fi
 
             # Locate cPanel LVE virtual environment
