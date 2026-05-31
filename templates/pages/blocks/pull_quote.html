@@ -1,0 +1,8 @@
+<blockquote style="margin:var(--s6) 0;padding:var(--s5) var(--s6);border-left:3px solid var(--accent);font-family:var(--font-serif);font-size:1.1rem;line-height:1.6;color:var(--text);font-style:normal;">
+  {{ value.quote }}
+  {% if value.attribution %}
+  <footer style="margin-top:var(--s3);font-family:var(--font-mono);font-size:0.8125rem;color:var(--text-muted);font-style:normal;">
+    — {{ value.attribution }}
+  </footer>
+  {% endif %}
+</blockquote>

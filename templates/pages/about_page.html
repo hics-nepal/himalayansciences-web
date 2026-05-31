@@ -1,19 +1,246 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}About — HICS{% endblock %}
+{% block description %}About the Himalayan Institute for Contextual Sciences — who we are, what we do, and why.{% endblock %}
 
 {% block content %}
 <div class="container">
+
+  <!-- WHO WE ARE -->
   <section class="hero">
-    <h1>{{ page.title }}</h1>
-    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    <div class="section__label">Who we are</div>
+    <h1>Himalayan Institute<br>for Contextual Sciences</h1>
+    <div class="hero__sub mt-5">
+      <p>An independent research, instrumentation, and learning institution based in Nepal, operating across one of the world's most dramatic altitude gradients.</p>
+    </div>
   </section>
 
   <section class="section content">
-    {{ page.body }}
-    {% if page.registration_info %}
-    <h2>Registration</h2>
-    {{ page.registration_info|richtext }}
-    {% endif %}
+    <p>We are built on a single organising principle: that Nepal's geography, ecology, seismology, atmosphere, and cultural knowledge are not obstacles to doing serious science — they are the material.</p>
+    <p class="text-muted">Science done here should be about here.</p>
   </section>
+
+  <!-- THE PROBLEM -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section__label">The problem we are addressing</div>
+      <div class="two-col mt-5">
+        <div>
+          <p>Nepal faces a structural translational gap — a broken chain between scientific knowledge and the people, places, and questions that most need it.</p>
+          <p class="text-muted">Research institutions operate in isolation from students and communities. Schools operate without research infrastructure. Talented graduates leave because meaningful scientific careers require going abroad. Communities facing climate change, earthquakes, and pollution lack access to local scientific data.</p>
+        </div>
+        <div>
+          <p class="text-muted">HICS addresses this not by improving each broken link separately, but by building a different structure entirely:</p>
+          <div class="flow-chain mt-5">
+            <span class="flow-chain__node">Instruments</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">Data</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">Questions</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">Methods</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">Results</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">Identity</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">More Instruments</span>
+          </div>
+          <p class="text-muted mt-5" style="font-size:0.875rem;">Any point is an entry point. The same muon detector is a wonder object for a twelve-year-old and a research instrument for a physics graduate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION + MISSION -->
+  <section class="section">
+    <div class="section__label">Vision &amp; mission</div>
+    <blockquote class="mission-quote">
+      To advance science and scientific learning through research, open instrumentation, and education deeply rooted in Nepal's geographic, ecological, and cultural realities — building the translational infrastructure that makes doing serious science in Nepal possible.
+    </blockquote>
+    <div class="mt-6">
+      <p class="text-muted">We are building toward a Nepal where:</p>
+      <div class="vision-grid mt-4">
+        <div class="vision-item">
+          <div class="vision-item__icon">🔭</div>
+          <div class="vision-item__text">HICS is Nepal's most credible independent research institute for physics, atmospheric science, and earth science — publishing internationally, hosting visiting researchers.</div>
+        </div>
+        <div class="vision-item">
+          <div class="vision-item__icon">🔧</div>
+          <div class="vision-item__text">Instruments designed by HICS are deployed across hundreds of Nepali schools and replicated by institutions in other countries.</div>
+        </div>
+        <div class="vision-item">
+          <div class="vision-item__icon">🏔</div>
+          <div class="vision-item__text">Nepali researchers who might have left to do science abroad choose instead to stay, build, and publish here.</div>
+        </div>
+        <div class="vision-item">
+          <div class="vision-item__icon">🌐</div>
+          <div class="vision-item__text">The model HICS demonstrates — contextual, open, integrated — is adopted by similar institutions in the Andes, East Africa, and Central Asia.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUR DOMAINS — compact card grid -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section__label">Four domains of work</div>
+      <p class="text-muted mt-4">HICS works across four domains that are deliberately not separated. The same person works across them. The same instrument serves them all.</p>
+
+      <div class="domain-grid mt-6">
+        <a href="/research/" class="domain-card">
+          <div class="domain-card__letter">A</div>
+          <div class="domain-card__content">
+            <div class="domain-card__title">Research</div>
+            <div class="domain-card__sub">Original science, openly published</div>
+            <div class="domain-card__body">Cosmic ray physics, atmospheric science, meteor astronomy, seismology, building physics, glaciology, traditional knowledge, computational science.</div>
+            <div class="domain-card__count">8 programmes →</div>
+          </div>
+        </a>
+
+        <a href="/instruments/" class="domain-card">
+          <div class="domain-card__letter">B</div>
+          <div class="domain-card__content">
+            <div class="domain-card__title">Instrumentation</div>
+            <div class="domain-card__sub">Open-source hardware built for Nepal</div>
+            <div class="domain-card__body">IESH environmental hub, muon detector, meteor camera, SDR station, planetarium, seismometer — all open-source.</div>
+            <div class="domain-card__count">6 instruments →</div>
+          </div>
+        </a>
+
+        <a href="/education/" class="domain-card">
+          <div class="domain-card__letter">C</div>
+          <div class="domain-card__content">
+            <div class="domain-card__title">Education</div>
+            <div class="domain-card__sub">Grade 5 to graduate level</div>
+            <div class="domain-card__body">School residencies, research fellowships, science camp, teacher development, computing courses, public programme.</div>
+            <div class="domain-card__count">6 programmes →</div>
+          </div>
+        </a>
+
+        <a href="/data/" class="domain-card">
+          <div class="domain-card__letter">D</div>
+          <div class="domain-card__content">
+            <div class="domain-card__title">Open Knowledge</div>
+            <div class="domain-card__sub">Science for everyone</div>
+            <div class="domain-card__body">Live dashboards, open datasets, API access, open-source designs, offline-first platforms, policy engagement.</div>
+            <div class="domain-card__count">Open data →</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE WORK -->
+  <section class="section">
+    <div class="section__label">How we work</div>
+    <div class="principles-grid mt-5">
+      <div class="principle">
+        <div class="principle__label">Contextual</div>
+        <div class="principle__text">Science done here is about here. Nepal's altitude gradient, atmosphere, communities, and traditional knowledge are the subject — not constraints on imported agendas.</div>
+      </div>
+      <div class="principle">
+        <div class="principle__label">Open</div>
+        <div class="principle__text">All data published openly. All instrument designs open-source. All learning materials free. Openness is the fastest path to credibility and impact.</div>
+      </div>
+      <div class="principle">
+        <div class="principle__label">Integrated</div>
+        <div class="principle__text">Research and education are not separate departments. The same instruments serve a researcher, a teacher, and a student in the same afternoon.</div>
+      </div>
+      <div class="principle">
+        <div class="principle__label">Rigorous</div>
+        <div class="principle__text">Accessibility does not mean compromised standards. Peer-reviewed methodology and honest uncertainty quantification are non-negotiable.</div>
+      </div>
+      <div class="principle">
+        <div class="principle__label">Embedded</div>
+        <div class="principle__text">Instruments that keep generating data, relationships that outlast funding cycles, fellows who return, datasets that grow. The long game is the only game.</div>
+      </div>
+      <div class="principle">
+        <div class="principle__label">Patient</div>
+        <div class="principle__text">Good institutions take time. HICS measures success in decades, not quarters.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO BUILDS THIS -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section__label">Who builds this</div>
+      <div class="two-col mt-5">
+        <div>
+          <p class="text-muted">HICS is built by a small team of scientists, engineers, and educators with research backgrounds in dark matter phenomenology, meteor radar systems, atmospheric science, passive solar architecture, and educational technology.</p>
+          <p class="text-muted mt-4">The founding team combines peer-reviewed physics research, seven years of embedded community work in Nepal's high-altitude regions, and national-scale education programme delivery.</p>
+        </div>
+        <div>
+          <p class="text-muted">HICS is designed for others to join — as research partners, co-directors, fellows, and educators. The institution is deliberately structured to outlast any individual and to grow as more people bring their own scientific questions to it.</p>
+          <p class="mt-5"><a href="/contact/" style="font-size:0.875rem;">→ Join us or collaborate</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NETWORKS -->
+  <section class="section">
+    <div class="section__label">International scientific networks</div>
+    <p class="text-muted mt-4">Nepal's scientific output, legible to the international community from day one:</p>
+    <div class="network-tags mt-5">
+      <span class="network-tag network-tag--active">Global Meteor Network</span>
+      <span class="network-tag network-tag--active">Raspberry Shake Seismic</span>
+      <span class="network-tag network-tag--active">Blitzortung Lightning</span>
+      <span class="network-tag network-tag--active">OpenAQ Air Quality</span>
+      <span class="network-tag">CREDO</span>
+      <span class="network-tag">FDSN</span>
+      <span class="network-tag">PANGAEA</span>
+    </div>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="section-alt">
+    <div class="container">
+      <div class="section__label">Partners &amp; collaborators</div>
+      <div class="partner-grid mt-5">
+        <div class="partner-item">
+          <div class="partner-item__name">Crystal Mountain School</div>
+          <div class="partner-item__location">Dho Tarap, Dolpo · 3,900m</div>
+          <div class="partner-item__text">Co-designed passive solar construction and thermal monitoring at 4,000m. Ongoing partnership since 2018 — the foundation of HICS's building physics programme.</div>
+        </div>
+        <div class="partner-item">
+          <div class="partner-item__name">Nepal Academy of Science and Technology</div>
+          <div class="partner-item__location">NAST · Khumaltar, Lalitpur</div>
+          <div class="partner-item__text">Research grant partner for Nepal's first locally manufactured cosmic ray muon detector and altitude-gradient field campaign.</div>
+        </div>
+        <div class="partner-item">
+          <div class="partner-item__name">CosmicWatch / MIT</div>
+          <div class="partner-item__location">Open-source detector platform</div>
+          <div class="partner-item__text">HICS's muon detector builds on the CosmicWatch v3X open-source architecture developed at MIT, adapted for Himalayan environmental conditions.</div>
+        </div>
+        <div class="partner-item">
+          <div class="partner-item__name">Vision Dolpo</div>
+          <div class="partner-item__location">Dolpo, Nepal</div>
+          <div class="partner-item__text">Institutional partner supporting embedded community work and education programmes in the Dolpo region since 2017.</div>
+        </div>
+      </div>
+      <p class="text-muted mt-5" style="font-size:0.875rem;">HICS actively seeks new research, education, and instrumentation partners. <a href="/contact/">Get in touch</a>.</p>
+    </div>
+  </section>
+
+  <!-- Wagtail CMS body — editable in admin -->
+  {% if page.body %}
+  <section class="section content">
+    {{ page.body }}
+  </section>
+  {% endif %}
+
+  <!-- REGISTRATION -->
+  <section class="section" style="padding-bottom:var(--s7);">
+    <div class="section__label">Registration</div>
+    <p class="text-mono text-muted" style="font-size:0.8125rem;line-height:1.8;">
+      Himalayan Institute For Contextual Sciences Pvt. Ltd.<br>
+      Registered Nepal · Companies Act 2063 (2006)
+    </p>
+    <p class="mt-4"><a href="mailto:info@himalayansciences.org" class="text-mono" style="font-size:0.875rem;">info@himalayansciences.org</a></p>
+  </section>
+
 </div>
 {% endblock %}

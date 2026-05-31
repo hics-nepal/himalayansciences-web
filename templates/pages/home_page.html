@@ -1,33 +1,42 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailimages_tags %}
 
+{% block title %}Himalayan Institute for Contextual Sciences — HICS{% endblock %}
+{% block description %}HICS — an independent research, instrumentation, and learning institution in Nepal. Contextual science. Open data. Real-world learning.{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
-  <!-- Hero -->
+  <!-- Section 1 — Hero -->
   <section class="hero">
-    <div class="hero__mission">{{ page.mission }}</div>
-    {% if page.intro %}
-    <div class="hero__sub">{{ page.intro|richtext }}</div>
-    {% endif %}
+    <div class="hero__title">Himalayan Institute for<br>Contextual Sciences</div>
+    <div class="hero__tagline">Contextual Science. &nbsp;Open Data. &nbsp;Real-World Learning.</div>
+    <div class="hero__mission">
+      An independent research, instrumentation, and learning institution in Nepal. We build instruments, collect data, and do science that is about here — the atmosphere above these valleys and mountains, the ground beneath these active zones, the communities living across all altitudes.
+    </div>
+    <div class="hero__links">
+      <a href="/about/">→ About HICS</a>
+      <a href="/instruments/">→ Instruments</a>
+      <a href="/data/">→ Open Data</a>
+    </div>
   </section>
 
-  <!-- Live data -->
+  <!-- Section 2 — Live Data Widget -->
   <section class="section">
     <div class="section__label">Live instrument data</div>
     <div class="data-widget">
       <div class="data-widget__header">
         <div class="data-widget__title" id="widget-station-name">
-          Loading...
+          KTM-001 · Kathmandu · 1,350m
         </div>
         <div class="station-live">
           <div class="station-live__dot offline" id="widget-dot"></div>
-          <span
-            class="text-mono"
-            style="font-size:0.75rem"
-            id="widget-timestamp"
-            >—</span
-          >
+          <span class="text-mono" style="font-size:0.75rem" id="widget-timestamp"
+            >waiting for data…</span>
         </div>
       </div>
       <div class="data-widget__readings" id="widget-readings">
@@ -42,42 +51,163 @@
         {% endfor %}
       </div>
     </div>
+    <div class="chart-wrap" id="sparkline-wrap">
+      <canvas id="sparkline-chart"></canvas>
+    </div>
+    <p class="text-muted" style="font-size:0.875rem;"><a href="/data/">→ Full data dashboard and downloads</a></p>
   </section>
+</div>
 
-  <!-- Instruments -->
+<!-- Section 3 — Station Map (full-bleed dark) -->
+<section class="section-alt">
+  <div class="container">
+    <div class="section__label">Station network</div>
+    <div class="map-wrap" id="station-map"></div>
+    <p class="map-summary">2 stations active · 4 school deployments planned · open data from day one</p>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Section 4 — Active Programmes -->
   <section class="section">
-    <div class="section__label">Instruments</div>
+    <div class="section__label">Active work</div>
     <div class="card-grid">
-      {% for instrument in instruments %}
-      <a href="{{ instrument.url }}" class="card">
-        <div class="card__label">{{ instrument.get_status_display }}</div>
-        <div class="card__title">{{ instrument.title }}</div>
-        <div class="card__body">{{ instrument.summary }}</div>
-        <span class="badge badge--{{ instrument.status }}"
-          >{{ instrument.get_status_display }}</span
-        >
-      </a>
-      {% empty %}
-      <p class="text-muted">No instruments published yet.</p>
-      {% endfor %}
+      <!-- IESH -->
+      <div class="work-card">
+        <img src="{% static 'img/placeholders/instrument.svg' %}" alt="IESH Environmental Monitor" class="work-card__image">
+        <div class="work-card__status text-green">● Active</div>
+        <div class="work-card__title">IESH Environmental Monitor</div>
+        <div class="work-card__body">
+          Continuous atmospheric monitoring from Kathmandu. Temperature, humidity, pressure, air quality — syncing live to himalayansciences.org.
+          First in a network spanning Nepal's altitude gradient, from the Terai lowlands to high Himalayan stations.
+        </div>
+        <p class="mt-4"><a href="/instruments/iesh/" style="font-size:0.875rem;">→ Instrument details and live data</a></p>
+      </div>
+
+      <!-- CMS Dolpo -->
+      <div class="work-card">
+        <img src="{% static 'img/placeholders/landscape.svg' %}" alt="Crystal Mountain School, Dolpo" class="work-card__image">
+        <div class="work-card__status text-green">● Active</div>
+        <div class="work-card__title">Crystal Mountain School, Dolpo</div>
+        <div class="work-card__body">
+          Thermal performance monitoring during construction of a passive solar multipurpose hall at 4,000m in Dho Tarap. The first empirical thermal dataset for passive solar construction at this altitude in Nepal.
+        </div>
+        <p class="mt-4"><a href="/research/building-physics/" style="font-size:0.875rem;">→ Building physics programme</a></p>
+      </div>
+
+      <!-- Muon Detector -->
+      <div class="work-card">
+        <img src="{% static 'img/placeholders/instrument.svg' %}" alt="Cosmic Ray Muon Detector" class="work-card__image">
+        <div class="work-card__status text-accent">◎ In progress</div>
+        <div class="work-card__title">Cosmic Ray Muon Detector</div>
+        <div class="work-card__body">
+          Nepal's first locally manufactured cosmic ray muon detector, based on the CosmicWatch v3X open-source architecture. Field measurements from the Terai (~150m) to Himalayan passes above 5,000m — enabling environmental monitoring, glacier research, and disaster risk reduction.
+        </div>
+        <p class="mt-4"><a href="/instruments/muon-detector/" style="font-size:0.875rem;">→ Muon detector</a></p>
+      </div>
     </div>
   </section>
+</div>
 
-  <!-- Latest notes -->
+<!-- Section 5 — The Data Gap (visual break) -->
+<section class="section-alt">
+  <div class="container">
+    <div class="section__label">The gap in the data</div>
+    <p>
+      Nepal sits at the intersection of some of the most important scientific questions of our time — atmospheric pollution, seismic hazard, climate adaptation, cosmic ray physics.
+      It is also one of the most under-instrumented countries on Earth.
+    </p>
+    <p class="text-muted mt-4" style="font-size:0.95rem;">HICS is building the measurement infrastructure to change this.</p>
+    <div class="gap-panels mt-6">
+      <!-- Panel A — Atmospheric -->
+      <div class="gap-panel">
+        <div class="gap-panel__icon">
+          <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/><path d="M8 32 Q16 18 24 24 Q32 30 40 16" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="24" cy="24" r="3" fill="var(--accent)" opacity="0.6"/></svg>
+        </div>
+        <div class="gap-panel__label">Atmospheric monitoring</div>
+        <div class="gap-panel__text">Nepal's atmosphere across its full altitude gradient — from the Terai to the high Himalaya — is almost entirely unmeasured. Transboundary pollution from the Indo-Gangetic Plain reaches the mountains — there is almost no data on what arrives, or how it changes with altitude.</div>
+      </div>
+      <!-- Panel B — Cosmic Ray -->
+      <div class="gap-panel">
+        <div class="gap-panel__icon">
+          <svg viewBox="0 0 48 48" width="48" height="48"><line x1="5" y1="40" x2="43" y2="8" stroke="var(--amber)" stroke-width="2" stroke-dasharray="4 3"/><circle cx="43" cy="8" r="4" fill="var(--amber)" opacity="0.8"/><rect x="2" y="36" width="8" height="8" rx="1" fill="none" stroke="var(--amber)" stroke-width="1.5" opacity="0.4"/></svg>
+        </div>
+        <div class="gap-panel__label">Cosmic ray flux</div>
+        <div class="gap-panel__text">Nepal's altitude gradient — from 60m to 8,848m — is the most dramatic on Earth. It has never been systematically measured for cosmic ray muon flux. HICS's muon detector will generate this dataset.</div>
+      </div>
+      <!-- Panel C — Building Physics -->
+      <div class="gap-panel">
+        <div class="gap-panel__icon">
+          <svg viewBox="0 0 48 48" width="48" height="48"><path d="M8 38 L8 16 L24 6 L40 16 L40 38" fill="none" stroke="var(--green)" stroke-width="1.5" opacity="0.4"/><line x1="16" y1="38" x2="16" y2="22" stroke="var(--green)" stroke-width="2"/><line x1="32" y1="38" x2="32" y2="22" stroke="var(--red)" stroke-width="2" opacity="0.6"/><text x="14" y="20" fill="var(--green)" font-size="6" font-family="var(--font-mono)">T₁</text><text x="30" y="20" fill="var(--red)" font-size="6" font-family="var(--font-mono)">T₂</text></svg>
+        </div>
+        <div class="gap-panel__label">Building performance</div>
+        <div class="gap-panel__text">Passive solar design for Himalayan conditions requires local empirical data. None exists at high altitude in Nepal. The Crystal Mountain School dataset is the first.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Section 6 — Pipeline -->
+  <section class="section">
+    <div class="section__label">In the pipeline</div>
+    <ul class="pipeline-list">
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">IESH v1 — modular hub</span><span class="pipeline-item__desc">PM2.5, CO₂, UV, rain, wind add-on modules</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">IESH school deployment</span><span class="pipeline-item__desc">First school stations outside Kathmandu</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">Cosmic ray muon detector</span><span class="pipeline-item__desc">In development — altitude-flux network</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">Portable planetarium</span><span class="pipeline-item__desc">Inflatable dome, Nepali-language programmes</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">All-sky meteor camera</span><span class="pipeline-item__desc">Nepal's first GMN contribution</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">MEMS seismometer</span><span class="pipeline-item__desc">Kathmandu Valley earthquake network</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">SDR radio station</span><span class="pipeline-item__desc">Meteor scatter, lightning, ionosphere</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">Weather balloon</span><span class="pipeline-item__desc">Atmospheric profiling to 30km</span></div></li>
+    </ul>
+    <p class="text-muted mt-5" style="font-size:0.9rem;">All instrument designs published open-source. Any institution anywhere can build them.</p>
+    <p class="mt-4"><a href="/instruments/" style="font-size:0.875rem;">→ Full instrument list</a></p>
+  </section>
+
+  <!-- Section 7 — Education & Open Knowledge -->
+  <section class="section">
+    <div class="section__label">Education &amp; open knowledge</div>
+    <p>
+      HICS's education programmes bring instruments, data, and scientific practice directly into schools and communities. Not textbook science — students analyse real data from real instruments collecting real signals.
+    </p>
+    <div class="edu-grid mt-5">
+      <div class="card">
+        <div class="card__title">School Science Residency</div>
+        <div class="card__body">Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.</div>
+        <p class="mt-4"><a href="/education/residency/" style="font-size:0.875rem;">→ Details</a></p>
+      </div>
+      <div class="card">
+        <div class="card__title">Youth Research Fellowship</div>
+        <div class="card__body">Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.</div>
+        <p class="mt-4"><a href="/education/fellowship/" style="font-size:0.875rem;">→ Details</a></p>
+      </div>
+      <div class="card">
+        <div class="card__title">Annual Science Camp</div>
+        <div class="card__body">Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.</div>
+        <p class="mt-4"><a href="/education/camp/" style="font-size:0.875rem;">→ Details</a></p>
+      </div>
+      <div class="card">
+        <div class="card__title">Teacher Professional Development</div>
+        <div class="card__body">Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.</div>
+        <p class="mt-4"><a href="/education/teachers/" style="font-size:0.875rem;">→ Details</a></p>
+      </div>
+    </div>
+    <p class="text-muted mt-5" style="font-size:0.9rem;">Gender equity is structural, not symbolic: fellowship selection, camp admissions, teacher recruitment, and mentoring structures all explicitly work to reduce barriers for women and girls.</p>
+    <p class="mt-5">
+      <a href="/education/" style="font-size:0.875rem;">→ All education programmes</a>
+    </p>
+  </section>
+
+  <!-- Section 7b — Latest from the Lab -->
   <section class="section">
     <div class="section__label">Latest from the lab</div>
     <div class="note-list">
       {% for note in latest_notes %}
-      <a
-        href="{{ note.url }}"
-        class="note-item"
-        style="text-decoration:none;color:inherit;"
-      >
+      <a href="{{ note.url }}" class="note-item" style="text-decoration:none;color:inherit;">
         <div class="note-item__meta">
           <div class="note-item__date mono">{{ note.date|date:"d M Y" }}</div>
-          <div class="note-item__type text-muted">
-            {{ note.get_note_type_display }}
-          </div>
+          <div class="note-item__type text-muted">{{ note.get_note_type_display }}</div>
         </div>
         <div>
           <div class="note-item__title">{{ note.title }}</div>
@@ -85,38 +215,68 @@
         </div>
       </a>
       {% empty %}
-      <p class="text-muted">No lab notes published yet.</p>
+      <div class="note-list--empty">
+        <div class="note-item" style="border-bottom:1px solid var(--border);padding:var(--s4) 0;">
+          <div class="note-item__meta"><div class="note-item__date mono text-dim">Coming soon</div><div class="note-item__type text-dim">Build log</div></div>
+          <div><div class="note-item__title" style="color:var(--text-dim);">IESH v0 — build log and first data</div><div class="note-item__summary" style="color:var(--text-dim);">Full build documentation for the first IESH environmental monitoring station.</div></div>
+        </div>
+        <div class="note-item" style="border-bottom:1px solid var(--border);padding:var(--s4) 0;">
+          <div class="note-item__meta"><div class="note-item__date mono text-dim">Coming soon</div><div class="note-item__type text-dim">Field note</div></div>
+          <div><div class="note-item__title" style="color:var(--text-dim);">Crystal Mountain School — sensor installation</div><div class="note-item__summary" style="color:var(--text-dim);">Dispatch from Dolpo: deploying thermal sensors during construction at 4,000m.</div></div>
+        </div>
+      </div>
       {% endfor %}
     </div>
+    <p class="mt-4"><a href="/notes/" style="font-size:0.875rem;">→ All lab notes</a></p>
   </section>
 </div>
+
+<!-- Section 8 — Footer CTA (full-bleed) -->
+<section class="section-alt" style="padding-bottom:var(--s8);">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="cta-label">Researcher?</div>
+      <div class="cta-text">We are looking for collaborators in atmospheric science, earth science, and physics. <a href="mailto:info@himalayansciences.org?subject=Research collaboration">→ Write to us</a></div>
+
+      <div class="cta-label">Student?</div>
+      <div class="cta-text">Research fellowships for Nepali scientists who want to do science here, not abroad. <a href="/education/fellowship/">→ Fellowship details</a></div>
+
+      <div class="cta-label">Teacher?</div>
+      <div class="cta-text">Instruments, data, and programmes for schools across Nepal. <a href="/education/residency/">→ School partnerships</a></div>
+
+      <div class="cta-label">Funder?</div>
+      <div class="cta-text">We are building something that does not exist anywhere else in this region. <a href="/about/">→ What we're building</a></div>
+    </div>
+  </div>
+</section>
 
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  // Fetch latest sensor data and populate widget
+  // ── Live data widget ──────────────────────────────────────
   fetch("/api/data/latest/?station=KTM-001")
-    .then((r) => r.json())
-    .then((d) => {
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
       if (d.error) return;
       document.getElementById("widget-station-name").textContent =
-        d.station_name + " · " + d.altitude_m + "m";
+        "● LIVE · " + d.station_id + " · " + d.station_name + " · " + d.altitude_m + "m";
       document.getElementById("widget-timestamp").textContent = new Date(
-        d.timestamp,
+        d.timestamp
       ).toLocaleString();
       document.getElementById("widget-dot").classList.remove("offline");
       document.getElementById("station-dot").classList.remove("offline");
 
-      const vals = {
+      var vals = {
         temperature_c: d.temperature_c,
         humidity_rh: d.humidity_rh,
         pressure_hpa: d.pressure_hpa,
         pm2_5: d.pm2_5,
       };
-      for (const [key, val] of Object.entries(vals)) {
-        const el = document.getElementById("val-" + key);
-        if (el && val !== null) el.textContent = val.toFixed(1);
+      for (var key in vals) {
+        var el = document.getElementById("val-" + key);
+        if (el && vals[key] !== null) el.textContent = vals[key].toFixed(1);
       }
       // Update header readout
       document.getElementById("station-reading").textContent =
@@ -124,6 +284,57 @@
         (d.humidity_rh ? d.humidity_rh.toFixed(0) + "% RH " : "") +
         (d.pressure_hpa ? d.pressure_hpa.toFixed(0) + " hPa" : "");
     })
-    .catch(() => {});
+    .catch(function() {
+      document.getElementById("widget-timestamp").textContent = "offline";
+    });
+
+  // ── Station Map ───────────────────────────────────────────
+  (function() {
+    var mapEl = document.getElementById('station-map');
+    if (!mapEl) return;
+
+    var map = L.map('station-map', {
+      center: [28.3, 84.1],
+      zoom: 7,
+      zoomControl: true,
+      attributionControl: false,
+      scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 18
+    }).addTo(map);
+
+    // Active stations — green pulsing marker
+    var activeIcon = L.divIcon({
+      className: '',
+      html: '<div style="width:12px;height:12px;background:#3ddc84;border-radius:50%;border:2px solid #1a3d2a;animation:pulse 2s infinite;"></div>',
+      iconSize: [12, 12],
+      iconAnchor: [6, 6]
+    });
+
+    // Planned stations — grey outlined marker
+    var plannedIcon = L.divIcon({
+      className: '',
+      html: '<div style="width:10px;height:10px;border:2px solid #6b7394;border-radius:50%;"></div>',
+      iconSize: [10, 10],
+      iconAnchor: [5, 5]
+    });
+
+    var stations = [
+      { lat: 27.6915, lng: 85.3205, name: 'KTM-001', desc: 'IESH Environmental · Kathmandu · 1,350m', active: true },
+      { lat: 29.0469, lng: 82.9481, name: 'DLP-001', desc: 'CMS Thermal Monitor · Dolpo · 4,000m', active: true },
+      { lat: 27.72, lng: 85.32, name: 'KTM-002', desc: 'IESH school deployment · Planned', active: false },
+      { lat: 28.21, lng: 83.99, name: 'PKR-001', desc: 'IESH Pokhara · Planned', active: false },
+      { lat: 26.81, lng: 87.28, name: 'DHR-001', desc: 'IESH Dharan · Planned', active: false },
+      { lat: 27.68, lng: 84.43, name: 'BTW-001', desc: 'IESH Bharatpur · Planned', active: false }
+    ];
+
+    stations.forEach(function(s) {
+      L.marker([s.lat, s.lng], { icon: s.active ? activeIcon : plannedIcon })
+        .bindPopup('<strong style="font-family:monospace;">' + s.name + '</strong><br>' + s.desc)
+        .addTo(map);
+    });
+  })();
 </script>
 {% endblock %}

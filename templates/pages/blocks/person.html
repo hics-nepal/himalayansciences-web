@@ -1,0 +1,20 @@
+{% load wagtailimages_tags wagtailcore_tags %}
+<div style="display:grid;grid-template-columns:120px 1fr;gap:var(--s5);margin:var(--s5) 0;padding:var(--s5) 0;border-top:1px solid var(--border);">
+  <div>
+    {% if value.photo %}
+    {% image value.photo fill-120x120 as photo %}
+    <img src="{{ photo.url }}" alt="{{ value.name }}" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);">
+    {% else %}
+    <img src="/static/img/placeholders/portrait.svg" alt="{{ value.name }}" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);">
+    {% endif %}
+  </div>
+  <div>
+    <div style="font-family:var(--font-mono);font-weight:500;font-size:1rem;">{{ value.name }}</div>
+    {% if value.role %}
+    <div class="text-muted" style="font-family:var(--font-mono);font-size:0.8125rem;">{{ value.role }}</div>
+    {% endif %}
+    {% if value.bio %}
+    <div class="text-muted mt-4" style="font-size:0.9rem;line-height:1.6;">{{ value.bio|richtext }}</div>
+    {% endif %}
+  </div>
+</div>

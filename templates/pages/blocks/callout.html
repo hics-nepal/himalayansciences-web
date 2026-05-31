@@ -1,0 +1,7 @@
+{% load wagtailcore_tags %}
+<div class="callout callout--{{ value.callout_type }}" style="margin:var(--s5) 0;padding:var(--s5);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);border-left:3px solid {% if value.callout_type == 'key' %}var(--amber){% elif value.callout_type == 'status' %}var(--green){% elif value.callout_type == 'warning' %}var(--red){% else %}var(--accent){% endif %};">
+  {% if value.title %}
+  <div style="font-family:var(--font-mono);font-size:0.875rem;font-weight:600;margin-bottom:var(--s3);color:{% if value.callout_type == 'key' %}var(--amber){% elif value.callout_type == 'status' %}var(--green){% elif value.callout_type == 'warning' %}var(--red){% else %}var(--accent){% endif %};">{{ value.title }}</div>
+  {% endif %}
+  <div class="text-muted" style="font-size:0.9rem;line-height:1.6;">{{ value.body|richtext }}</div>
+</div>

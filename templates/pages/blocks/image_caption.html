@@ -1,0 +1,10 @@
+{% load wagtailimages_tags %}
+<figure class="block-image block-image--{{ value.size }}" style="margin:var(--s6) 0;">
+  {% image value.image width-1200 as img %}
+  <img src="{{ img.url }}" alt="{{ img.alt }}" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);">
+  {% if value.caption %}
+  <figcaption class="text-mono text-muted" style="font-size:0.75rem;margin-top:var(--s2);">
+    {{ value.caption }}
+  </figcaption>
+  {% endif %}
+</figure>

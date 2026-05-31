@@ -1,0 +1,14 @@
+{% load wagtailcore_tags %}
+<div style="margin:var(--s5) 0;">
+  {% for item in value.items %}
+  <details class="accordion-item" style="border-bottom:1px solid var(--border);">
+    <summary style="padding:var(--s4) 0;font-family:var(--font-mono);font-size:0.9375rem;font-weight:500;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+      {{ item.question }}
+      <span style="color:var(--text-dim);font-size:0.75rem;flex-shrink:0;margin-left:var(--s4);">▸</span>
+    </summary>
+    <div style="padding:0 0 var(--s5);color:var(--text-muted);font-size:0.9rem;line-height:1.6;">
+      {{ item.answer|richtext }}
+    </div>
+  </details>
+  {% endfor %}
+</div>

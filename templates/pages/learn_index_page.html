@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}Learn — HICS{% endblock %}
+{% block description %}Free learning resources from HICS — curriculum modules, instrument build guides, and scientific computing tutorials.{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Learn</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% else %}
+    <div class="hero__sub mt-5">
+      <p>HICS's learning resources are freely available — for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- Curriculum Modules -->
+  <section class="section">
+    <div class="section__label">Curriculum modules</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__label">Grades 8–10 · IESH</div>
+        <div class="card__title">What is the atmosphere?</div>
+        <div class="card__body">Temperature, pressure, and altitude. Explains what the sensors measure and why.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Grades 8–11 · IESH</div>
+        <div class="card__title">Air quality: what is PM2.5?</div>
+        <div class="card__body">Kathmandu Valley air quality as the case study. Why particulate matter matters.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Grades 9–11 · CMS project</div>
+        <div class="card__title">Passive solar: how do buildings stay warm?</div>
+        <div class="card__body">The physics of thermal mass and solar gain for Himalayan conditions.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Build Guides -->
+  <section class="section">
+    <div class="section__label">Instrument build guides</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__label">Moderate · ~NPR 5,000</div>
+        <div class="card__title">IESH v0: Environmental Monitor</div>
+        <div class="card__body">Full guide: wiring, Python code, Flask dashboard, sync script. Build on Raspberry Pi.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Easy · Zero additional cost</div>
+        <div class="card__title">DSLR Astrophotography</div>
+        <div class="card__body">Camera settings, focusing at night, star trails. First images of the Himalayan sky.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Easy · NPR 500–2,000</div>
+        <div class="card__title">Diffraction Spectroscope</div>
+        <div class="card__body">Build for NPR 500. Sodium streetlight spectrum as first target.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scientific Computing -->
+  <section class="section">
+    <div class="section__label">Scientific computing</div>
+    <p class="text-muted">Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.</p>
+    <div class="card-grid mt-5">
+      <div class="card">
+        <div class="card__title">Loading and plotting HICS CSV data</div>
+        <div class="card__body">Introduction to Python data analysis using real environmental sensor data.</div>
+      </div>
+      <div class="card">
+        <div class="card__title">Time series analysis</div>
+        <div class="card__body">Finding patterns in atmospheric data — diurnal cycles, seasonal trends.</div>
+      </div>
+      <div class="card">
+        <div class="card__title">Sensor calibration</div>
+        <div class="card__body">Cross-validating two temperature sensors — when instruments disagree.</div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -15,6 +15,9 @@ INSTALLED_APPS = [
     'pages',
     'instruments',
 
+    'wagtail_localize',
+    'wagtail_localize.locales',
+
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -44,6 +47,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -88,3 +92,22 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
 }
+
+# ── Internationalization & Wagtail Localize ───────────────────────────────
+USE_I18N = True
+USE_TZ = True
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('ne', 'Nepali (नेपाली)'),
+    ('xsr', 'Sherpa (शरपा)'),
+    ('new', 'Newari (नेपाल भाषा)'),
+]
+
+WAGTAIL_I18N_ENABLED = True
+WAGTAIL_CONTENT_LANGUAGES = [
+    ('en', 'English'),
+    ('ne', 'Nepali (नेपाली)'),
+    ('xsr', 'Sherpa (शरपा)'),
+    ('new', 'Newari (नेपाल भाषा)'),
+]

@@ -6,10 +6,10 @@
   <title>{% block title %}{{ page.seo_title|default:page.title }} — HICS{% endblock %}</title>
   <meta name="description" content="{% block description %}Himalayan Institute for Contextual Sciences — open science rooted in Nepal's geography.{% endblock %}">
 
-  {% load static wagtailcore_tags wagtailimages_tags %}
+  {% load static wagtailcore_tags wagtailimages_tags i18n %}
 
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="icon" href="{% static 'img/hics-mark.svg' %}" type="image/svg+xml">
   {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -18,29 +18,79 @@
   <div class="container">
     <div class="site-header__inner">
 
-      <a href="/" class="site-logo">
-        HICS<span>.</span>
+      <a href="/" class="site-logo" aria-label="HICS — Himalayan Institute for Contextual Sciences">
+        <svg viewBox="0 0 200 115" height="36" aria-hidden="true" class="site-logo__mark">
+          <!-- Mountain polygon -->
+          <polygon
+            fill="#6296cf"
+            points="13.97 110.03 9.42 110.03 61.05 14.75 84.3 50.11
+                    111.4 0 161.4 110.03 156.97 110.03 111.08 8.99
+                    84.63 57.9 61.38 22.53 13.97 110.03"
+          />
+          <!-- Amber track — muon trajectory -->
+          <line
+            x1="0"
+            y1="43"
+            x2="185"
+            y2="103"
+            stroke="#f0a031"
+            stroke-width="4"
+            stroke-dasharray="8 5"
+            stroke-linecap="round"
+          />
+          <!-- Detector hit -->
+          <circle fill="#f0a031" cx="186" cy="101" r="9" />
+        </svg>
+        <span class="site-logo__text">HICS</span>
       </a>
 
-      <nav>
+      <nav class="site-nav-desktop">
         <ul class="site-nav">
-          <li><a href="/about/" {% if request.path == '/about/' %}class="active"{% endif %}>About</a></li>
-          <li><a href="/research/" {% if '/research/' in request.path %}class="active"{% endif %}>Research</a></li>
-          <li><a href="/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>Instruments</a></li>
-          <li><a href="/data/" {% if request.path == '/data/' %}class="active"{% endif %}>Data</a></li>
-          <li><a href="/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>Notes</a></li>
-          <li><a href="/contact/">Contact</a></li>
+          <li><a href="/about/" {% if request.path == '/about/' %}class="active"{% endif %}>{% translate "About" %}</a></li>
+          <li><a href="/research/" {% if '/research/' in request.path %}class="active"{% endif %}>{% translate "Research" %}</a></li>
+          <li><a href="/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>{% translate "Instruments" %}</a></li>
+          <li><a href="/data/" {% if request.path == '/data/' %}class="active"{% endif %}>{% translate "Open Data" %}</a></li>
+          <li><a href="/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% translate "Education" %}</a></li>
+          <li><a href="/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% translate "Lab Notes" %}</a></li>
+          <li><a href="/contact/" {% if request.path == '/contact/' %}class="active"{% endif %}>{% translate "Contact" %}</a></li>
         </ul>
       </nav>
 
       <div class="station-live" id="header-station" aria-live="polite">
         <div class="station-live__dot offline" id="station-dot"></div>
-        <span id="station-reading">—</span>
+        <span id="station-reading">KTM-001 · connecting…</span>
       </div>
+
+      <!-- Mobile menu toggle -->
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="mobile-menu-toggle__bar"></span>
+        <span class="mobile-menu-toggle__bar"></span>
+        <span class="mobile-menu-toggle__bar"></span>
+      </button>
 
     </div>
   </div>
 </header>
+
+<!-- Mobile navigation overlay -->
+<nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <ul class="mobile-nav__list">
+    <li><a href="/">Home</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/research/">Research</a></li>
+    <li><a href="/instruments/">Instruments</a></li>
+    <li><a href="/data/">Data</a></li>
+    <li><a href="/education/">Education</a></li>
+    <li><a href="/notes/">Lab Notes</a></li>
+    <li><a href="/contact/">Contact</a></li>
+  </ul>
+  <div class="mobile-nav__station" id="mobile-station">
+    <div class="station-live">
+      <div class="station-live__dot offline" id="mobile-station-dot"></div>
+      <span id="mobile-station-reading">Station KTM-001 — connecting...</span>
+    </div>
+  </div>
+</nav>
 
 <main>
   {% block content %}{% endblock %}
@@ -49,18 +99,52 @@
 <footer class="site-footer">
   <div class="container">
     <div class="site-footer__inner">
-      <div>
-        <div>Himalayan Institute for Contextual Sciences</div>
-        <div class="site-footer__coords">Kathmandu, Nepal &nbsp;·&nbsp; 27.7172°N 85.3240°E</div>
+      <!-- Brand -->
+      <div class="site-footer__brand">
+        <img
+          src="{% static 'img/hics-wordmark.svg' %}"
+          alt="Himalayan Institute for Contextual Sciences"
+          height="50"
+          class="site-footer__logo"
+        />
+        <div class="site-footer__tagline">Contextual Science. Open Data. Real-World Learning.</div>
+        <div class="site-footer__coords text-mono">
+          Nepal &nbsp;·&nbsp; Altitude-Gradient Research &amp; Open Data
+        </div>
       </div>
-      <div>
-        <a href="https://github.com/hics-nepal">GitHub</a> &nbsp;·&nbsp;
-        <a href="/data/">Open Data</a> &nbsp;·&nbsp;
+
+      <!-- Navigation -->
+      <div class="site-footer__nav-col">
+        <div class="site-footer__nav-heading">{% translate "Site" %}</div>
+        <div class="site-footer__nav-links">
+          <a href="/about/">{% translate "About" %}</a>
+          <a href="/research/">{% translate "Research" %}</a>
+          <a href="/instruments/">{% translate "Instruments" %}</a>
+          <a href="/data/">{% translate "Open Data" %}</a>
+          <a href="/education/">{% translate "Education" %}</a>
+          <a href="/notes/">{% translate "Lab Notes" %}</a>
+          <a href="/contact/">{% translate "Contact" %}</a>
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="site-footer__nav-col">
+        <div class="site-footer__nav-heading">Connect</div>
         <a href="mailto:info@himalayansciences.org">info@himalayansciences.org</a>
+        <a href="https://github.com/hics-nepal">GitHub</a>
       </div>
-      <div class="text-dim">
-        All data published under CC BY 4.0 &nbsp;·&nbsp;
-        All instrument designs under CERN OHL
+    </div>
+
+    <div class="site-footer__bottom">
+      <div>© 2026 Himalayan Institute for Contextual Sciences Pvt. Ltd.</div>
+      <div class="lang-switcher">
+        {% get_current_language as CURRENT_LANG %}
+        {% get_available_languages as AVAILABLE_LANGS %}
+        {% for lang_code, lang_name in AVAILABLE_LANGS %}
+          <a href="/{{ lang_code }}{{ request.path }}" class="lang-link {% if CURRENT_LANG == lang_code %}active{% endif %}">
+            {% if lang_code == 'en' %}EN{% elif lang_code == 'ne' %}नेपाली{% elif lang_code == 'xsr' %}शरपा{% elif lang_code == 'new' %}नेपाल भाषा{% else %}{{ lang_code|upper }}{% endif %}
+          </a>
+        {% endfor %}
       </div>
     </div>
   </div>

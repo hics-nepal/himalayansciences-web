@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#141720"/>
+  <circle cx="100" cy="85" r="35" fill="#1a1e2e" stroke="#252a40" stroke-width="1.5"/>
+  <!-- Simple person silhouette -->
+  <circle cx="100" cy="75" r="14" fill="#252a40"/>
+  <ellipse cx="100" cy="140" rx="28" ry="22" fill="#252a40"/>
+  <text x="100" y="185" font-family="monospace" font-size="9" fill="#6b7394" text-anchor="middle">PORTRAIT</text>
+</svg>

@@ -4,7 +4,8 @@ from django.utils import timezone
 from wagtail.models import Page, Site
 from pages.models import (
     HomePage, AboutPage, ResearchIndexPage, ResearchProgrammePage,
-    InstrumentIndexPage, InstrumentPage, DataPage, LabNoteIndexPage, ContactPage
+    InstrumentIndexPage, InstrumentPage, DataPage, LabNoteIndexPage, ContactPage,
+    EducationIndexPage, EducationProgrammePage, LearnIndexPage, OpenKnowledgePage
 )
 from instruments.models import Station
 
@@ -35,9 +36,9 @@ class Command(BaseCommand):
                 home_page = HomePage(
                     title="Himalayan Institute for Contextual Sciences",
                     slug="home",
-                    tagline="Science rooted in place. Data open to all.",
-                    mission="HICS conducts high-altitude physics, meteor astronomy, and environmental sensing to produce open-access contextual scientific research in the Himalayas.",
-                    intro="<p>Based in Kathmandu, Nepal, we build custom open-source scientific instruments (IESH) to monitor cosmic rays, air quality, and atmospheric parameters.</p>"
+                    tagline="Contextual Science. Open Data. Real-World Learning.",
+                    mission="HICS is an independent research, instrumentation, and learning institution based in Kathmandu, Nepal. We work across four domains — Research, Instrumentation, Education, and Open Knowledge — building the translational infrastructure that makes doing serious science in Nepal possible.",
+                    intro="<p>We are built on a single organising principle: that Nepal's geography, ecology, seismology, atmosphere, and cultural knowledge are not obstacles to doing serious science — they are the material. Science done here should be about here.</p>"
                 )
                 root_page.add_child(instance=home_page)
                 home_page.save_revision().publish()
@@ -45,9 +46,9 @@ class Command(BaseCommand):
             else:
                 # HomePage already exists - just update its default details
                 home_page.title = "Himalayan Institute for Contextual Sciences"
-                home_page.tagline = "Science rooted in place. Data open to all."
-                home_page.mission = "HICS conducts high-altitude physics, meteor astronomy, and environmental sensing to produce open-access contextual scientific research in the Himalayas."
-                home_page.intro = "<p>Based in Kathmandu, Nepal, we build custom open-source scientific instruments (IESH) to monitor cosmic rays, air quality, and atmospheric parameters.</p>"
+                home_page.tagline = "Contextual Science. Open Data. Real-World Learning."
+                home_page.mission = "HICS is an independent research, instrumentation, and learning institution based in Kathmandu, Nepal. We work across four domains — Research, Instrumentation, Education, and Open Knowledge — building the translational infrastructure that makes doing serious science in Nepal possible."
+                home_page.intro = "<p>We are built on a single organising principle: that Nepal's geography, ecology, seismology, atmosphere, and cultural knowledge are not obstacles to doing serious science — they are the material. Science done here should be about here.</p>"
                 home_page.save()
                 self.stdout.write(self.style.SUCCESS("Updated default HomePage."))
         except Exception as e:
@@ -154,6 +155,69 @@ class Command(BaseCommand):
             email_education="edu@himalayansciences.org"
         )
 
+        # Education Index Page
+        education_index = get_or_create_child_page(
+            home_page, EducationIndexPage, "education", "Education Programmes",
+            intro="<p>HICS's education programmes bring instruments, data, and real scientific practice directly into schools and communities. Not textbook science — students analyse real data from real instruments collecting real signals from the world around them.</p>"
+        )
+
+        # Education Programme: School Residency
+        get_or_create_child_page(
+            education_index, EducationProgrammePage, "residency", "School Science Residency Programme",
+            programme_type="residency",
+            status="planned",
+            summary="Multi-day visits to schools combining planetarium sessions, instrument workshops, data exploration, and teacher training.",
+            target_audience="Schools, primarily outside Kathmandu",
+            contact_subject="School residency",
+            body=[]
+        )
+
+        # Education Programme: Youth Research Fellowship
+        get_or_create_child_page(
+            education_index, EducationProgrammePage, "fellowship", "Youth Research Fellowship",
+            programme_type="fellowship",
+            status="planned",
+            summary="Full-time 12–24 month research positions for Nepali scientists and engineers. Real research. Real stipend. Real publications.",
+            target_audience="Nepali scientists and engineers",
+            contact_subject="Fellowship enquiry",
+            body=[]
+        )
+
+        # Education Programme: Science Camp
+        get_or_create_child_page(
+            education_index, EducationProgrammePage, "camp", "Annual Science Camp",
+            programme_type="camp",
+            status="planned",
+            summary="Ten-day residential programme for high school students (Grades 9–11) selected from across Nepal. Priority for students from districts outside Kathmandu.",
+            target_audience="High school students, Grades 9-11",
+            contact_subject="Science camp",
+            body=[]
+        )
+
+        # Education Programme: Teacher Development
+        get_or_create_child_page(
+            education_index, EducationProgrammePage, "teachers", "Teacher Professional Development",
+            programme_type="teachers",
+            status="planned",
+            summary="Annual one-week residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.",
+            target_audience="Teachers across Nepal",
+            contact_subject="Teacher development",
+            body=[]
+        )
+
+        # Learn Index Page
+        get_or_create_child_page(
+            home_page, LearnIndexPage, "learn", "Learning Resources",
+            intro="<p>HICS's learning resources are freely available — for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.</p>"
+        )
+
+        # Open Knowledge Page
+        get_or_create_child_page(
+            home_page, OpenKnowledgePage, "open-knowledge", "Open Knowledge",
+            intro="<p>HICS's public outputs exist for the world, not only for HICS's own programmes. All data is open. All instrument designs are open-source. All learning materials are freely available.</p>",
+            body=[]
+        )
+
         # 3. Create default Station KTM-001
         station, created = Station.objects.get_or_create(
             station_id="KTM-001",
@@ -179,3 +243,4 @@ class Command(BaseCommand):
             self.stdout.write("Station KTM-001 already exists.")
 
         self.stdout.write(self.style.SUCCESS("HICS Database Seeding Complete!"))
+

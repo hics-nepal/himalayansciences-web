@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}{{ page.title }} — Education — HICS{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Education · {{ page.get_programme_type_display }}</div>
+    <h1>{{ page.title }}</h1>
+    <div class="hero__sub mt-5">{{ page.summary }}</div>
+    <span class="badge badge--{{ page.status }} mt-5">{{ page.get_status_display }}</span>
+    {% if page.target_audience %}
+    <p class="text-muted mt-4" style="font-size:0.875rem;">Audience: {{ page.target_audience }}</p>
+    {% endif %}
+  </section>
+
+  {% if page.body %}
+  <section class="section content">
+    {{ page.body }}
+  </section>
+  {% endif %}
+
+  <section class="section content">
+    <div class="section__label">Enquire</div>
+    <p class="text-muted">
+      {% if page.contact_subject %}
+      <a href="mailto:{{ page.contact_email }}?subject={{ page.contact_subject }}" class="text-mono">→ {{ page.contact_email }}</a>
+      <br><span class="text-mono text-dim" style="font-size:0.75rem;">Subject: {{ page.contact_subject }}</span>
+      {% else %}
+      <a href="mailto:{{ page.contact_email }}" class="text-mono">→ {{ page.contact_email }}</a>
+      {% endif %}
+    </p>
+  </section>
+</div>
+{% endblock %}

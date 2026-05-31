@@ -1,0 +1,10 @@
+<div style="display:flex;gap:var(--s6);flex-wrap:wrap;margin:var(--s6) 0;padding:var(--s5) 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  {% for stat in value.stats %}
+  <div>
+    <div style="font-family:var(--font-mono);font-size:2rem;font-weight:500;line-height:1;font-variant-numeric:tabular-nums;">
+      {{ stat.value }}<span style="font-size:0.875rem;color:var(--accent);margin-left:2px;">{{ stat.unit }}</span>
+    </div>
+    <div style="font-family:var(--font-mono);font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-top:var(--s2);">{{ stat.label }}</div>
+  </div>
+  {% endfor %}
+</div>

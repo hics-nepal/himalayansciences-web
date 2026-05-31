@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block title %}Education — HICS{% endblock %}
+{% block description %}HICS education programmes — school residencies, research fellowships, science camps, teacher development, and free learning resources.{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Education</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% else %}
+    <div class="hero__sub mt-5">
+      <p>Curriculum-aligned, instrument-based science education serving students, teachers, and communities. Not textbook science — students analyse real data from real instruments collecting real signals from the world around them.</p>
+      <p class="text-muted mt-4" style="font-size:0.9rem;">Gender equity is structural, not symbolic: fellowship selection, camp admissions, teacher recruitment, and mentoring structures all explicitly work to reduce barriers for women and girls.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <!-- Structured programmes -->
+  <section class="section">
+    <div class="section__label">Programmes</div>
+    <div class="card-grid">
+      {% for programme in programmes %}
+      <a href="{{ programme.url }}" class="card">
+        <div class="card__label">{{ programme.get_programme_type_display }}</div>
+        <div class="card__title">{{ programme.title }}</div>
+        <div class="card__body">{{ programme.summary }}</div>
+        <span class="badge badge--{{ programme.status }}">{{ programme.get_status_display }}</span>
+      </a>
+      {% empty %}
+      <div class="card">
+        <div class="card__title">School Science Residency</div>
+        <div class="card__body">Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      <div class="card">
+        <div class="card__title">Youth Research Fellowship</div>
+        <div class="card__body">Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      <div class="card">
+        <div class="card__title">Annual Science Camp</div>
+        <div class="card__body">Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      <div class="card">
+        <div class="card__title">Teacher Professional Development</div>
+        <div class="card__body">Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      <div class="card">
+        <div class="card__title">Scientific Computing Courses</div>
+        <div class="card__body">Python and data science taught through real HICS data. From loading CSV to machine learning on environmental time-series.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      <div class="card">
+        <div class="card__title">Public Science Programme</div>
+        <div class="card__body">Monthly public talks, annual science festival, live data dashboards, and real-time environmental alerts accessible from any phone.</div>
+        <span class="badge badge--planned">Planned</span>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Free learning resources -->
+  <section class="section">
+    <div class="section__label">Free learning resources</div>
+    <p class="text-muted">Freely available for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.</p>
+
+    <h3 class="mt-6">Curriculum modules</h3>
+    <div class="card-grid mt-4">
+      <div class="card">
+        <div class="card__label">Grades 8–10 · IESH</div>
+        <div class="card__title">What is the atmosphere?</div>
+        <div class="card__body">Temperature, pressure, and altitude. What sensors measure and why.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Grades 8–11 · IESH</div>
+        <div class="card__title">Air quality: what is PM2.5?</div>
+        <div class="card__body">Kathmandu Valley air quality as the case study.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Grades 9–11 · CMS</div>
+        <div class="card__title">Passive solar: how do buildings stay warm?</div>
+        <div class="card__body">The physics of thermal mass and solar gain for Himalayan conditions.</div>
+      </div>
+    </div>
+
+    <h3 class="mt-6">Instrument build guides</h3>
+    <div class="card-grid mt-4">
+      <div class="card">
+        <div class="card__label">Moderate · ~NPR 5,000</div>
+        <div class="card__title">IESH v0: Environmental Monitor</div>
+        <div class="card__body">Full guide: wiring, Python code, Flask dashboard, sync script.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Easy · Zero additional cost</div>
+        <div class="card__title">DSLR Astrophotography</div>
+        <div class="card__body">Camera settings, focusing at night, star trails.</div>
+      </div>
+      <div class="card">
+        <div class="card__label">Easy · NPR 500–2,000</div>
+        <div class="card__title">Diffraction Spectroscope</div>
+        <div class="card__body">Build for NPR 500. Sodium streetlight spectrum as first target.</div>
+      </div>
+    </div>
+
+    <h3 class="mt-6">Scientific computing</h3>
+    <p class="text-muted" style="font-size:0.9rem;">Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.</p>
+    <div class="card-grid mt-4">
+      <div class="card">
+        <div class="card__title">Loading and plotting HICS CSV data</div>
+        <div class="card__body">Introduction to Python data analysis using real sensor data.</div>
+      </div>
+      <div class="card">
+        <div class="card__title">Time series analysis</div>
+        <div class="card__body">Finding patterns — diurnal cycles, seasonal trends.</div>
+      </div>
+      <div class="card">
+        <div class="card__title">Sensor calibration</div>
+        <div class="card__body">Cross-validating sensors — when instruments disagree.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Open knowledge -->
+  <section class="section content">
+    <div class="section__label">Open knowledge</div>
+    <p class="text-muted">All of HICS's public outputs exist for the world, not only for enrolled students. Data is open, designs are open-source, curricula are free.</p>
+    <div class="mt-5">
+      <a href="/data/" style="font-size:0.875rem;">→ Live data dashboard and open API</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">→ Open-source designs on GitHub</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

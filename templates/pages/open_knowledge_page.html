@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}Open Knowledge — HICS{% endblock %}
+{% block description %}HICS open knowledge — live data, open datasets, API, open curricula, and instrument designs.{% endblock %}
+
+{% block content %}
+<div class="container">
+  <section class="hero">
+    <div class="section__label">Open Knowledge</div>
+    <h1>{{ page.title }}</h1>
+    {% if page.intro %}
+    <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
+    {% else %}
+    <div class="hero__sub mt-5">
+      <p>HICS's public outputs exist for the world, not only for HICS's own programmes. All data is open. All instrument designs are open-source. All learning materials are freely available. Openness is not only ethical — it is the fastest path to credibility, collaboration, and impact.</p>
+    </div>
+    {% endif %}
+  </section>
+
+  <section class="section">
+    <div class="card-grid">
+      <div class="card">
+        <div class="card__label">Live</div>
+        <div class="card__title">Live data and dashboards</div>
+        <div class="card__body">Real-time public dashboards — live air quality, environmental data — accessible from any phone. No login required.</div>
+        <p class="mt-4"><a href="/data/" style="font-size:0.875rem;">→ Data dashboard</a></p>
+      </div>
+      <div class="card">
+        <div class="card__label">Download</div>
+        <div class="card__title">Open datasets</div>
+        <div class="card__body">Freely downloadable datasets in open formats with full documentation. CC BY 4.0 licence.</div>
+        <p class="mt-4"><a href="/data/" style="font-size:0.875rem;">→ Download data</a></p>
+      </div>
+      <div class="card">
+        <div class="card__label">API</div>
+        <div class="card__title">Open API</div>
+        <div class="card__body">Programmatic access to all HICS data streams. For researchers, developers, and government agencies.</div>
+        <p class="mt-4"><a href="/data/" style="font-size:0.875rem;">→ API documentation</a></p>
+      </div>
+      <div class="card">
+        <div class="card__label">Build</div>
+        <div class="card__title">Open curricula and designs</div>
+        <div class="card__body">All HICS curriculum modules, instrument designs, firmware, and assembly documentation published openly.</div>
+        <p class="mt-4">
+          <a href="/learn/" style="font-size:0.875rem;">→ Learning resources</a> &nbsp;·&nbsp;
+          <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">→ GitHub</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {% if page.body %}
+  <section class="section content">
+    {{ page.body }}
+  </section>
+  {% endif %}
+</div>
+{% endblock %}
