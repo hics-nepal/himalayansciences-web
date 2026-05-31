@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}{{ page.seo_title|default:page.title }} — HICS{% endblock %}</title>
-  <meta name="description" content="{% block description %}Himalayan Institute for Contextual Sciences — open science rooted in Nepal's geography.{% endblock %}">
+  <meta name="description" content="{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेस — नेपालको भूगोलमा आधारित खुला विज्ञान।{% else %}Himalayan Institute for Contextual Sciences — open science rooted in Nepal's geography.{% endif %}{% endblock %}">
 
-  {% load static wagtailcore_tags wagtailimages_tags i18n %}
+  {% load static wagtailcore_tags wagtailimages_tags %}
 
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <link rel="icon" href="{% static 'img/hics-mark.svg' %}" type="image/svg+xml">
@@ -46,13 +46,13 @@
 
       <nav class="site-nav-desktop">
         <ul class="site-nav">
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/" {% if '/about/' in request.path %}class="active"{% endif %}>{% translate "About" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/" {% if '/research/' in request.path %}class="active"{% endif %}>{% translate "Research" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>{% translate "Instruments" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" {% if '/data/' in request.path %}class="active"{% endif %}>{% translate "Open Data" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% translate "Education" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% translate "Lab Notes" %}</a></li>
-          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/" {% if '/contact/' in request.path %}class="active"{% endif %}>{% translate "Contact" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/" {% if '/about/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}हाम्रो बारेमा{% else %}About{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/" {% if '/research/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}उपकरणहरू{% else %}Instruments{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" {% if '/data/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}खुला तथ्याङ्क{% else %}Open Data{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}प्रयोगशाला टिपोट{% else %}Lab Notes{% endif %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/" {% if '/contact/' in request.path %}class="active"{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क{% else %}Contact{% endif %}</a></li>
           
           <li class="nav-lang-item">
             {% if page %}
@@ -80,7 +80,7 @@
 
       <div class="station-live" id="header-station" aria-live="polite">
         <div class="station-live__dot offline" id="station-dot"></div>
-        <span id="station-reading">KTM-001 · connecting…</span>
+        <span id="station-reading">KTM-001 · {% if request.LANGUAGE_CODE == 'ne' %}जडान गर्दै...{% else %}connecting…{% endif %}</span>
       </div>
 
       <!-- Mobile menu toggle -->
@@ -97,19 +97,19 @@
 <!-- Mobile navigation overlay -->
 <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <ul class="mobile-nav__list">
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/">{% translate "Home" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% translate "About" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% translate "Research" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% translate "Instruments" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% translate "Open Data" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% translate "Education" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% translate "Lab Notes" %}</a></li>
-    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% translate "Contact" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/">{% if request.LANGUAGE_CODE == 'ne' %}गृह पृष्ठ{% else %}Home{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% if request.LANGUAGE_CODE == 'ne' %}हाम्रो बारेमा{% else %}About{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% if request.LANGUAGE_CODE == 'ne' %}उपकरणहरू{% else %}Instruments{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% if request.LANGUAGE_CODE == 'ne' %}खुला तथ्याङ्क{% else %}Open Data{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% if request.LANGUAGE_CODE == 'ne' %}प्रयोगशाला टिपोट{% else %}Lab Notes{% endif %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क{% else %}Contact{% endif %}</a></li>
   </ul>
   <div class="mobile-nav__station" id="mobile-station">
     <div class="station-live">
       <div class="station-live__dot offline" id="mobile-station-dot"></div>
-      <span id="mobile-station-reading">Station KTM-001 — connecting...</span>
+      <span id="mobile-station-reading">KTM-001 — {% if request.LANGUAGE_CODE == 'ne' %}जडान गर्दै...{% else %}connecting...{% endif %}</span>
     </div>
   </div>
 </nav>
@@ -129,29 +129,29 @@
           height="50"
           class="site-footer__logo"
         />
-        <div class="site-footer__tagline">Contextual Science. Open Data. Real-World Learning.</div>
+        <div class="site-footer__tagline">{% if request.LANGUAGE_CODE == 'ne' %}सान्दर्भिक विज्ञान। खुला तथ्याङ्क। स्थलगत सिकाइ।{% else %}Contextual Science. Open Data. Real-World Learning.{% endif %}</div>
         <div class="site-footer__coords text-mono">
-          Nepal &nbsp;·&nbsp; Altitude-Gradient Research &amp; Open Data
+          {% if request.LANGUAGE_CODE == 'ne' %}नेपाल &nbsp;·&nbsp; भौगोलिक अनुसन्धान र खुला तथ्याङ्क{% else %}Nepal &nbsp;·&nbsp; Altitude-Gradient Research &amp; Open Data{% endif %}
         </div>
       </div>
 
       <!-- Navigation -->
       <div class="site-footer__nav-col">
-        <div class="site-footer__nav-heading">{% translate "Site" %}</div>
+        <div class="site-footer__nav-heading">{% if request.LANGUAGE_CODE == 'ne' %}साइट{% else %}Site{% endif %}</div>
         <div class="site-footer__nav-links">
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% translate "About" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% translate "Research" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% translate "Instruments" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% translate "Open Data" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% translate "Education" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% translate "Lab Notes" %}</a>
-          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% translate "Contact" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% if request.LANGUAGE_CODE == 'ne' %}हाम्रो बारेमा{% else %}About{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% if request.LANGUAGE_CODE == 'ne' %}उपकरणहरू{% else %}Instruments{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% if request.LANGUAGE_CODE == 'ne' %}खुला तथ्याङ्क{% else %}Open Data{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% if request.LANGUAGE_CODE == 'ne' %}प्रयोगशाला टिपोट{% else %}Lab Notes{% endif %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क{% else %}Contact{% endif %}</a>
         </div>
       </div>
 
       <!-- Contact -->
       <div class="site-footer__nav-col">
-        <div class="site-footer__nav-heading">Connect</div>
+        <div class="site-footer__nav-heading">{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क गर्नुहोस्{% else %}Connect{% endif %}</div>
         <a href="mailto:info@himalayansciences.org">info@himalayansciences.org</a>
         <a href="https://github.com/hics-nepal">GitHub</a>
       </div>
