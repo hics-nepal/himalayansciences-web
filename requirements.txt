@@ -4,7 +4,7 @@ beautifulsoup4==4.14.3
 certifi==2024.8.30
 charset-normalizer==3.3.2
 defusedxml==0.7.1
-Django==6.0.5
+Django==5.1.5
 django-environ==0.13.0
 django-filter==24.3
 django-modelcluster==6.5

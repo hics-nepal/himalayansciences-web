@@ -60,19 +60,19 @@
                 <span class="lang-btn active">EN</span>
                 <span class="lang-sep">/</span>
                 {% for translation in page.get_translations %}
-                  <a href="{{ translation.url }}" class="lang-btn">नेपाली</a>
+                  <a href="{{ translation.url }}" class="lang-btn">ने</a>
                 {% endfor %}
               {% else %}
                 {% for translation in page.get_translations %}
                   <a href="{{ translation.url }}" class="lang-btn">EN</a>
                 {% endfor %}
                 <span class="lang-sep">/</span>
-                <span class="lang-btn active">नेपाली</span>
+                <span class="lang-btn active">ने</span>
               {% endif %}
             {% else %}
               <a href="/" class="lang-btn active">EN</a>
               <span class="lang-sep">/</span>
-              <a href="/ne/" class="lang-btn">नेपाली</a>
+              <a href="/ne/" class="lang-btn">ने</a>
             {% endif %}
           </li>
         </ul>
@@ -162,16 +162,16 @@
       <div class="lang-switcher">
         {% if page %}
           <a href="{{ page.url }}" class="lang-link active">
-            {% if page.locale.language_code == 'en' %}EN{% else %}नेपाली{% endif %}
+            {% if page.locale.language_code == 'en' %}EN{% else %}ने{% endif %}
           </a>
           {% for translation in page.get_translations %}
             <a href="{{ translation.url }}" class="lang-link">
-              {% if translation.locale.language_code == 'en' %}EN{% else %}नेपाली{% endif %}
+              {% if translation.locale.language_code == 'en' %}EN{% else %}ने{% endif %}
             </a>
           {% endfor %}
         {% else %}
           <a href="/" class="lang-link active">EN</a>
-          <a href="/ne/" class="lang-link">नेपाली</a>
+          <a href="/ne/" class="lang-link">ने</a>
         {% endif %}
       </div>
     </div>
