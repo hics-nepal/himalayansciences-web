@@ -56,10 +56,10 @@
           
           <li class="nav-lang-item">
             {% if page %}
-              {% if page.locale.language_code == 'en' %}
+              {% if request.LANGUAGE_CODE == 'en' %}
                 <span class="lang-btn active">EN</span>
                 <span class="lang-sep">/</span>
-                {% if page.get_translations.exists %}
+                {% if page.get_translations %}
                   {% for translation in page.get_translations %}
                     <a href="{{ translation.url }}" class="lang-btn">ने</a>
                   {% endfor %}
@@ -67,7 +67,7 @@
                   <a href="/ne/" class="lang-btn">ने</a>
                 {% endif %}
               {% else %}
-                {% if page.get_translations.exists %}
+                {% if page.get_translations %}
                   {% for translation in page.get_translations %}
                     <a href="{{ translation.url }}" class="lang-btn">EN</a>
                   {% endfor %}
@@ -170,13 +170,15 @@
       <div class="lang-switcher">
         {% if page %}
           <a href="{{ page.url }}" class="lang-link active">
-            {% if page.locale.language_code == 'en' %}EN{% else %}ने{% endif %}
+            {% if request.LANGUAGE_CODE == 'en' %}EN{% else %}ने{% endif %}
           </a>
-          {% for translation in page.get_translations %}
-            <a href="{{ translation.url }}" class="lang-link">
-              {% if translation.locale.language_code == 'en' %}EN{% else %}ने{% endif %}
-            </a>
-          {% endfor %}
+          {% if page.get_translations %}
+            {% for translation in page.get_translations %}
+              <a href="{{ translation.url }}" class="lang-link">
+                {% if request.LANGUAGE_CODE == 'en' %}ने{% else %}EN{% endif %}
+              </a>
+            {% endfor %}
+          {% endif %}
         {% else %}
           <a href="/" class="lang-link active">EN</a>
           <a href="/ne/" class="lang-link">ने</a>
