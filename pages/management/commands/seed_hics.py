@@ -1,7 +1,7 @@
 import os
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-from wagtail.models import Page, Site
+from wagtail.models import Page, Site, Locale
 from pages.models import (
     HomePage, AboutPage, ResearchIndexPage, ResearchProgrammePage,
     InstrumentIndexPage, InstrumentPage, DataPage, LabNoteIndexPage, ContactPage,
@@ -241,6 +241,27 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("!!! SAVE THIS KEY NOW - IT WILL NOT BE SHOWN AGAIN !!!"))
         else:
             self.stdout.write("Station KTM-001 already exists.")
+
+        # 4. Automatically synchronize and build the translation page trees
+        try:
+            self.stdout.write("Synchronizing page translation trees for 'ne' (Nepali) locale...")
+            ne_locale, _ = Locale.objects.get_or_create(language_code='ne')
+            from wagtail_localize.operations import translate_object
+            
+            sync_count = 0
+            for p in Page.objects.all():
+                if p.depth > 1:
+                    # Skip pages that already have a translation in the database
+                    if not p.get_translations().filter(locale=ne_locale).exists():
+                        try:
+                            translate_object(p, [ne_locale])
+                            sync_count += 1
+                        except Exception as translation_err:
+                            self.stdout.write(self.style.WARNING(f"Skipped translation clone for '{p.title}': {translation_err}"))
+            
+            self.stdout.write(self.style.SUCCESS(f"Multilingual synchronization complete! Cloned {sync_count} pages to 'ne' tree."))
+        except Exception as sync_err:
+            self.stdout.write(self.style.WARNING(f"Could not synchronize translated trees: {sync_err}"))
 
         self.stdout.write(self.style.SUCCESS("HICS Database Seeding Complete!"))
 
