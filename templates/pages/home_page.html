@@ -2,7 +2,7 @@
 {% load static wagtailcore_tags wagtailimages_tags i18n %}
 
 {% block title %}Himalayan Institute for Contextual Sciences — HICS{% endblock %}
-{% block description %}HICS — an independent research, instrumentation, and learning institution in Nepal. Contextual science. Open data. Real-world learning.{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS — नेपालमा स्थापित एक स्वतन्त्र अनुसन्धान, उपकरण निर्माण, र सिकाइ संस्था। सान्दर्भिक विज्ञान। खुला तथ्याङ्क। स्थलगत सिकाइ।{% else %}HICS — an independent research, instrumentation, and learning institution in Nepal. Contextual science. Open data. Real-world learning.{% endif %}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -19,15 +19,15 @@
       {{ page.mission|default:"An independent research, instrumentation, and learning institution in Nepal. We build instruments, collect data, and do science that is about here — the atmosphere above these valleys and mountains, the ground beneath these active zones, the communities living across all altitudes."|safe }}
     </div>
     <div class="hero__links">
-      <a href="/about/">{% translate "→ About HICS" %}</a>
-      <a href="/instruments/">{% translate "→ Instruments" %}</a>
-      <a href="/data/">{% translate "→ Open Data" %}</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% translate "→ About HICS" %}</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% translate "→ Instruments" %}</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% translate "→ Open Data" %}</a>
     </div>
   </section>
 
   <!-- Section 2 — Live Data Widget -->
   <section class="section">
-    <div class="section__label">Live instrument data</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रत्यक्ष उपकरण तथ्याङ्क{% else %}Live instrument data{% endif %}</div>
     <div class="data-widget">
       <div class="data-widget__header">
         <div class="data-widget__title" id="widget-station-name">
@@ -36,7 +36,7 @@
         <div class="station-live">
           <div class="station-live__dot offline" id="widget-dot"></div>
           <span class="text-mono" style="font-size:0.75rem" id="widget-timestamp"
-            >waiting for data…</span>
+            >{% if request.LANGUAGE_CODE == 'ne' %}तथ्याङ्कको प्रतीक्षा गर्दै…{% else %}waiting for data…{% endif %}</span>
         </div>
       </div>
       <div class="data-widget__readings" id="widget-readings">
@@ -54,56 +54,69 @@
     <div class="chart-wrap" id="sparkline-wrap">
       <canvas id="sparkline-chart"></canvas>
     </div>
-    <p class="text-muted" style="font-size:0.875rem;"><a href="/data/">→ Full data dashboard and downloads</a></p>
+    <p class="text-muted" style="font-size:0.875rem;"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% if request.LANGUAGE_CODE == 'ne' %}→ पूर्ण तथ्याङ्क ड्यासबोर्ड र डाउनलोडहरू{% else %}→ Full data dashboard and downloads{% endif %}</a></p>
   </section>
 </div>
 
 <!-- Section 3 — Station Map (full-bleed dark) -->
 <section class="section-alt">
   <div class="container">
-    <div class="section__label">Station network</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}स्टेसन सञ्जाल{% else %}Station network{% endif %}</div>
     <div class="map-wrap" id="station-map"></div>
-    <p class="map-summary">2 stations active · 4 school deployments planned · open data from day one</p>
+    <p class="map-summary">{% if request.LANGUAGE_CODE == 'ne' %}२ स्टेसनहरू सक्रिय · ४ विद्यालयमा जडान गर्ने योजना · पहिलो दिनदेखि नै खुला तथ्याङ्क{% else %}2 stations active · 4 school deployments planned · open data from day one{% endif %}</p>
   </div>
 </section>
 
 <div class="container">
   <!-- Section 4 — Active Programmes -->
   <section class="section">
-    <div class="section__label">Active work</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सक्रिय कार्यहरू{% else %}Active work{% endif %}</div>
     <div class="card-grid">
       <!-- IESH -->
       <div class="work-card">
         <img src="{% static 'img/placeholders/instrument.svg' %}" alt="IESH Environmental Monitor" class="work-card__image">
-        <div class="work-card__status text-green">● Active</div>
-        <div class="work-card__title">IESH Environmental Monitor</div>
+        <div class="work-card__status text-green">{% if request.LANGUAGE_CODE == 'ne' %}● सक्रिय{% else %}● Active{% endif %}</div>
+        <div class="work-card__title">{% if request.LANGUAGE_CODE == 'ne' %}IESH वातावरणीय मनिटर{% else %}IESH Environmental Monitor{% endif %}</div>
         <div class="work-card__body">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          काठमाडौंबाट निरन्तर वायुमण्डलीय अनुगमन। तापक्रम, आर्द्रता, चाप, वायुको गुणस्तर — himalayansciences.org मा प्रत्यक्ष (लाइभ) सिंक हुँदै।
+          तराईको समथर भूभागदेखि उच्च हिमाली स्टेसनहरूसम्म नेपालको उचाइ ढाँचालाई समेट्ने सञ्जालको पहिलो उपकरण।
+          {% else %}
           Continuous atmospheric monitoring from Kathmandu. Temperature, humidity, pressure, air quality — syncing live to himalayansciences.org.
           First in a network spanning Nepal's altitude gradient, from the Terai lowlands to high Himalayan stations.
+          {% endif %}
         </div>
-        <p class="mt-4"><a href="/instruments/iesh/" style="font-size:0.875rem;">→ Instrument details and live data</a></p>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/iesh/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ उपकरणको विवरण र प्रत्यक्ष तथ्याङ्क{% else %}→ Instrument details and live data{% endif %}</a></p>
       </div>
 
       <!-- CMS Dolpo -->
       <div class="work-card">
         <img src="{% static 'img/placeholders/landscape.svg' %}" alt="Crystal Mountain School, Dolpo" class="work-card__image">
-        <div class="work-card__status text-green">● Active</div>
-        <div class="work-card__title">Crystal Mountain School, Dolpo</div>
+        <div class="work-card__status text-green">{% if request.LANGUAGE_CODE == 'ne' %}● सक्रिय{% else %}● Active{% endif %}</div>
+        <div class="work-card__title">{% if request.LANGUAGE_CODE == 'ne' %}क्रिस्टल माउन्टेन विद्यालय, डोल्पा{% else %}Crystal Mountain School, Dolpo{% endif %}</div>
         <div class="work-card__body">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          धो तारापमा ४,००० मिटरको उचाइमा प्यासिभ सोलार बहुउद्देश्यीय हलको निर्माणको क्रममा थर्मल प्रदर्शनको अनुगमन। नेपालको यो उचाइमा प्यासिभ सोलार निर्माणका लागि पहिलो प्रयोगात्मक थर्मल तथ्याङ्क सेट।
+          {% else %}
           Thermal performance monitoring during construction of a passive solar multipurpose hall at 4,000m in Dho Tarap. The first empirical thermal dataset for passive solar construction at this altitude in Nepal.
+          {% endif %}
         </div>
-        <p class="mt-4"><a href="/research/building-physics/" style="font-size:0.875rem;">→ Building physics programme</a></p>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/building-physics/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ भवन भौतिकशास्त्र कार्यक्रम{% else %}→ Building physics programme{% endif %}</a></p>
       </div>
 
       <!-- Muon Detector -->
       <div class="work-card">
         <img src="{% static 'img/placeholders/instrument.svg' %}" alt="Cosmic Ray Muon Detector" class="work-card__image">
-        <div class="work-card__status text-accent">◎ In progress</div>
-        <div class="work-card__title">Cosmic Ray Muon Detector</div>
+        <div class="work-card__status text-accent">{% if request.LANGUAGE_CODE == 'ne' %}◎ प्रगतिमा{% else %}◎ In progress{% endif %}</div>
+        <div class="work-card__title">{% if request.LANGUAGE_CODE == 'ne' %}कस्मिक रे म्योन डिटेक्टर{% else %}Cosmic Ray Muon Detector{% endif %}</div>
         <div class="work-card__body">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          CosmicWatch v3X खुला-स्रोत वास्तुकलामा आधारित नेपालको पहिलो स्थानीय रूपमा निर्मित कस्मिक रे म्योन डिटेक्टर। तराई (~१५० मिटर) देखि ५,००० मिटरभन्दा माथिका हिमाली भञ्ज्याङहरूसम्मको क्षेत्रीय मापन — जसले वातावरणीय अनुगमन, हिमताल अनुसन्धान, र विपद् जोखिम न्यूनीकरणलाई सक्षम बनाउँछ।
+          {% else %}
           Nepal's first locally manufactured cosmic ray muon detector, based on the CosmicWatch v3X open-source architecture. Field measurements from the Terai (~150m) to Himalayan passes above 5,000m — enabling environmental monitoring, glacier research, and disaster risk reduction.
+          {% endif %}
         </div>
-        <p class="mt-4"><a href="/instruments/muon-detector/" style="font-size:0.875rem;">→ Muon detector</a></p>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/muon-detector/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ म्योन डिटेक्टर{% else %}→ Muon detector{% endif %}</a></p>
       </div>
     </div>
   </section>
@@ -112,36 +125,41 @@
 <!-- Section 5 — The Data Gap (visual break) -->
 <section class="section-alt">
   <div class="container">
-    <div class="section__label">The gap in the data</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}तथ्याङ्कको अभाव{% else %}The gap in the data{% endif %}</div>
     <p>
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      नेपाल हाम्रो समयका केही सबैभन्दा महत्त्वपूर्ण वैज्ञानिक प्रश्नहरूको प्रतिच्छेदनमा अवस्थित छ — वायुमण्डलीय प्रदूषण, भूकम्पीय जोखिम, जलवायु अनुकूलन, कस्मिक रे भौतिकशास्त्र।
+      यो पृथ्वीमा सबैभन्दा कम उपकरण जडान गरिएका देशहरूमध्ये एक पनि हो।
+      {% else %}
       Nepal sits at the intersection of some of the most important scientific questions of our time — atmospheric pollution, seismic hazard, climate adaptation, cosmic ray physics.
       It is also one of the most under-instrumented countries on Earth.
+      {% endif %}
     </p>
-    <p class="text-muted mt-4" style="font-size:0.95rem;">HICS is building the measurement infrastructure to change this.</p>
+    <p class="text-muted mt-4" style="font-size:0.95rem;">{% if request.LANGUAGE_CODE == 'ne' %}यसलाई परिवर्तन गर्न HICS ले मापन पूर्वाधार निर्माण गरिरहेको छ।{% else %}HICS is building the measurement infrastructure to change this.{% endif %}</p>
     <div class="gap-panels mt-6">
       <!-- Panel A — Atmospheric -->
       <div class="gap-panel">
         <div class="gap-panel__icon">
           <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="20" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity="0.3"/><path d="M8 32 Q16 18 24 24 Q32 30 40 16" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="24" cy="24" r="3" fill="var(--accent)" opacity="0.6"/></svg>
         </div>
-        <div class="gap-panel__label">Atmospheric monitoring</div>
-        <div class="gap-panel__text">Nepal's atmosphere across its full altitude gradient — from the Terai to the high Himalaya — is almost entirely unmeasured. Transboundary pollution from the Indo-Gangetic Plain reaches the mountains — there is almost no data on what arrives, or how it changes with altitude.</div>
+        <div class="gap-panel__label">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डलीय अनुगमन{% else %}Atmospheric monitoring{% endif %}</div>
+        <div class="gap-panel__text">{% if request.LANGUAGE_CODE == 'ne' %}नेपालको सम्पूर्ण उचाइ ढाँचा — तराईदेखि उच्च हिमालसम्मको वायुमण्डल — लगभग पूर्ण रूपमा मापन विहीन छ। इन्डो-ग्यान्जेटिक समथर भूभागबाट आउने प्रदूषण हिमालसम्म पुग्छ — तर त्यहाँ के पुग्छ, वा उचाइसँगै कसरी परिवर्तन हुन्छ भन्ने बारेमा लगभग कुनै तथ्याङ्क छैन।{% else %}Nepal's atmosphere across its full altitude gradient — from the Terai to the high Himalaya — is almost entirely unmeasured. Transboundary pollution from the Indo-Gangetic Plain reaches the mountains — there is almost no data on what arrives, or how it changes with altitude.{% endif %}</div>
       </div>
       <!-- Panel B — Cosmic Ray -->
       <div class="gap-panel">
         <div class="gap-panel__icon">
           <svg viewBox="0 0 48 48" width="48" height="48"><line x1="5" y1="40" x2="43" y2="8" stroke="var(--amber)" stroke-width="2" stroke-dasharray="4 3"/><circle cx="43" cy="8" r="4" fill="var(--amber)" opacity="0.8"/><rect x="2" y="36" width="8" height="8" rx="1" fill="none" stroke="var(--amber)" stroke-width="1.5" opacity="0.4"/></svg>
         </div>
-        <div class="gap-panel__label">Cosmic ray flux</div>
-        <div class="gap-panel__text">Nepal's altitude gradient — from 60m to 8,848m — is the most dramatic on Earth. It has never been systematically measured for cosmic ray muon flux. HICS's muon detector will generate this dataset.</div>
+        <div class="gap-panel__label">{% if request.LANGUAGE_CODE == 'ne' %}कस्मिक रे फ्लक्स{% else %}Cosmic ray flux{% endif %}</div>
+        <div class="gap-panel__text">{% if request.LANGUAGE_CODE == 'ne' %}नेपालको भौगोलिक उचाइको ढाँचा — ६० मिटरदेखि ८,८४८ मिटरसम्म — पृथ्वीमै सबैभन्दा नाटकीय छ। तर यसलाई कस्मिक रे म्योन फ्लक्सको लागि कहिल्यै पनि व्यवस्थित रूपमा मापन गरिएको छैन। HICS को म्योन डिटेक्टरले यो तथ्याङ्क सेट तयार गर्नेछ।{% else %}Nepal's altitude gradient — from 60m to 8,848m — is the most dramatic on Earth. It has never been systematically measured for cosmic ray muon flux. HICS's muon detector will generate this dataset.{% endif %}</div>
       </div>
       <!-- Panel C — Building Physics -->
       <div class="gap-panel">
         <div class="gap-panel__icon">
           <svg viewBox="0 0 48 48" width="48" height="48"><path d="M8 38 L8 16 L24 6 L40 16 L40 38" fill="none" stroke="var(--green)" stroke-width="1.5" opacity="0.4"/><line x1="16" y1="38" x2="16" y2="22" stroke="var(--green)" stroke-width="2"/><line x1="32" y1="38" x2="32" y2="22" stroke="var(--red)" stroke-width="2" opacity="0.6"/><text x="14" y="20" fill="var(--green)" font-size="6" font-family="var(--font-mono)">T₁</text><text x="30" y="20" fill="var(--red)" font-size="6" font-family="var(--font-mono)">T₂</text></svg>
         </div>
-        <div class="gap-panel__label">Building performance</div>
-        <div class="gap-panel__text">Passive solar design for Himalayan conditions requires local empirical data. None exists at high altitude in Nepal. The Crystal Mountain School dataset is the first.</div>
+        <div class="gap-panel__label">{% if request.LANGUAGE_CODE == 'ne' %}भवन कार्यक्षमता (Building performance){% else %}Building performance{% endif %}</div>
+        <div class="gap-panel__text">{% if request.LANGUAGE_CODE == 'ne' %}हिमाली अवस्थाहरूका लागि प्यासिभ सोलार डिजाइनलाई स्थानीय प्रयोगात्मक तथ्याङ्कको आवश्यकता पर्दछ। नेपालको उच्च उचाइमा यस्तो कुनै तथ्याङ्क उपलब्ध छैन। क्रिस्टल माउन्टेन विद्यालयको तथ्याङ्क सेट यस प्रकारको पहिलो हो।{% else %}Passive solar design for Himalayan conditions requires local empirical data. None exists at high altitude in Nepal. The Crystal Mountain School dataset is the first.{% endif %}</div>
       </div>
     </div>
   </div>
@@ -150,58 +168,62 @@
 <div class="container">
   <!-- Section 6 — Pipeline -->
   <section class="section">
-    <div class="section__label">In the pipeline</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रस्तावित र निर्माणाधीन कार्यहरू{% else %}In the pipeline{% endif %}</div>
     <ul class="pipeline-list">
-      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">IESH v1 — modular hub</span><span class="pipeline-item__desc">PM2.5, CO₂, UV, rain, wind add-on modules</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">IESH school deployment</span><span class="pipeline-item__desc">First school stations outside Kathmandu</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">Cosmic ray muon detector</span><span class="pipeline-item__desc">In development — altitude-flux network</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">Portable planetarium</span><span class="pipeline-item__desc">Inflatable dome, Nepali-language programmes</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">All-sky meteor camera</span><span class="pipeline-item__desc">Nepal's first GMN contribution</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">MEMS seismometer</span><span class="pipeline-item__desc">Kathmandu Valley earthquake network</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">SDR radio station</span><span class="pipeline-item__desc">Meteor scatter, lightning, ionosphere</span></div></li>
-      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">Weather balloon</span><span class="pipeline-item__desc">Atmospheric profiling to 30km</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}IESH v1 — मोड्युलर हब{% else %}IESH v1 — modular hub{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}PM2.5, CO₂, UV, वर्षा, हावा नाप्ने मोड्युलहरू{% else %}PM2.5, CO₂, UV, rain, wind add-on modules{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}IESH विद्यालय जडान{% else %}IESH school deployment{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}काठमाडौं बाहिरका पहिलो विद्यालय स्टेसनहरू{% else %}First school stations outside Kathmandu{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">◎</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}कस्मिक रे म्योन डिटेक्टर{% else %}Cosmic ray muon detector{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}विकासको क्रममा — उचाइ-फ्लक्स सञ्जाल{% else %}In development — altitude-flux network{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}पोर्टेबल प्लानेटेरियम{% else %}Portable planetarium{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}इन्फ्लेटेबल डोम, नेपाली भाषाका कार्यक्रमहरू{% else %}Inflatable dome, Nepali-language programmes{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}उल्का (Meteor) क्यामेरा{% else %}All-sky meteor camera{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}GMN मा नेपालको पहिलो योगदान{% else %}Nepal's first GMN contribution{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}MEMS सिस्मोमिटर{% else %}MEMS seismometer{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}काठमाडौं उपत्यका भूकम्प सञ्जाल{% else %}Kathmandu Valley earthquake network{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}SDR रेडियो स्टेसन{% else %}SDR radio station{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}उल्का स्क्याटर, चट्याङ, आयनोस्फेयर{% else %}Meteor scatter, lightning, ionosphere{% endif %}</span></div></li>
+      <li class="pipeline-item"><span class="pipeline-item__icon">○</span><div><span class="pipeline-item__name">{% if request.LANGUAGE_CODE == 'ne' %}वेदर बेलुन{% else %}Weather balloon{% endif %}</span><span class="pipeline-item__desc">{% if request.LANGUAGE_CODE == 'ne' %}३० किमीसम्म वायुमण्डलीय प्रोफाइलिङ{% else %}Atmospheric profiling to 30km{% endif %}</span></div></li>
     </ul>
-    <p class="text-muted mt-5" style="font-size:0.9rem;">All instrument designs published open-source. Any institution anywhere can build them.</p>
-    <p class="mt-4"><a href="/instruments/" style="font-size:0.875rem;">→ Full instrument list</a></p>
+    <p class="text-muted mt-5" style="font-size:0.9rem;">{% if request.LANGUAGE_CODE == 'ne' %}सबै उपकरणका डिजाइनहरू खुला-स्रोत रूपमा प्रकाशित गरिएका छन्। जहाँसुकैका कुनै पनि संस्थाले यिनलाई निर्माण गर्न सक्छन्।{% else %}All instrument designs published open-source. Any institution anywhere can build them.{% endif %}</p>
+    <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ पूर्ण उपकरण सूची{% else %}→ Full instrument list{% endif %}</a></p>
   </section>
 
   <!-- Section 7 — Education & Open Knowledge -->
   <section class="section">
-    <div class="section__label">Education &amp; open knowledge</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा र खुला ज्ञान{% else %}Education &amp; open knowledge{% endif %}</div>
     <p>
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      HICS का शैक्षिक कार्यक्रमहरूले उपकरण, तथ्याङ्क, र वैज्ञानिक अभ्यासलाई सीधै विद्यालय र समुदायहरूमा ल्याउँछन्। यो पाठ्यपुस्तकको विज्ञान होइन — विद्यार्थीहरूले वास्तविक सङ्केतहरू सङ्कलन गर्ने वास्तविक उपकरणहरूबाट प्राप्त वास्तविक तथ्याङ्कहरूको विश्लेषण गर्छन्।
+      {% else %}
       HICS's education programmes bring instruments, data, and scientific practice directly into schools and communities. Not textbook science — students analyse real data from real instruments collecting real signals.
+      {% endif %}
     </p>
     <div class="edu-grid mt-5">
       <div class="card">
-        <div class="card__title">School Science Residency</div>
-        <div class="card__body">Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.</div>
-        <p class="mt-4"><a href="/education/residency/" style="font-size:0.875rem;">→ Details</a></p>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}विद्यालय विज्ञान आवासीय कार्यक्रम{% else %}School Science Residency{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}तारा-मण्डल (प्लानेटेरियम) प्रदर्शन, उपकरण कार्यशाला, तथ्याङ्क विश्लेषण, र शिक्षक तालिमलाई जोड्ने बहु-दिवसीय आवासीय कार्यक्रम। विद्यालयहरूले एक पटकको कार्यक्रम मात्र होइन, दिगो सम्बन्ध स्थापित गर्छन्।{% else %}Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.{% endif %}</div>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/residency/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ विस्तृत विवरण{% else %}→ Details{% endif %}</a></p>
       </div>
       <div class="card">
-        <div class="card__title">Youth Research Fellowship</div>
-        <div class="card__body">Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.</div>
-        <p class="mt-4"><a href="/education/fellowship/" style="font-size:0.875rem;">→ Details</a></p>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}युवा अनुसन्धान फेलोसिप{% else %}Youth Research Fellowship{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}नेपाली वैज्ञानिकहरूका लागि १२ देखि २४ महिनाको पूर्ण-कालीन अनुसन्धान अवसर। सह-लेखनमा प्रकाशनहरू। विज्ञान गर्न विदेशिनुपर्ने बाध्यताको एक स्पष्ट विकल्प।{% else %}Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.{% endif %}</div>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/fellowship/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ विस्तृत विवरण{% else %}→ Details{% endif %}</a></p>
       </div>
       <div class="card">
-        <div class="card__title">Annual Science Camp</div>
-        <div class="card__body">Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.</div>
-        <p class="mt-4"><a href="/education/camp/" style="font-size:0.875rem;">→ Details</a></p>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वार्षिक विज्ञान शिविर{% else %}Annual Science Camp{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}नेपालभरिबाट छनोट भएका माध्यमिक तहका विद्यार्थीहरूका लागि १० दिवसीय आवासीय कार्यक्रम, जसमा काठमाडौं बाहिरका विद्यार्थीहरूलाई विशेष प्राथमिकता दिइन्छ।{% else %}Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.{% endif %}</div>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/camp/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ विस्तृत विवरण{% else %}→ Details{% endif %}</a></p>
       </div>
       <div class="card">
-        <div class="card__title">Teacher Professional Development</div>
-        <div class="card__body">Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.</div>
-        <p class="mt-4"><a href="/education/teachers/" style="font-size:0.875rem;">→ Details</a></p>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षक व्यावसायिक विकास{% else %}Teacher Professional Development{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}सघन आवासीय तालिम। शिक्षकहरू आफैंले निर्माण गरेको कार्यशील उपकरण, पठनपाठनका लागि तयार पाठ्यक्रम मोड्युल, र निरन्तर व्यावसायिक सञ्जालको सदस्यता प्राप्त गरी फर्कन्छन्।{% else %}Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.{% endif %}</div>
+        <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/teachers/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ विस्तृत विवरण{% else %}→ Details{% endif %}</a></p>
       </div>
     </div>
-    <p class="text-muted mt-5" style="font-size:0.9rem;">Gender equity is structural, not symbolic: fellowship selection, camp admissions, teacher recruitment, and mentoring structures all explicitly work to reduce barriers for women and girls.</p>
+    <p class="text-muted mt-5" style="font-size:0.9rem;">{% if request.LANGUAGE_CODE == 'ne' %}लैङ्गिक समानता हाम्रो संस्थाको संरचनात्मक आधार हो, देखावटी मात्र होइन: फेलोसिप छनोट, शिविर भर्ना, शिक्षक भर्ना, र मेन्टरिङ संरचनाहरूले महिला र बालिकाहरूका लागि रहेका बाधाहरू हटाउन स्पष्ट रूपमा काम गर्छन्।{% else %}Gender equity is structural, not symbolic: fellowship selection, camp admissions, teacher recruitment, and mentoring structures all explicitly work to reduce barriers for women and girls.{% endif %}</p>
     <p class="mt-5">
-      <a href="/education/" style="font-size:0.875rem;">→ All education programmes</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ सबै शैक्षिक कार्यक्रमहरू{% else %}→ All education programmes{% endif %}</a>
     </p>
   </section>
 
   <!-- Section 7b — Latest from the Lab -->
   <section class="section">
-    <div class="section__label">Latest from the lab</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रयोगशालाका नवीनतम टिपोटहरू{% else %}Latest from the lab{% endif %}</div>
     <div class="note-list">
       {% for note in latest_notes %}
       <a href="{{ note.url }}" class="note-item" style="text-decoration:none;color:inherit;">
@@ -217,17 +239,17 @@
       {% empty %}
       <div class="note-list--empty">
         <div class="note-item" style="border-bottom:1px solid var(--border);padding:var(--s4) 0;">
-          <div class="note-item__meta"><div class="note-item__date mono text-dim">Coming soon</div><div class="note-item__type text-dim">Build log</div></div>
-          <div><div class="note-item__title" style="color:var(--text-dim);">IESH v0 — build log and first data</div><div class="note-item__summary" style="color:var(--text-dim);">Full build documentation for the first IESH environmental monitoring station.</div></div>
+          <div class="note-item__meta"><div class="note-item__date mono text-dim">{% if request.LANGUAGE_CODE == 'ne' %}चाँडै आउँदैछ{% else %}Coming soon{% endif %}</div><div class="note-item__type text-dim">{% if request.LANGUAGE_CODE == 'ne' %}निर्माण लग{% else %}Build log{% endif %}</div></div>
+          <div><div class="note-item__title" style="color:var(--text-dim);">{% if request.LANGUAGE_CODE == 'ne' %}IESH v0 — निर्माण लग र पहिलो तथ्याङ्क{% else %}IESH v0 — build log and first data{% endif %}</div><div class="note-item__summary" style="color:var(--text-dim);">{% if request.LANGUAGE_CODE == 'ne' %}पहिलो IESH वातावरणीय मापन स्टेसनको पूर्ण निर्माण दस्तावेजीकरण।{% else %}Full build documentation for the first IESH environmental monitoring station.{% endif %}</div></div>
         </div>
         <div class="note-item" style="border-bottom:1px solid var(--border);padding:var(--s4) 0;">
-          <div class="note-item__meta"><div class="note-item__date mono text-dim">Coming soon</div><div class="note-item__type text-dim">Field note</div></div>
-          <div><div class="note-item__title" style="color:var(--text-dim);">Crystal Mountain School — sensor installation</div><div class="note-item__summary" style="color:var(--text-dim);">Dispatch from Dolpo: deploying thermal sensors during construction at 4,000m.</div></div>
+          <div class="note-item__meta"><div class="note-item__date mono text-dim">{% if request.LANGUAGE_CODE == 'ne' %}चाँडै आउँदैछ{% else %}Coming soon{% endif %}</div><div class="note-item__type text-dim">{% if request.LANGUAGE_CODE == 'ne' %}फिल्ड टिपोट{% else %}Field note{% endif %}</div></div>
+          <div><div class="note-item__title" style="color:var(--text-dim);">{% if request.LANGUAGE_CODE == 'ne' %}क्रिस्टल माउन्टेन विद्यालय — सेन्सर जडान{% else %}Crystal Mountain School — sensor installation{% endif %}</div><div class="note-item__summary" style="color:var(--text-dim);">{% if request.LANGUAGE_CODE == 'ne' %}डोल्पाबाट टिपोट: ४,००० मिटरको उचाइमा निर्माणको क्रममा थर्मल सेन्सरहरू जडान गरिँदै।{% else %}Dispatch from Dolpo: deploying thermal sensors during construction at 4,000m.{% endif %}</div></div>
         </div>
       </div>
       {% endfor %}
     </div>
-    <p class="mt-4"><a href="/notes/" style="font-size:0.875rem;">→ All lab notes</a></p>
+    <p class="mt-4"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ सबै प्रयोगशाला टिपोटहरू{% else %}→ All lab notes{% endif %}</a></p>
   </section>
 </div>
 
@@ -235,17 +257,17 @@
 <section class="section-alt" style="padding-bottom:var(--s8);">
   <div class="container">
     <div class="cta-grid">
-      <div class="cta-label">Researcher?</div>
-      <div class="cta-text">We are looking for collaborators in atmospheric science, earth science, and physics. <a href="mailto:info@himalayansciences.org?subject=Research collaboration">→ Write to us</a></div>
+      <div class="cta-label">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धानकर्ता?{% else %}Researcher?{% endif %}</div>
+      <div class="cta-text">{% if request.LANGUAGE_CODE == 'ne' %}हामी वायुमण्डलीय विज्ञान, भू-विज्ञान, र भौतिकशास्त्रमा सहकार्य गर्ने अनुसन्धानकर्ताहरूको खोजीमा छौं।{% else %}We are looking for collaborators in atmospheric science, earth science, and physics.{% endif %} <a href="mailto:info@himalayansciences.org?subject=Research collaboration">{% if request.LANGUAGE_CODE == 'ne' %}→ हामीलाई लेख्नुहोस्{% else %}→ Write to us{% endif %}</a></div>
 
-      <div class="cta-label">Student?</div>
-      <div class="cta-text">Research fellowships for Nepali scientists who want to do science here, not abroad. <a href="/education/fellowship/">→ Fellowship details</a></div>
+      <div class="cta-label">{% if request.LANGUAGE_CODE == 'ne' %}विद्यार्थी?{% else %}Student?{% endif %}</div>
+      <div class="cta-text">{% if request.LANGUAGE_CODE == 'ne' %}विज्ञान अध्ययन गर्न विदेश जाने होइन, यहीँ अनुसन्धान गर्न चाहने नेपाली वैज्ञानिकहरूका लागि अनुसन्धान फेलोसिपहरू।{% else %}Research fellowships for Nepali scientists who want to do science here, not abroad.{% endif %} <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/fellowship/">{% if request.LANGUAGE_CODE == 'ne' %}→ फेलोसिप विवरण{% else %}→ Fellowship details{% endif %}</a></div>
 
-      <div class="cta-label">Teacher?</div>
-      <div class="cta-text">Instruments, data, and programmes for schools across Nepal. <a href="/education/residency/">→ School partnerships</a></div>
+      <div class="cta-label">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षक?{% else %}Teacher?{% endif %}</div>
+      <div class="cta-text">{% if request.LANGUAGE_CODE == 'ne' %}नेपालभरका विद्यालयहरूका लागि उपकरण, तथ्याङ्क, र कार्यक्रमहरू।{% else %}Instruments, data, and programmes for schools across Nepal.{% endif %} <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/residency/">{% if request.LANGUAGE_CODE == 'ne' %}→ विद्यालय साझेदारी{% else %}→ School partnerships{% endif %}</a></div>
 
-      <div class="cta-label">Funder?</div>
-      <div class="cta-text">We are building something that does not exist anywhere else in this region. <a href="/about/">→ What we're building</a></div>
+      <div class="cta-label">{% if request.LANGUAGE_CODE == 'ne' %}फन्डर (सहयोगी)?{% else %}Funder?{% endif %}</div>
+      <div class="cta-text">{% if request.LANGUAGE_CODE == 'ne' %}हामी यस्तो संरचना निर्माण गर्दैछौं जुन यस क्षेत्रमा अन्त कतै पनि छैन।{% else %}We are building something that does not exist anywhere else in this region.{% endif %} <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% if request.LANGUAGE_CODE == 'ne' %}→ हामी के निर्माण गर्दैछौं{% else %}→ What we're building{% endif %}</a></div>
     </div>
   </div>
 </section>
@@ -285,7 +307,7 @@
         (d.pressure_hpa ? d.pressure_hpa.toFixed(0) + " hPa" : "");
     })
     .catch(function() {
-      document.getElementById("widget-timestamp").textContent = "offline";
+      document.getElementById("widget-timestamp").textContent = "{% if request.LANGUAGE_CODE == 'ne' %}अफलाइन{% else %}offline{% endif %}";
     });
 
   // ── Station Map ───────────────────────────────────────────
@@ -321,13 +343,15 @@
       iconAnchor: [5, 5]
     });
 
+    var isNe = ("{{ request.LANGUAGE_CODE }}" === "ne");
+
     var stations = [
-      { lat: 27.6915, lng: 85.3205, name: 'KTM-001', desc: 'IESH Environmental · Kathmandu · 1,350m', active: true },
-      { lat: 29.0469, lng: 82.9481, name: 'DLP-001', desc: 'CMS Thermal Monitor · Dolpo · 4,000m', active: true },
-      { lat: 27.72, lng: 85.32, name: 'KTM-002', desc: 'IESH school deployment · Planned', active: false },
-      { lat: 28.21, lng: 83.99, name: 'PKR-001', desc: 'IESH Pokhara · Planned', active: false },
-      { lat: 26.81, lng: 87.28, name: 'DHR-001', desc: 'IESH Dharan · Planned', active: false },
-      { lat: 27.68, lng: 84.43, name: 'BTW-001', desc: 'IESH Bharatpur · Planned', active: false }
+      { lat: 27.6915, lng: 85.3205, name: 'KTM-001', desc: isNe ? 'IESH वातावरणीय · काठमाडौं · १,३५० मिटर' : 'IESH Environmental · Kathmandu · 1,350m', active: true },
+      { lat: 29.0469, lng: 82.9481, name: 'DLP-001', desc: isNe ? 'CMS थर्मल मनिटर · डोल्पा · ४,००० मिटर' : 'CMS Thermal Monitor · Dolpo · 4,000m', active: true },
+      { lat: 27.72, lng: 85.32, name: 'KTM-002', desc: isNe ? 'IESH विद्यालय जडान · योजनाबद्ध' : 'IESH school deployment · Planned', active: false },
+      { lat: 28.21, lng: 83.99, name: 'PKR-001', desc: isNe ? 'IESH पोखरा · योजनाबद्ध' : 'IESH Pokhara · Planned', active: false },
+      { lat: 26.81, lng: 87.28, name: 'DHR-001', desc: isNe ? 'IESH धरान · योजनाबद्ध' : 'IESH Dharan · Planned', active: false },
+      { lat: 27.68, lng: 84.43, name: 'BTW-001', desc: isNe ? 'IESH भरतपुर · योजनाबद्ध' : 'IESH Bharatpur · Planned', active: false }
     ];
 
     stations.forEach(function(s) {
