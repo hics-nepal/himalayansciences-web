@@ -81,6 +81,7 @@ MEDIA_URL = '/media/'
 
 WAGTAIL_SITE_NAME = 'Himalayan Institute for Contextual Sciences'
 WAGTAILADMIN_BASE_URL = 'https://himalayansciences.org'
+WAGTAIL_ENABLE_UPDATE_CHECK = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
