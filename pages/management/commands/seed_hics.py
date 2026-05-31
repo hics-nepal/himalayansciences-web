@@ -265,26 +265,58 @@ class Command(BaseCommand):
             self.stdout.write("Populating official Nepali translation copy inside the database...")
             ne_home = HomePage.objects.filter(locale=ne_locale).first()
             if ne_home:
-                ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
-                ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। व्यावहारिक सिकाइ।"
-                ne_home.mission = "नेपालमा आधारित एक स्वतन्त्र अनुसन्धान, उपकरण जडान, र सिकाइ संस्था। हामी उपकरणहरू निर्माण गर्छौं, तथ्याङ्क सङ्कलन गर्छौं, र यहाँकै बारेमा विज्ञान गर्छौं — हाम्रा हिमाल माथिको वायुमण्डल, हाम्रा सहरहरू मुनिको जमिन, र उच्च स्थानमा बसोबास गर्ने समुदायहरू।"
-                ne_home.save_revision().publish()
-                self.stdout.write(self.style.SUCCESS("Populated Nepali Homepage translation!"))
+                # Safeguard: Only update if the content has not been customized by the user in the Wagtail Admin
+                modified = False
+                if ne_home.title == "Himalayan Institute for Contextual Sciences" or not ne_home.title:
+                    ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
+                    modified = True
+                if ne_home.tagline == "Contextual Science. Open Data. Real-World Learning." or not ne_home.tagline:
+                    ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। व्यावहारिक सिकाइ।"
+                    modified = True
+                if "HICS is an independent research" in ne_home.mission or not ne_home.mission:
+                    ne_home.mission = "नेपालमा आधारित एक स्वतन्त्र अनुसन्धान, उपकरण जडान, र सिकाइ संस्था। हामी उपकरणहरू निर्माण गर्छौं, तथ्याङ्क सङ्कलन गर्छौं, र यहाँकै बारेमा विज्ञान गर्छौं — हाम्रा हिमाल माथिको वायुमण्डल, हाम्रा सहरहरू मुनिको जमिन, र उच्च स्थानमा बसोबास गर्ने समुदायहरू।"
+                    modified = True
+                
+                if modified:
+                    ne_home.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Homepage translation!"))
+                else:
+                    self.stdout.write("Nepali Homepage was modified in Wagtail Admin. Preserving your edits.")
 
             ne_about = AboutPage.objects.filter(locale=ne_locale).first()
             if ne_about:
-                ne_about.title = "हाम्रो बारेमा"
-                ne_about.intro = "<p>हामी नेपालको अद्वितीय उचाइ र भौगोलिक विविधतामा सान्दर्भिक अनुसन्धान र खुला उपकरणहरू विकास गर्छौं।</p>"
-                ne_about.save_revision().publish()
-                self.stdout.write(self.style.SUCCESS("Populated Nepali AboutPage translation!"))
+                modified = False
+                if ne_about.title == "About Us" or ne_about.title == "About" or not ne_about.title:
+                    ne_about.title = "हाम्रो बारेमा"
+                    modified = True
+                if "Welcome to HICS" in str(ne_about.intro) or not ne_about.intro:
+                    ne_about.intro = "<p>हामी नेपालको अद्वितीय उचाइ र भौगोलिक विविधतामा सान्दर्भिक अनुसन्धान र खुला उपकरणहरू विकास गर्छौं।</p>"
+                    modified = True
+                
+                if modified:
+                    ne_about.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali AboutPage translation!"))
+                else:
+                    self.stdout.write("Nepali AboutPage was modified in Wagtail Admin. Preserving your edits.")
 
             ne_contact = ContactPage.objects.filter(locale=ne_locale).first()
             if ne_contact:
-                ne_contact.title = "सम्पर्क"
-                ne_contact.intro = "<p>अनुसन्धान साझेदारी, खुला तथ्याङ्क, वा उपकरण निर्माणको बारेमा हामीसँग सम्पर्क गर्नुहोस्।</p>"
-                ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ। हामी छिट्टै सम्पर्क गर्नेछौं।"
-                ne_contact.save_revision().publish()
-                self.stdout.write(self.style.SUCCESS("Populated Nepali ContactPage translation!"))
+                modified = False
+                if ne_contact.title == "Contact" or not ne_contact.title:
+                    ne_contact.title = "सम्पर्क"
+                    modified = True
+                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or not ne_contact.intro:
+                    ne_contact.intro = "<p>अनुसन्धान साझेदारी, खुला तथ्याङ्क, वा उपकरण निर्माणको बारेमा हामीसँग सम्पर्क गर्नुहोस्।</p>"
+                    modified = True
+                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or not ne_contact.success_message:
+                    ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ। हामी छिट्टै सम्पर्क गर्नेछौं।"
+                    modified = True
+                
+                if modified:
+                    ne_contact.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali ContactPage translation!"))
+                else:
+                    self.stdout.write("Nepali ContactPage was modified in Wagtail Admin. Preserving your edits.")
 
         except Exception as sync_err:
             self.stdout.write(self.style.WARNING(f"Could not synchronize translated trees: {sync_err}"))
