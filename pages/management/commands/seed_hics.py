@@ -292,15 +292,16 @@ class Command(BaseCommand):
             if ne_home:
                 # Safeguard: Only update if the content has not been customized by the user in the Wagtail Admin
                 # (Or if it was corrupted to literal question marks '?' due to an unconfigured latin1 database charset)
+                # (Or if it contains the legacy, robotic word-for-word translation copy to force upgrade it)
                 modified = False
                 if ne_home.title == "Himalayan Institute for Contextual Sciences" or not ne_home.title or "?" in str(ne_home.title):
                     ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
                     modified = True
                 if ne_home.tagline == "Contextual Science. Open Data. Real-World Learning." or not ne_home.tagline or "?" in str(ne_home.tagline):
-                    ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। व्यावहारिक सिकाइ।"
+                    ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। स्थलगत सिकाइ।"
                     modified = True
-                if "HICS is an independent research" in ne_home.mission or not ne_home.mission or "?" in str(ne_home.mission):
-                    ne_home.mission = "नेपालमा आधारित एक स्वतन्त्र अनुसन्धान, उपकरण जडान, र सिकाइ संस्था। हामी उपकरणहरू निर्माण गर्छौं, तथ्याङ्क सङ्कलन गर्छौं, र यहाँकै बारेमा विज्ञान गर्छौं — हाम्रा हिमाल माथिको वायुमण्डल, हाम्रा सहरहरू मुनिको जमिन, र उच्च स्थानमा बसोबास गर्ने समुदायहरू।"
+                if "HICS is an independent research" in ne_home.mission or "नेपालमा आधारित एक स्वतन्त्र" in ne_home.mission or not ne_home.mission or "?" in str(ne_home.mission):
+                    ne_home.mission = "नेपालमा स्थापित, HICS एक स्वतन्त्र अनुसन्धान, वैज्ञानिक उपकरण विकास र व्यावहारिक सिकाइ अभ्यास गर्ने संस्था हो। हामी यहाँको विशिष्ट भूगोल र परिवेश, हिमाल माथिको वायुमण्डल, हाम्रा सहर मुनिको भौगर्भिक अवस्था र उच्च हिमाली भेगका समुदायहरूको गहन अध्ययन गर्न वैज्ञानिक प्रविधि र उपकरणहरू विकास गर्छौं, तथ्याङ्क सङ्कलन गर्छौं र खुला विज्ञानको प्रवर्द्धन गर्छौं।"
                     modified = True
                 
                 if modified:
@@ -315,8 +316,8 @@ class Command(BaseCommand):
                 if ne_about.title == "About Us" or ne_about.title == "About" or not ne_about.title or "?" in str(ne_about.title):
                     ne_about.title = "हाम्रो बारेमा"
                     modified = True
-                if "Welcome to HICS" in str(ne_about.intro) or not ne_about.intro or "?" in str(ne_about.intro):
-                    ne_about.intro = "<p>हामी नेपालको अद्वितीय उचाइ र भौगोलिक विविधतामा सान्दर्भिक अनुसन्धान र खुला उपकरणहरू विकास गर्छौं।</p>"
+                if "Welcome to HICS" in str(ne_about.intro) or "नेपालको अद्वितीय उचाइ र भौगोलिक" in str(ne_about.intro) or not ne_about.intro or "?" in str(ne_about.intro):
+                    ne_about.intro = "<p>हामी नेपालको विशिष्ट भौगोलिक उचाइ र वातावरणीय विविधतालाई सम्बोधन गर्ने वैज्ञानिक अनुसन्धान र खुला-स्रोत प्रविधिको विकासमा समर्पित छौं।</p>"
                     modified = True
                 
                 if modified:
@@ -331,11 +332,11 @@ class Command(BaseCommand):
                 if ne_contact.title == "Contact" or not ne_contact.title or "?" in str(ne_contact.title):
                     ne_contact.title = "सम्पर्क"
                     modified = True
-                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or not ne_contact.intro or "?" in str(ne_contact.intro):
-                    ne_contact.intro = "<p>अनुसन्धान साझेदारी, खुला तथ्याङ्क, वा उपकरण निर्माणको बारेमा हामीसँग सम्पर्क गर्नुहोस्।</p>"
+                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or "उपकरण निर्माणको बारेमा" in str(ne_contact.intro) or not ne_contact.intro or "?" in str(ne_contact.intro):
+                    ne_contact.intro = "<p>वैज्ञानिक अनुसन्धान साझेदारी, खुला तथ्याङ्कको पहुँच, वा उपकरण निर्माण सम्बन्धी सहकार्यका लागि हामीलाई सम्पर्क गर्नुहोस्।</p>"
                     modified = True
-                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or not ne_contact.success_message or "?" in str(ne_contact.success_message):
-                    ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ। हामी छिट्टै सम्पर्क गर्नेछौं।"
+                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or "पठाइएको छ" in str(ne_contact.success_message) or not ne_contact.success_message or "?" in str(ne_contact.success_message):
+                    ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक प्राप्त भएको छ। हामी चाँडै नै तपाईंसँग सम्पर्क स्थापित गर्नेछौं।"
                     modified = True
                 
                 if modified:
