@@ -138,13 +138,19 @@
     <div class="site-footer__bottom">
       <div>© 2026 Himalayan Institute for Contextual Sciences Pvt. Ltd.</div>
       <div class="lang-switcher">
-        {% get_current_language as CURRENT_LANG %}
-        {% get_available_languages as AVAILABLE_LANGS %}
-        {% for lang_code, lang_name in AVAILABLE_LANGS %}
-          <a href="/{{ lang_code }}{{ request.path }}" class="lang-link {% if CURRENT_LANG == lang_code %}active{% endif %}">
-            {% if lang_code == 'en' %}EN{% elif lang_code == 'ne' %}नेपाली{% elif lang_code == 'xsr' %}शरपा{% elif lang_code == 'new' %}नेपाल भाषा{% else %}{{ lang_code|upper }}{% endif %}
+        {% if page %}
+          <a href="{{ page.url }}" class="lang-link active">
+            {% if page.locale.language_code == 'en' %}EN{% else %}नेपाली{% endif %}
           </a>
-        {% endfor %}
+          {% for translation in page.get_translations %}
+            <a href="{{ translation.url }}" class="lang-link">
+              {% if translation.locale.language_code == 'en' %}EN{% else %}नेपाली{% endif %}
+            </a>
+          {% endfor %}
+        {% else %}
+          <a href="/" class="lang-link active">EN</a>
+          <a href="/ne/" class="lang-link">नेपाली</a>
+        {% endif %}
       </div>
     </div>
   </div>

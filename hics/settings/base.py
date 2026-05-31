@@ -100,14 +100,10 @@ USE_TZ = True
 LANGUAGES = [
     ('en', 'English'),
     ('ne', 'Nepali (नेपाली)'),
-    ('xsr', 'Sherpa (शरपा)'),
-    ('new', 'Newari (नेपाल भाषा)'),
 ]
 
 WAGTAIL_I18N_ENABLED = True
 WAGTAIL_CONTENT_LANGUAGES = [
     ('en', 'English'),
     ('ne', 'Nepali (नेपाली)'),
-    ('xsr', 'Sherpa (शरपा)'),
-    ('new', 'Newari (नेपाल भाषा)'),
 ]
