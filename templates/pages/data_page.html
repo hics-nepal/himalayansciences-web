@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Open Data</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}खुला तथ्याङ्क{% else %}Open Data{% endif %}</div>
     <h1>{{ page.title }}</h1>
     {% if page.intro %}
     <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
@@ -14,7 +14,7 @@
   <!-- Stations -->
   {% if stations %}
   <section class="section">
-    <div class="section__label">Active stations</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सक्रिय स्टेसनहरू{% else %}Active stations{% endif %}</div>
     <div class="card-grid">
       {% for station in stations %}
       <div class="card">
@@ -26,9 +26,9 @@
         </div>
         <div class="mt-5" style="display:flex;gap:0.5rem;flex-wrap:wrap;">
           <a href="/api/data/latest/?station={{ station.station_id }}"
-             class="badge badge--active" style="text-decoration:none;">Latest JSON</a>
+             class="badge badge--active" style="text-decoration:none;">{% if request.LANGUAGE_CODE == 'ne' %}नवीनतम JSON{% else %}Latest JSON{% endif %}</a>
           <a href="/api/data/download/?station={{ station.station_id }}"
-             class="badge badge--building" style="text-decoration:none;">Download CSV</a>
+             class="badge badge--building" style="text-decoration:none;">{% if request.LANGUAGE_CODE == 'ne' %}CSV डाउनलोड गर्नुहोस्{% else %}Download CSV{% endif %}</a>
         </div>
       </div>
       {% endfor %}
@@ -39,33 +39,33 @@
   <!-- API docs -->
   {% if page.api_docs %}
   <section class="section content">
-    <h2>API Reference</h2>
+    <h2>{% if request.LANGUAGE_CODE == 'ne' %}API सन्दर्भ{% else %}API Reference{% endif %}</h2>
     {{ page.api_docs|richtext }}
   </section>
   {% endif %}
 
   <!-- Quick reference table -->
   <section class="section">
-    <div class="section__label">Endpoints</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}एन्डपोइन्टहरू{% else %}Endpoints{% endif %}</div>
     <table style="width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:0.825rem;margin-top:var(--s4);">
       <thead>
         <tr style="border-bottom:1px solid var(--border);">
-          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">Endpoint</th>
-          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">Purpose</th>
+          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">{% if request.LANGUAGE_CODE == 'ne' %}एन्डपोइन्ट{% else %}Endpoint{% endif %}</th>
+          <th style="text-align:left;padding:var(--s3) var(--s4);color:var(--text-muted);">{% if request.LANGUAGE_CODE == 'ne' %}उद्देश्य{% else %}Purpose{% endif %}</th>
         </tr>
       </thead>
       <tbody>
         <tr style="border-bottom:1px solid var(--border);">
           <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/latest/</td>
-          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">Latest reading (public JSON)</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">{% if request.LANGUAGE_CODE == 'ne' %}नवीनतम मापन (सार्वजनिक JSON){% else %}Latest reading (public JSON){% endif %}</td>
         </tr>
         <tr style="border-bottom:1px solid var(--border);">
           <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/historical/?hours=24</td>
-          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">Time series (public JSON)</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">{% if request.LANGUAGE_CODE == 'ne' %}समय श्रृंखला (सार्वजनिक JSON){% else %}Time series (public JSON){% endif %}</td>
         </tr>
         <tr>
           <td style="padding:var(--s3) var(--s4);color:var(--accent);">/api/data/download/</td>
-          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">CSV download (public)</td>
+          <td style="padding:var(--s3) var(--s4);color:var(--text-muted);">{% if request.LANGUAGE_CODE == 'ne' %}CSV डाउनलोड (सार्वजनिक){% else %}CSV download (public){% endif %}</td>
         </tr>
       </tbody>
     </table>

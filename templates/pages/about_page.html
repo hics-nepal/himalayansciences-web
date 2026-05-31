@@ -24,6 +24,7 @@
     </div>
   </section>
 
+  {% if not page.body %}
   <section class="section content">
     {% if request.LANGUAGE_CODE == 'ne' %}
     <p>हामी एउटा प्रमुख सिद्धान्तमा आधारित छौं: नेपालको भूगोल, पारिस्थितिक प्रणाली, भूकम्प विज्ञान, वायुमण्डल, र सांस्कृतिक ज्ञान गम्भीर विज्ञान गर्नका लागि अवरोध होइनन् — बरु यिनीहरू नै विज्ञानका मूल आधार हुन्।</p>
@@ -276,6 +277,7 @@
       <p class="text-muted mt-5" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}HICS ले सक्रिय रूपमा नयाँ अनुसन्धान, शिक्षा, र उपकरण साझेदारहरू खोजिरहेको छ। <a href="/ne/contact/">हामीलाई सम्पर्क गर्नुहोस्</a>।{% else %}HICS actively seeks new research, education, and instrumentation partners. <a href="/contact/">Get in touch</a>.{% endif %}</p>
     </div>
   </section>
+  {% endif %}
 
   <!-- Wagtail CMS body — editable in admin -->
   {% if page.body %}
@@ -287,15 +289,19 @@
   <!-- REGISTRATION -->
   <section class="section" style="padding-bottom:var(--s7);">
     <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}दर्ता विवरण{% else %}Registration{% endif %}</div>
-    <p class="text-mono text-muted" style="font-size:0.8125rem;line-height:1.8;">
-      {% if request.LANGUAGE_CODE == 'ne' %}
-      हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेस प्रा. लि.<br>
-      नेपालमा दर्ता · कम्पनी ऐन २०६३ (२००६)
+    <div class="text-mono text-muted" style="font-size:0.8125rem;line-height:1.8;">
+      {% if page.registration_info %}
+        {{ page.registration_info|richtext }}
       {% else %}
-      Himalayan Institute For Contextual Sciences Pvt. Ltd.<br>
-      Registered Nepal · Companies Act 2063 (2006)
+        {% if request.LANGUAGE_CODE == 'ne' %}
+        हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेस प्रा. लि.<br>
+        नेपालमा दर्ता · कम्पनी ऐन २०६३ (२००६)
+        {% else %}
+        Himalayan Institute For Contextual Sciences Pvt. Ltd.<br>
+        Registered Nepal · Companies Act 2063 (2006)
+        {% endif %}
       {% endif %}
-    </p>
+    </div>
     <p class="mt-4"><a href="mailto:info@himalayansciences.org" class="text-mono" style="font-size:0.875rem;">info@himalayansciences.org</a></p>
   </section>
 

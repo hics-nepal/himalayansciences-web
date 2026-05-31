@@ -290,9 +290,6 @@ class Command(BaseCommand):
             self.stdout.write("Populating official Nepali translation copy inside the database...")
             ne_home = HomePage.objects.filter(locale=ne_locale).first()
             if ne_home:
-                # Safeguard: Only update if the content has not been customized by the user in the Wagtail Admin
-                # (Or if it was corrupted to literal question marks '?' due to an unconfigured latin1 database charset)
-                # (Or if it contains the legacy, robotic word-for-word translation copy to force upgrade it)
                 modified = False
                 if ne_home.title == "Himalayan Institute for Contextual Sciences" or not ne_home.title or "?" in str(ne_home.title):
                     ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
@@ -300,8 +297,11 @@ class Command(BaseCommand):
                 if ne_home.tagline == "Contextual Science. Open Data. Real-World Learning." or not ne_home.tagline or "?" in str(ne_home.tagline):
                     ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। स्थलगत सिकाइ।"
                     modified = True
-                if "HICS is an independent research" in ne_home.mission or "नेपालमा आधारित एक स्वतन्त्र" in ne_home.mission or not ne_home.mission or "?" in str(ne_home.mission):
-                    ne_home.mission = "नेपालमा स्थापित, HICS एक स्वतन्त्र अनुसन्धान, वैज्ञानिक उपकरण विकास र व्यावहारिक सिकाइ अभ्यास गर्ने संस्था हो। हामी यहाँको विशिष्ट भूगोल र परिवेश, हिमाल माथिको वायुमण्डल, हाम्रा सहर मुनिको भौगर्भिक अवस्था र उच्च हिमाली भेगका समुदायहरूको गहन अध्ययन गर्न वैज्ञानिक प्रविधि र उपकरणहरू विकास गर्छौं, तथ्याङ्क सङ्कलन गर्छौं र खुला विज्ञानको प्रवर्द्धन गर्छौं।"
+                if "HICS is an independent research" in ne_home.mission or "नेपालमा आधारित" in ne_home.mission or "नेपालमा स्थापित" in ne_home.mission or not ne_home.mission or "?" in str(ne_home.mission):
+                    ne_home.mission = "नेपालमा स्थापित, HICS एक स्वतन्त्र अनुसन्धान, वैज्ञानिक उपकरण निर्माण, र स्थलगत सिकाइ प्रवर्द्धन गर्ने संस्था हो। हामी यहाँको विशिष्ट भूगोल र परिवेश, हिमाल माथिको वायुमण्डल, हाम्रा सहर मुनिको भौगर्भिक अवस्था र उच्च हिमाली भेगका समुदायहरूको गहन अध्ययन गर्न वैज्ञानिक प्रविधि र उपकरणहरू विकास गर्छौं, तथ्याङ्क सङ्कलन गर्छौं र खुला विज्ञानको प्रवर्द्धन गर्छौं।"
+                    modified = True
+                if "We are built on a" in str(ne_home.intro) or not ne_home.intro or "?" in str(ne_home.intro):
+                    ne_home.intro = "<p>हामी एउटा प्रमुख सिद्धान्तमा आधारित छौं: नेपालको भूगोल, पारिस्थितिक प्रणाली, भूकम्प विज्ञान, वायुमण्डल, र सांस्कृतिक ज्ञान गम्भीर विज्ञान गर्नका लागि अवरोध होइनन् — बरु यिनीहरू नै विज्ञानका मूल आधार हुन्। यहाँ गरिने विज्ञान, यहाँकै बारेमा हुनुपर्छ।</p>"
                     modified = True
                 
                 if modified:
@@ -316,8 +316,11 @@ class Command(BaseCommand):
                 if ne_about.title == "About Us" or ne_about.title == "About" or not ne_about.title or "?" in str(ne_about.title):
                     ne_about.title = "हाम्रो बारेमा"
                     modified = True
-                if "Welcome to HICS" in str(ne_about.intro) or "नेपालको अद्वितीय उचाइ र भौगोलिक" in str(ne_about.intro) or not ne_about.intro or "?" in str(ne_about.intro):
+                if "Welcome to HICS" in str(ne_about.intro) or "नेपालको विशिष्ट भौगोलिक उचाइ" in str(ne_about.intro) or not ne_about.intro or "?" in str(ne_about.intro):
                     ne_about.intro = "<p>हामी नेपालको विशिष्ट भौगोलिक उचाइ र वातावरणीय विविधतालाई सम्बोधन गर्ने वैज्ञानिक अनुसन्धान र खुला-स्रोत प्रविधिको विकासमा समर्पित छौं।</p>"
+                    modified = True
+                if "registered in Kathmandu" in str(ne_about.registration_info) or not ne_about.registration_info or "?" in str(ne_about.registration_info):
+                    ne_about.registration_info = "<p>हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस प्रा. लि. नेपालमा कम्पनी ऐन २०६३ (२००६) अन्तर्गत एक स्वतन्त्र अनुसन्धान संस्थाको रूपमा दर्ता गरिएको छ।</p>"
                     modified = True
                 
                 if modified:
@@ -332,10 +335,13 @@ class Command(BaseCommand):
                 if ne_contact.title == "Contact" or not ne_contact.title or "?" in str(ne_contact.title):
                     ne_contact.title = "सम्पर्क"
                     modified = True
-                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or "उपकरण निर्माणको बारेमा" in str(ne_contact.intro) or not ne_contact.intro or "?" in str(ne_contact.intro):
+                if "Get in touch" in str(ne_contact.intro) or "साझेदारी" in str(ne_contact.intro) or not ne_contact.intro or "?" in str(ne_contact.intro):
                     ne_contact.intro = "<p>वैज्ञानिक अनुसन्धान साझेदारी, खुला तथ्याङ्कको पहुँच, वा उपकरण निर्माण सम्बन्धी सहकार्यका लागि हामीलाई सम्पर्क गर्नुहोस्।</p>"
                     modified = True
-                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or "पठाइएको छ" in str(ne_contact.success_message) or not ne_contact.success_message or "?" in str(ne_contact.success_message):
+                if "Send a direct message" in ne_contact.form_title or not ne_contact.form_title or "?" in str(ne_contact.form_title):
+                    ne_contact.form_title = "हामीलाई प्रत्यक्ष सन्देश पठाउनुहोस्"
+                    modified = True
+                if "Thank you" in str(ne_contact.success_message) or "प्राप्त भएको छ" in str(ne_contact.success_message) or not ne_contact.success_message or "?" in str(ne_contact.success_message):
                     ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक प्राप्त भएको छ। हामी चाँडै नै तपाईंसँग सम्पर्क स्थापित गर्नेछौं।"
                     modified = True
                 
@@ -352,8 +358,8 @@ class Command(BaseCommand):
                 if ne_research.title == "Research" or not ne_research.title or "?" in str(ne_research.title):
                     ne_research.title = "अनुसन्धान"
                     modified = True
-                if "altitude-gradient scientific research" in str(ne_research.intro) or not ne_research.intro or "?" in str(ne_research.intro):
-                    ne_research.intro = "<p>HICS नेपालका विभिन्न हिमाली क्षेत्रहरूमा वातावरणीय उचाइका आधारमा वैज्ञानिक अनुसन्धान गर्दछ। हामी उप-उष्णकटिबन्धीय उपत्यकादेखि उच्च हिमशिखरहरूसम्मका वायुमण्डलीय, भूगर्भशास्त्रीय र जैविक तथ्याङ्कहरू सङ्कलन गर्छौं।</p>"
+                if "Our research focuses" in str(ne_research.intro) or "हाम्रो अनुसन्धान" in str(ne_research.intro) or not ne_research.intro or "?" in str(ne_research.intro):
+                    ne_research.intro = "<p>हाम्रो अनुसन्धान विश्वव्यापी मोडेलहरूले प्रायः बेवास्ता गर्ने स्थानीय विशिष्ट र उच्च हिमाली विज्ञानमा केन्द्रित छ। हाम्रा सबै तथ्याङ्क सेटहरू सार्वजनिक रूपमा खुला छन्।</p>"
                     modified = True
                 if modified:
                     ne_research.save_revision().publish()
@@ -365,8 +371,8 @@ class Command(BaseCommand):
                 if ne_instruments.title == "Instruments" or not ne_instruments.title or "?" in str(ne_instruments.title):
                     ne_instruments.title = "वैज्ञानिक उपकरणहरू"
                     modified = True
-                if "telemetry and environmental monitoring" in str(ne_instruments.intro) or not ne_instruments.intro or "?" in str(ne_instruments.intro):
-                    ne_instruments.intro = "<p>HICS ले स्थानीय स्तरमै वातावरणीय र मौसम निगरानी सम्बन्धी वैज्ञानिक उपकरणहरूको डिजाइन तथा स्थापना गर्दछ। हाम्रा सक्रिय अनुसन्धान केन्द्रहरू र प्राविधिक विवरणहरू तल अन्वेषण गर्नुहोस्।</p>"
+                if "We build our own" in str(ne_instruments.intro) or "CERN" in str(ne_instruments.intro) or not ne_instruments.intro or "?" in str(ne_instruments.intro):
+                    ne_instruments.intro = "<p>हामी CERN खुला हार्डवेयर अनुमतिपत्र (Open Hardware Licence) अन्तर्गत आफ्नै वैज्ञानिक उपकरणहरू निर्माण गर्छौं। यसले हाम्रो अनुसन्धान पूर्ण रूपमा पुनरुत्पादन योग्य र किफायती छ भन्ने कुरा सुनिश्चित गर्दछ।</p>"
                     modified = True
                 if modified:
                     ne_instruments.save_revision().publish()
@@ -375,11 +381,14 @@ class Command(BaseCommand):
             ne_data = DataPage.objects.filter(locale=ne_locale).first()
             if ne_data:
                 modified = False
-                if ne_data.title == "Open Data" or not ne_data.title or "?" in str(ne_data.title):
+                if ne_data.title == "Open Data" or ne_data.title == "Live Data" or not ne_data.title or "?" in str(ne_data.title):
                     ne_data.title = "खुला तथ्याङ्क"
                     modified = True
-                if "HICS believes in open science" in str(ne_data.intro) or not ne_data.intro or "?" in str(ne_data.intro):
-                    ne_data.intro = "<p>HICS खुला विज्ञानमा विश्वास गर्दछ। हामी हाम्रा सबै अनुसन्धान केन्द्रहरूबाट प्राप्त वायुमण्डलीय तथा वातावरणीय तथ्याङ्कहरू सार्वजनिक रूपमा उपलब्ध गराउँछौं।</p>"
+                if "Explore real-time" in str(ne_data.intro) or "वास्तविक समय" in str(ne_data.intro) or not ne_data.intro or "?" in str(ne_data.intro):
+                    ne_data.intro = "<p>नेपालमा स्थापित हाम्रा मापन केन्द्रहरूबाट प्राप्त वास्तविक समय (real-time) को तथ्याङ्क र ऐतिहासिक अभिलेखहरू अन्वेषण गर्नुहोस्।</p>"
+                    modified = True
+                if "access real-time" in str(ne_data.api_docs) or "JSON" in str(ne_data.api_docs) or not ne_data.api_docs or "?" in str(ne_data.api_docs):
+                    ne_data.api_docs = "<p>तपाईं वास्तविक समयको JSON तथ्याङ्क <code>/api/data/latest/</code> मा पहुँच गर्न सक्नुहुन्छ र CSV फाइलहरू <code>/api/data/download/</code> बाट डाउनलोड गर्न सक्नुहुन्छ।</p>"
                     modified = True
                 if modified:
                     ne_data.save_revision().publish()
@@ -388,11 +397,11 @@ class Command(BaseCommand):
             ne_education = EducationIndexPage.objects.filter(locale=ne_locale).first()
             if ne_education:
                 modified = False
-                if ne_education.title == "Education" or not ne_education.title or "?" in str(ne_education.title):
-                    ne_education.title = "शैक्षिक कार्यक्रम"
+                if ne_education.title == "Education" or ne_education.title == "Education Programmes" or not ne_education.title or "?" in str(ne_education.title):
+                    ne_education.title = "शैक्षिक कार्यक्रमहरू"
                     modified = True
-                if "experiential learning, hands-on science" in str(ne_education.intro) or not ne_education.intro or "?" in str(ne_education.intro):
-                    ne_education.intro = "<p>हामी नेपालका ग्रामीण तथा हिमाली क्षेत्रका युवा र शिक्षकहरूका लागि स्थलगत सिकाइ, व्यावहारिक विज्ञान र प्रविधि मैत्री शैक्षिक कार्यक्रमहरू सञ्चालन गर्छौं।</p>"
+                if "education programmes bring" in str(ne_education.intro) or "HICS का शैक्षिक" in str(ne_education.intro) or not ne_education.intro or "?" in str(ne_education.intro):
+                    ne_education.intro = "<p>HICS का शैक्षिक कार्यक्रमहरूले वैज्ञानिक उपकरण, तथ्याङ्क, र वास्तविक वैज्ञानिक अभ्यासलाई सीधै विद्यालय र समुदायहरूमा पुर्‍याउँछन्। यो पाठ्यपुस्तकमा मात्र सीमित विज्ञान होइन — विद्यार्थीहरूले आफ्नो वरपरको संसारबाट वास्तविक सङ्केतहरू सङ्कलन गर्ने उपकरणहरूबाट प्राप्त तथ्याङ्कहरूको प्रत्यक्ष विश्लेषण गर्छन्।</p>"
                     modified = True
                 if modified:
                     ne_education.save_revision().publish()
@@ -404,7 +413,7 @@ class Command(BaseCommand):
                 if ne_notes.title == "Lab Notes" or not ne_notes.title or "?" in str(ne_notes.title):
                     ne_notes.title = "प्रयोगशाला टिपोटहरू"
                     modified = True
-                if "Read field experiences, technical updates" in str(ne_notes.intro) or not ne_notes.intro or "?" in str(ne_notes.intro):
+                if "Dispatches from the field" in str(ne_notes.intro) or "स्थलगत अनुभव" in str(ne_notes.intro) or not ne_notes.intro or "?" in str(ne_notes.intro):
                     ne_notes.intro = "<p>हाम्रा वैज्ञानिक तथा अनुसन्धानकर्ताहरूका नवीनतम स्थलगत अनुभवहरू, प्राविधिक टिपोटहरू र प्रयोगशालाका नियमित गतिविधिहरू यहाँ पढ्नुहोस्।</p>"
                     modified = True
                 if modified:
@@ -512,10 +521,10 @@ class Command(BaseCommand):
             if ne_learn:
                 modified = False
                 if ne_learn.title == "Learning Resources" or not ne_learn.title or "?" in str(ne_learn.title):
-                    ne_learn.title = "सिकाइ स्रोत र सामग्रीहरू"
+                    ne_learn.title = "सिकाइ सामग्रीहरू"
                     modified = True
-                if "freely available" in str(ne_learn.intro) or not ne_learn.intro or "?" in str(ne_learn.intro):
-                    ne_learn.intro = "<p>HICS का सिकाइ स्रोत तथा सामग्रीहरू शिक्षक, विद्यार्थी, र उपकरण तथा तथ्याङ्क पछाडिको विज्ञान बुझ्न चाहने जो कोहीका लागि निःशुल्क उपलब्ध छन्। डाउनलोड गर्नुहोस्, प्रयोग गर्नुहोस्, र अनुकूलन गर्नुहोस्।</p>"
+                if "freely available" in str(ne_learn.intro) or "HICS" in str(ne_learn.intro) or not ne_learn.intro or "?" in str(ne_learn.intro):
+                    ne_learn.intro = "<p>HICS का सिकाइ सामग्रीहरू शिक्षक, विद्यार्थी, र उपकरण तथा तथ्याङ्क पछाडिको विज्ञान बुझ्न चाहने जो कोहीका लागि निःशुल्क उपलब्ध छन्। डाउनलोड गर्नुहोस्, प्रयोग गर्नुहोस्, र परिमार्जन गर्नुहोस्।</p>"
                     modified = True
                 if modified:
                     ne_learn.save_revision().publish()
@@ -527,8 +536,8 @@ class Command(BaseCommand):
                 if ne_open.title == "Open Knowledge" or not ne_open.title or "?" in str(ne_open.title):
                     ne_open.title = "खुला ज्ञान र साझा स्रोत"
                     modified = True
-                if "public outputs exist for the world" in str(ne_open.intro) or not ne_open.intro or "?" in str(ne_open.intro):
-                    ne_open.intro = "<p>HICS का सार्वजनिक कार्य तथा सामग्रीहरू सम्पूर्ण विश्वका लागि उपलब्ध छन्। हाम्रा सबै तथ्याङ्क, उपकरणका डिजाइनहरू, र सिकाइ सामग्रीहरू खुला-स्रोत र पूर्ण रूपमा निःशुल्क छन्।</p>"
+                if "public outputs exist for the world" in str(ne_open.intro) or "HICS" in str(ne_open.intro) or not ne_open.intro or "?" in str(ne_open.intro):
+                    ne_open.intro = "<p>HICS का सार्वजनिक नतिजाहरू केवल हाम्रा आफ्नै कार्यक्रमहरूका लागि मात्र नभई सम्पूर्ण विश्वका लागि हुन्। हाम्रा सबै तथ्याङ्कहरू खुला छन्, उपकरणका डिजाइनहरू खुला-स्रोत छन्, र सिकाइ सामग्रीहरू निःशुल्क उपलब्ध छन्।</p>"
                     modified = True
                 if modified:
                     ne_open.save_revision().publish()

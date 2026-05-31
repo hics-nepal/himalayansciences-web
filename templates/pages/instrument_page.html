@@ -4,20 +4,30 @@
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Instrument</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}उपकरण{% else %}Instrument{% endif %}</div>
     <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">{{ page.summary }}</div>
     <div class="mt-5">
-      <span class="badge badge--{{ page.status }}">{{ page.get_status_display }}</span>
+      <span class="badge badge--{{ page.status }}">
+        {% if request.LANGUAGE_CODE == 'ne' %}
+          {% if page.status == 'active' %}सक्रिय
+          {% elif page.status == 'building' %}निर्माणको चरणमा
+          {% elif page.status == 'planned' %}योजनाबद्ध
+          {% elif page.status == 'retired' %}सेवानिवृत्त
+          {% else %}{{ page.get_status_display }}{% endif %}
+        {% else %}
+          {{ page.get_status_display }}
+        {% endif %}
+      </span>
       {% if page.station_id %}
-      <span class="badge badge--active" style="margin-left:0.5rem;">Station {{ page.station_id }}</span>
+      <span class="badge badge--active" style="margin-left:0.5rem;">{% if request.LANGUAGE_CODE == 'ne' %}स्टेसन{% else %}Station{% endif %} {{ page.station_id }}</span>
       {% endif %}
     </div>
   </section>
 
   {% if station and latest_reading %}
   <section class="section">
-    <div class="section__label">Live data — {{ station.location_name }} ({{ station.altitude_m }}m)</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रत्यक्ष तथ्याङ्क{% else %}Live data{% endif %} — {{ station.location_name }} ({{ station.altitude_m }}m)</div>
     <div class="data-widget">
       <div class="data-widget__header">
         <div class="data-widget__title">{{ station.name }}</div>
@@ -32,25 +42,25 @@
         {% if latest_reading.temperature_c is not None %}
         <div class="reading">
           <div><span class="reading__value">{{ latest_reading.temperature_c|floatformat:1 }}</span><span class="reading__unit">°C</span></div>
-          <div class="reading__label">Temperature</div>
+          <div class="reading__label">{% if request.LANGUAGE_CODE == 'ne' %}तापक्रम{% else %}Temperature{% endif %}</div>
         </div>
         {% endif %}
         {% if latest_reading.humidity_rh is not None %}
         <div class="reading">
           <div><span class="reading__value">{{ latest_reading.humidity_rh|floatformat:0 }}</span><span class="reading__unit">% RH</span></div>
-          <div class="reading__label">Humidity</div>
+          <div class="reading__label">{% if request.LANGUAGE_CODE == 'ne' %}आर्द्रता{% else %}Humidity{% endif %}</div>
         </div>
         {% endif %}
         {% if latest_reading.pressure_hpa is not None %}
         <div class="reading">
           <div><span class="reading__value">{{ latest_reading.pressure_hpa|floatformat:0 }}</span><span class="reading__unit">hPa</span></div>
-          <div class="reading__label">Pressure</div>
+          <div class="reading__label">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डलीय चाप{% else %}Pressure{% endif %}</div>
         </div>
         {% endif %}
         {% if latest_reading.pm2_5 is not None %}
         <div class="reading">
           <div><span class="reading__value">{{ latest_reading.pm2_5|floatformat:1 }}</span><span class="reading__unit">µg/m³</span></div>
-          <div class="reading__label">PM 2.5</div>
+          <div class="reading__label">{% if request.LANGUAGE_CODE == 'ne' %}PM २.५ (धूलिकण){% else %}PM 2.5{% endif %}</div>
         </div>
         {% endif %}
       </div>
@@ -59,7 +69,7 @@
   {% endif %}
 
   <section class="section content">
-    <h2>What it measures</h2>
+    <h2>{% if request.LANGUAGE_CODE == 'ne' %}यसले के मापन गर्छ{% else %}What it measures{% endif %}</h2>
     {{ page.what_it_measures|richtext }}
   </section>
 
@@ -70,7 +80,7 @@
   {% if page.github_url %}
   <div class="mt-6">
     <a href="{{ page.github_url }}" class="text-mono" style="font-size:0.875rem;">
-      View hardware designs on GitHub →
+      {% if request.LANGUAGE_CODE == 'ne' %}गिटहब (GitHub) मा हार्डवेयर डिजाइनहरू हेर्नुहोस् →{% else %}View hardware designs on GitHub →{% endif %}
     </a>
   </div>
   {% endif %}

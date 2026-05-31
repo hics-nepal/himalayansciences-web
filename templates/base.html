@@ -59,13 +59,21 @@
               {% if page.locale.language_code == 'en' %}
                 <span class="lang-btn active">EN</span>
                 <span class="lang-sep">/</span>
-                {% for translation in page.get_translations %}
-                  <a href="{{ translation.url }}" class="lang-btn">ने</a>
-                {% endfor %}
+                {% if page.get_translations.exists %}
+                  {% for translation in page.get_translations %}
+                    <a href="{{ translation.url }}" class="lang-btn">ने</a>
+                  {% endfor %}
+                {% else %}
+                  <a href="/ne/" class="lang-btn">ने</a>
+                {% endif %}
               {% else %}
-                {% for translation in page.get_translations %}
-                  <a href="{{ translation.url }}" class="lang-btn">EN</a>
-                {% endfor %}
+                {% if page.get_translations.exists %}
+                  {% for translation in page.get_translations %}
+                    <a href="{{ translation.url }}" class="lang-btn">EN</a>
+                  {% endfor %}
+                {% else %}
+                  <a href="/" class="lang-btn">EN</a>
+                {% endif %}
                 <span class="lang-sep">/</span>
                 <span class="lang-btn active">ने</span>
               {% endif %}

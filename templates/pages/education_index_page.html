@@ -30,10 +30,31 @@
     <div class="card-grid">
       {% for programme in programmes %}
       <a href="{{ programme.url }}" class="card">
-        <div class="card__label">{{ programme.get_programme_type_display }}</div>
+        <div class="card__label">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if programme.programme_type == 'residency' %}विद्यालय विज्ञान आवासीय कार्यक्रम
+            {% elif programme.programme_type == 'fellowship' %}युवा अनुसन्धान फेलोसिप
+            {% elif programme.programme_type == 'camp' %}वार्षिक विज्ञान शिविर
+            {% elif programme.programme_type == 'teachers' %}शिक्षक व्यावसायिक विकास
+            {% elif programme.programme_type == 'computing' %}वैज्ञानिक कम्प्युटिङ कोर्सहरू
+            {% elif programme.programme_type == 'public' %}सार्वजनिक विज्ञान कार्यक्रम
+            {% else %}{{ programme.get_programme_type_display }}{% endif %}
+          {% else %}
+            {{ programme.get_programme_type_display }}
+          {% endif %}
+        </div>
         <div class="card__title">{{ programme.title }}</div>
         <div class="card__body">{{ programme.summary }}</div>
-        <span class="badge badge--{{ programme.status }}">{{ programme.get_status_display }}</span>
+        <span class="badge badge--{{ programme.status }}">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if programme.status == 'active' %}सक्रिय
+            {% elif programme.status == 'planned' %}योजनाबद्ध
+            {% elif programme.status == 'accepting' %}आवेदन खुला गरिएको छ
+            {% else %}{{ programme.get_status_display }}{% endif %}
+          {% else %}
+            {{ programme.get_status_display }}
+          {% endif %}
+        </span>
       </a>
       {% empty %}
       <div class="card">

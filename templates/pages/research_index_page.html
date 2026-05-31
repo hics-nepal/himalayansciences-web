@@ -26,10 +26,33 @@
     <div class="card-grid">
       {% for prog in programmes %}
       <a href="{{ prog.url }}" class="card">
-        <div class="card__label">{{ prog.get_programme_type_display }}</div>
+        <div class="card__label">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if prog.programme_type == 'cosmic-ray' %}कस्मिक रे / म्योन भौतिकशास्त्र
+            {% elif prog.programme_type == 'meteor' %}उल्का खगोल विज्ञान
+            {% elif prog.programme_type == 'atmospheric' %}वायुमण्डलीय विज्ञान
+            {% elif prog.programme_type == 'seismology' %}भूकम्प विज्ञान
+            {% elif prog.programme_type == 'building-physics' %}भवन भौतिकशास्त्र
+            {% elif prog.programme_type == 'traditional-knowledge' %}परम्परागत पारिस्थितिक ज्ञान
+            {% elif prog.programme_type == 'glaciology' %}हिमताल र हिमनदी विज्ञान
+            {% elif prog.programme_type == 'computational' %}कम्प्युटेसनल विज्ञान
+            {% else %}{{ prog.get_programme_type_display }}{% endif %}
+          {% else %}
+            {{ prog.get_programme_type_display }}
+          {% endif %}
+        </div>
         <div class="card__title">{{ prog.title }}</div>
         <div class="card__body">{{ prog.summary }}</div>
-        <span class="badge badge--{{ prog.status }}">{{ prog.get_status_display }}</span>
+        <span class="badge badge--{{ prog.status }}">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if prog.status == 'active' %}सक्रिय
+            {% elif prog.status == 'planned' %}योजनाबद्ध
+            {% elif prog.status == 'paused' %}स्थगित
+            {% else %}{{ prog.get_status_display }}{% endif %}
+          {% else %}
+            {{ prog.get_status_display }}
+          {% endif %}
+        </span>
       </a>
       {% empty %}
       <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}कुनै अनुसन्धान कार्यक्रमहरू प्रकाशित गरिएका छैनन्।{% else %}No research programmes published yet.{% endif %}</p>

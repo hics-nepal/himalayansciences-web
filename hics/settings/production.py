@@ -2,6 +2,7 @@ from .base import *  # noqa
 
 DEBUG = False
 ALLOWED_HOSTS = ['himalayansciences.org', 'www.himalayansciences.org']
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 DATABASES = {
     'default': {

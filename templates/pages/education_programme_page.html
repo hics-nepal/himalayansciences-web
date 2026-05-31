@@ -1,17 +1,38 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block title %}{{ page.title }} — Education — HICS{% endblock %}
+{% block title %}{{ page.title }} — {% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %} — HICS{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Education · {{ page.get_programme_type_display }}</div>
+    <div class="section__label">
+      {% if request.LANGUAGE_CODE == 'ne' %}शिक्षा · 
+        {% if page.programme_type == 'residency' %}विद्यालय विज्ञान आवासीय कार्यक्रम
+        {% elif page.programme_type == 'fellowship' %}युवा अनुसन्धान फेलोसिप
+        {% elif page.programme_type == 'camp' %}वार्षिक विज्ञान शिविर
+        {% elif page.programme_type == 'teachers' %}शिक्षक व्यावसायिक विकास
+        {% elif page.programme_type == 'computing' %}वैज्ञानिक कम्प्युटिङ कोर्सहरू
+        {% elif page.programme_type == 'public' %}सार्वजनिक विज्ञान कार्यक्रम
+        {% else %}{{ page.get_programme_type_display }}{% endif %}
+      {% else %}
+        Education · {{ page.get_programme_type_display }}
+      {% endif %}
+    </div>
     <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">{{ page.summary }}</div>
-    <span class="badge badge--{{ page.status }} mt-5">{{ page.get_status_display }}</span>
+    <span class="badge badge--{{ page.status }} mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+        {% if page.status == 'active' %}सक्रिय
+        {% elif page.status == 'planned' %}योजनाबद्ध
+        {% elif page.status == 'accepting' %}आवेदन खुला गरिएको छ
+        {% else %}{{ page.get_status_display }}{% endif %}
+      {% else %}
+        {{ page.get_status_display }}
+      {% endif %}
+    </span>
     {% if page.target_audience %}
-    <p class="text-muted mt-4" style="font-size:0.875rem;">Audience: {{ page.target_audience }}</p>
+    <p class="text-muted mt-4" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}लक्षित समूह{% else %}Audience{% endif %}: {{ page.target_audience }}</p>
     {% endif %}
   </section>
 
@@ -22,11 +43,11 @@
   {% endif %}
 
   <section class="section content">
-    <div class="section__label">Enquire</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सोधपुछ{% else %}Enquire{% endif %}</div>
     <p class="text-muted">
       {% if page.contact_subject %}
       <a href="mailto:{{ page.contact_email }}?subject={{ page.contact_subject }}" class="text-mono">→ {{ page.contact_email }}</a>
-      <br><span class="text-mono text-dim" style="font-size:0.75rem;">Subject: {{ page.contact_subject }}</span>
+      <br><span class="text-mono text-dim" style="font-size:0.75rem;">{% if request.LANGUAGE_CODE == 'ne' %}विषय{% else %}Subject{% endif %}: {{ page.contact_subject }}</span>
       {% else %}
       <a href="mailto:{{ page.contact_email }}" class="text-mono">→ {{ page.contact_email }}</a>
       {% endif %}

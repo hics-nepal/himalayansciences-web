@@ -4,7 +4,19 @@
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">{{ page.get_note_type_display }} · {{ page.date|date:"d M Y" }}</div>
+    <div class="section__label">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+        {% if page.note_type == 'observation' %}अवलोकन
+        {% elif page.note_type == 'experiment' %}प्रयोग
+        {% elif page.note_type == 'build' %}निर्माण लग
+        {% elif page.note_type == 'field' %}स्थलगत टिपोट
+        {% elif page.note_type == 'analysis' %}विश्लेषण
+        {% else %}{{ page.get_note_type_display }}{% endif %}
+      {% else %}
+        {{ page.get_note_type_display }}
+      {% endif %}
+       · {{ page.date|date:"d M Y" }}
+    </div>
     <h1>{{ page.title }}</h1>
     {% if page.location %}
     <div class="text-mono text-muted mt-4" style="font-size:0.8125rem;">📍 {{ page.location }}</div>

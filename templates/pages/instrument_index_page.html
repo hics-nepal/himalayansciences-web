@@ -26,10 +26,30 @@
     <div class="card-grid">
       {% for instrument in instruments %}
       <a href="{{ instrument.url }}" class="card">
-        <div class="card__label">{{ instrument.get_status_display }}</div>
+        <div class="card__label">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if instrument.status == 'active' %}सक्रिय — तथ्याङ्क सङ्कलन गर्दै
+            {% elif instrument.status == 'building' %}निर्माणको चरणमा
+            {% elif instrument.status == 'planned' %}योजनाबद्ध
+            {% elif instrument.status == 'retired' %}सेवानिवृत्त
+            {% else %}{{ instrument.get_status_display }}{% endif %}
+          {% else %}
+            {{ instrument.get_status_display }}
+          {% endif %}
+        </div>
         <div class="card__title">{{ instrument.title }}</div>
         <div class="card__body">{{ instrument.summary }}</div>
-        <span class="badge badge--{{ instrument.status }}">{{ instrument.get_status_display }}</span>
+        <span class="badge badge--{{ instrument.status }}">
+          {% if request.LANGUAGE_CODE == 'ne' %}
+            {% if instrument.status == 'active' %}सक्रिय
+            {% elif instrument.status == 'building' %}निर्माणको चरणमा
+            {% elif instrument.status == 'planned' %}योजनाबद्ध
+            {% elif instrument.status == 'retired' %}सेवानिवृत्त
+            {% else %}{{ instrument.get_status_display }}{% endif %}
+          {% else %}
+            {{ instrument.get_status_display }}
+          {% endif %}
+        </span>
       </a>
       {% empty %}
       <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}कुनै उपकरणहरू प्रकाशित गरिएका छैनन्।{% else %}No instruments published yet.{% endif %}</p>

@@ -4,10 +4,33 @@
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">{{ page.get_programme_type_display }}</div>
+    <div class="section__label">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+        {% if page.programme_type == 'cosmic-ray' %}कस्मिक रे / म्योन भौतिकशास्त्र
+        {% elif page.programme_type == 'meteor' %}उल्का खगोल विज्ञान
+        {% elif page.programme_type == 'atmospheric' %}वायुमण्डलीय विज्ञान
+        {% elif page.programme_type == 'seismology' %}भूकम्प विज्ञान
+        {% elif page.programme_type == 'building-physics' %}भवन भौतिकशास्त्र
+        {% elif page.programme_type == 'traditional-knowledge' %}परम्परागत पारिस्थितिक ज्ञान
+        {% elif page.programme_type == 'glaciology' %}हिमताल र हिमनदी विज्ञान
+        {% elif page.programme_type == 'computational' %}कम्प्युटेसनल विज्ञान
+        {% else %}{{ page.get_programme_type_display }}{% endif %}
+      {% else %}
+        {{ page.get_programme_type_display }}
+      {% endif %}
+    </div>
     <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">{{ page.summary }}</div>
-    <span class="badge badge--{{ page.status }} mt-5">{{ page.get_status_display }}</span>
+    <span class="badge badge--{{ page.status }} mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+        {% if page.status == 'active' %}सक्रिय
+        {% elif page.status == 'planned' %}योजनाबद्ध
+        {% elif page.status == 'paused' %}स्थगित
+        {% else %}{{ page.get_status_display }}{% endif %}
+      {% else %}
+        {{ page.get_status_display }}
+      {% endif %}
+    </span>
   </section>
 
   <section class="section content">
@@ -16,7 +39,7 @@
 
   {% if page.publications.all %}
   <section class="section">
-    <div class="section__label">Publications</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रकाशनहरू{% else %}Publications{% endif %}</div>
     <div class="note-list">
       {% for pub in page.publications.all %}
       <div class="note-item">
