@@ -1,40 +1,73 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags wagtailimages_tags i18n %}
 
-{% block title %}About — HICS{% endblock %}
-{% block description %}About the Himalayan Institute for Contextual Sciences — who we are, what we do, and why.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}हाम्रो बारेमा{% else %}About{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेसको बारेमा — हामी को हौं, हामी के गर्छौं, र किन गर्छौं।{% else %}About the Himalayan Institute for Contextual Sciences — who we are, what we do, and why.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
 
   <!-- WHO WE ARE -->
   <section class="hero">
-    <div class="section__label">{% translate "Who we are" %}</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}हाम्रो बारेमा{% else %}Who we are{% endif %}</div>
     <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">
       {% if page.intro %}
         {{ page.intro|richtext }}
       {% else %}
+        {% if request.LANGUAGE_CODE == 'ne' %}
+        <p>नेपालमा स्थापित एक स्वतन्त्र अनुसन्धान, उपकरण निर्माण, र सिकाइ संस्था, जसले विश्वकै सबैभन्दा नाटकीय भौगोलिक उचाइहरूमा काम गरिरहेको छ।</p>
+        {% else %}
         <p>An independent research, instrumentation, and learning institution based in Nepal, operating across one of the world's most dramatic altitude gradients.</p>
+        {% endif %}
       {% endif %}
     </div>
   </section>
 
   <section class="section content">
+    {% if request.LANGUAGE_CODE == 'ne' %}
+    <p>हामी एउटा प्रमुख सिद्धान्तमा आधारित छौं: नेपालको भूगोल, पारिस्थितिक प्रणाली, भूकम्प विज्ञान, वायुमण्डल, र सांस्कृतिक ज्ञान गम्भीर विज्ञान गर्नका लागि अवरोध होइनन् — बरु यिनीहरू नै विज्ञानका मूल आधार हुन्।</p>
+    <p class="text-muted">यहाँ गरिने विज्ञान, यहाँकै बारेमा हुनुपर्छ।</p>
+    {% else %}
     <p>We are built on a single organising principle: that Nepal's geography, ecology, seismology, atmosphere, and cultural knowledge are not obstacles to doing serious science — they are the material.</p>
     <p class="text-muted">Science done here should be about here.</p>
+    {% endif %}
   </section>
 
   <!-- THE PROBLEM -->
   <section class="section-alt">
     <div class="container">
-      <div class="section__label">The problem we are addressing</div>
+      <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}हामीले सम्बोधन गरिरहेको समस्या{% else %}The problem we are addressing{% endif %}</div>
       <div class="two-col mt-5">
         <div>
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          <p>नेपालले एक संरचनात्मक रूपान्तरणकारी खाडल (translational gap) को सामना गरिरहेको छ — वैज्ञानिक ज्ञान र यसको सबैभन्दा बढी आवश्यकता भएका मानिसहरू, स्थानहरू, र प्रश्नहरू बीचको टुटेको कडी।</p>
+          <p class="text-muted">अनुसन्धान संस्थाहरू विद्यार्थी र समुदायबाट अलग्गिएर काम गर्छन्। विद्यालयहरू अनुसन्धान पूर्वाधार बिना सञ्चालित छन्। अर्थपूर्ण वैज्ञानिक करियरका लागि विदेश जानुपर्ने बाध्यताले गर्दा प्रतिभाशाली जनशक्ति बाहिरिन्छन्। जलवायु परिवर्तन, भूकम्प, र प्रदूषणको सामना गरिरहेका समुदायहरूसँग स्थानीय वैज्ञानिक तथ्याङ्कको पहुँच छैन।</p>
+          {% else %}
           <p>Nepal faces a structural translational gap — a broken chain between scientific knowledge and the people, places, and questions that most need it.</p>
           <p class="text-muted">Research institutions operate in isolation from students and communities. Schools operate without research infrastructure. Talented graduates leave because meaningful scientific careers require going abroad. Communities facing climate change, earthquakes, and pollution lack access to local scientific data.</p>
+          {% endif %}
         </div>
         <div>
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          <p class="text-muted">HICS ले यसलाई प्रत्येक टुटेको कडीलाई छुट्टाछुट्टै सुधारेर होइन, बरु एउटा पूर्णतया नयाँ संरचना निर्माण गरेर सम्बोधन गर्दछ:</p>
+          <div class="flow-chain mt-5">
+            <span class="flow-chain__node">उपकरणहरू</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">तथ्याङ्क</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">प्रश्नहरू</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">विधिहरू</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">नतिजाहरू</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">पहिचान</span>
+            <span class="flow-chain__arrow">→</span>
+            <span class="flow-chain__node">थप उपकरणहरू</span>
+          </div>
+          <p class="text-muted mt-5" style="font-size:0.875rem;">कुनै पनि विन्दु एउटा प्रवेश विन्दु हो। त्यही म्योन (muon) डिटेक्टर एउटा बाह्र वर्षको बच्चाका लागि आश्चर्यको वस्तु हो भने भौतिकशास्त्रको स्नातक विद्यार्थीका लागि अनुसन्धान उपकरण।</p>
+          {% else %}
           <p class="text-muted">HICS addresses this not by improving each broken link separately, but by building a different structure entirely:</p>
           <div class="flow-chain mt-5">
             <span class="flow-chain__node">Instruments</span>
@@ -52,6 +85,7 @@
             <span class="flow-chain__node">More Instruments</span>
           </div>
           <p class="text-muted mt-5" style="font-size:0.875rem;">Any point is an entry point. The same muon detector is a wonder object for a twelve-year-old and a research instrument for a physics graduate.</p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -59,28 +93,32 @@
 
   <!-- VISION + MISSION -->
   <section class="section">
-    <div class="section__label">Vision &amp; mission</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}दृष्टिकोण र लक्ष्य{% else %}Vision &amp; mission{% endif %}</div>
     <blockquote class="mission-quote">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      नेपालको भौगोलिक, पारिस्थितिक, र सांस्कृतिक यथार्थमा गहिरोसँग जरा गाडेको अनुसन्धान, खुला उपकरण निर्माण, र शिक्षाको माध्यमबाट विज्ञान तथा वैज्ञानिक सिकाइलाई अगाडि बढाउने — नेपालमै गम्भीर विज्ञान गर्न सम्भव बनाउने रूपान्तरणकारी पूर्वाधार निर्माण गर्ने।
+      {% else %}
       To advance science and scientific learning through research, open instrumentation, and education deeply rooted in Nepal's geographic, ecological, and cultural realities — building the translational infrastructure that makes doing serious science in Nepal possible.
+      {% endif %}
     </blockquote>
     <div class="mt-6">
-      <p class="text-muted">We are building toward a Nepal where:</p>
+      <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}हामी यस्तो नेपाल निर्माणको दिशामा अघि बढिरहेका छौं जहाँ:{% else %}We are building toward a Nepal where:{% endif %}</p>
       <div class="vision-grid mt-4">
         <div class="vision-item">
           <div class="vision-item__icon">🔭</div>
-          <div class="vision-item__text">HICS is Nepal's most credible independent research institute for physics, atmospheric science, and earth science — publishing internationally, hosting visiting researchers.</div>
+          <div class="vision-item__text">{% if request.LANGUAGE_CODE == 'ne' %}HICS भौतिकशास्त्र, वायुमण्डलीय विज्ञान, र भू-विज्ञानका लागि नेपालको सबैभन्दा विश्वसनीय स्वतन्त्र अनुसन्धान संस्था बन्नेछ — जसले अन्तर्राष्ट्रिय स्तरमा प्रकाशन गर्नेछ र आगन्तुक अनुसन्धानकर्ताहरूलाई आमन्त्रण गर्नेछ।{% else %}HICS is Nepal's most credible independent research institute for physics, atmospheric science, and earth science — publishing internationally, hosting visiting researchers.{% endif %}</div>
         </div>
         <div class="vision-item">
           <div class="vision-item__icon">🔧</div>
-          <div class="vision-item__text">Instruments designed by HICS are deployed across hundreds of Nepali schools and replicated by institutions in other countries.</div>
+          <div class="vision-item__text">{% if request.LANGUAGE_CODE == 'ne' %}HICS द्वारा डिजाइन गरिएका उपकरणहरू सयौं नेपाली विद्यालयहरूमा जडान गरिनेछन् र अन्य देशका संस्थाहरूले पनि त्यसको सिको गर्नेछन्।{% else %}Instruments designed by HICS are deployed across hundreds of Nepali schools and replicated by institutions in other countries.{% endif %}</div>
         </div>
         <div class="vision-item">
           <div class="vision-item__icon">🏔</div>
-          <div class="vision-item__text">Nepali researchers who might have left to do science abroad choose instead to stay, build, and publish here.</div>
+          <div class="vision-item__text">{% if request.LANGUAGE_CODE == 'ne' %}विज्ञान गर्न विदेशिन सक्ने नेपाली अनुसन्धानकर्ताहरूले त्यसको साटो यहीँ बसेर निर्माण गर्न र अनुसन्धान प्रकाशन गर्न रोज्नेछन्।{% else %}Nepali researchers who might have left to do science abroad choose instead to stay, build, and publish here.{% endif %}</div>
         </div>
         <div class="vision-item">
           <div class="vision-item__icon">🌐</div>
-          <div class="vision-item__text">The model HICS demonstrates — contextual, open, integrated — is adopted by similar institutions in the Andes, East Africa, and Central Asia.</div>
+          <div class="vision-item__text">{% if request.LANGUAGE_CODE == 'ne' %}HICS ले प्रस्तुत गर्ने मोडल — सान्दर्भिक, खुला, र एकीकृत — एन्डिज, पूर्वी अफ्रिका, र मध्य एसियाका समान संस्थाहरूले अपनाउनेछन्।{% else %}The model HICS demonstrates — contextual, open, integrated — is adopted by similar institutions in the Andes, East Africa, and Central Asia.{% endif %}</div>
         </div>
       </div>
     </div>
@@ -89,47 +127,47 @@
   <!-- FOUR DOMAINS — compact card grid -->
   <section class="section-alt">
     <div class="container">
-      <div class="section__label">Four domains of work</div>
-      <p class="text-muted mt-4">HICS works across four domains that are deliberately not separated. The same person works across them. The same instrument serves them all.</p>
+      <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}कार्यका चार क्षेत्रहरू{% else %}Four domains of work{% endif %}</div>
+      <p class="text-muted mt-4">{% if request.LANGUAGE_CODE == 'ne' %}HICS ले चारवटा क्षेत्रहरूमा काम गर्दछ जसलाई जानाजानी अलग गरिएको छैन। एउटै व्यक्तिले यी सबै क्षेत्रहरूमा काम गर्दछ। एउटै उपकरणले यी सबैलाई सेवा दिन्छ।{% else %}HICS works across four domains that are deliberately not separated. The same person works across them. The same instrument serves them all.{% endif %}</p>
 
       <div class="domain-grid mt-6">
-        <a href="/research/" class="domain-card">
+        <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/" class="domain-card">
           <div class="domain-card__letter">A</div>
           <div class="domain-card__content">
-            <div class="domain-card__title">Research</div>
-            <div class="domain-card__sub">Original science, openly published</div>
-            <div class="domain-card__body">Cosmic ray physics, atmospheric science, meteor astronomy, seismology, building physics, glaciology, traditional knowledge, computational science.</div>
-            <div class="domain-card__count">8 programmes →</div>
+            <div class="domain-card__title">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %}</div>
+            <div class="domain-card__sub">{% if request.LANGUAGE_CODE == 'ne' %}मौलिक विज्ञान, खुला रूपमा प्रकाशित{% else %}Original science, openly published{% endif %}</div>
+            <div class="domain-card__body">{% if request.LANGUAGE_CODE == 'ne' %}कस्मिक रे भौतिकशास्त्र, वायुमण्डलीय विज्ञान, उल्का खगोल विज्ञान, भूकम्प विज्ञान, भवन भौतिकशास्त्र, हिमताल विज्ञान, परम्परागत ज्ञान, कम्प्युटेसनल विज्ञान।{% else %}Cosmic ray physics, atmospheric science, meteor astronomy, seismology, building physics, glaciology, traditional knowledge, computational science.{% endif %}</div>
+            <div class="domain-card__count">{% if request.LANGUAGE_CODE == 'ne' %}८ कार्यक्रमहरू{% else %}8 programmes{% endif %} →</div>
           </div>
         </a>
 
-        <a href="/instruments/" class="domain-card">
+        <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" class="domain-card">
           <div class="domain-card__letter">B</div>
           <div class="domain-card__content">
-            <div class="domain-card__title">Instrumentation</div>
-            <div class="domain-card__sub">Open-source hardware built for Nepal</div>
-            <div class="domain-card__body">IESH environmental hub, muon detector, meteor camera, SDR station, planetarium, seismometer — all open-source.</div>
-            <div class="domain-card__count">6 instruments →</div>
+            <div class="domain-card__title">{% if request.LANGUAGE_CODE == 'ne' %}उपकरण निर्माण{% else %}Instrumentation{% endif %}</div>
+            <div class="domain-card__sub">{% if request.LANGUAGE_CODE == 'ne' %}नेपालका लागि निर्मित खुला-स्रोत हार्डवेयर{% else %}Open-source hardware built for Nepal{% endif %}</div>
+            <div class="domain-card__body">{% if request.LANGUAGE_CODE == 'ne' %}IESH वातावरणीय हब, म्योन (muon) डिटेक्टर, उल्का क्यामेरा, SDR स्टेसन, प्लानेटेरियम, सिस्मोमिटर — सबै खुला-स्रोत।{% else %}IESH environmental hub, muon detector, meteor camera, SDR station, planetarium, seismometer — all open-source.{% endif %}</div>
+            <div class="domain-card__count">{% if request.LANGUAGE_CODE == 'ne' %}६ उपकरणहरू{% else %}6 instruments{% endif %} →</div>
           </div>
         </a>
 
-        <a href="/education/" class="domain-card">
+        <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/" class="domain-card">
           <div class="domain-card__letter">C</div>
           <div class="domain-card__content">
-            <div class="domain-card__title">Education</div>
-            <div class="domain-card__sub">Grade 5 to graduate level</div>
-            <div class="domain-card__body">School residencies, research fellowships, science camp, teacher development, computing courses, public programme.</div>
-            <div class="domain-card__count">6 programmes →</div>
+            <div class="domain-card__title">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %}</div>
+            <div class="domain-card__sub">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ५ देखि स्नातकोत्तर तहसम्म{% else %}Grade 5 to graduate level{% endif %}</div>
+            <div class="domain-card__body">{% if request.LANGUAGE_CODE == 'ne' %}विद्यालय आवासीय कार्यक्रम, अनुसन्धान फेलोसिप, विज्ञान शिविर, शिक्षक विकास, कम्प्युटिङ कोर्सहरू, सार्वजनिक कार्यक्रम।{% else %}School residencies, research fellowships, science camp, teacher development, computing courses, public programme.{% endif %}</div>
+            <div class="domain-card__count">{% if request.LANGUAGE_CODE == 'ne' %}६ कार्यक्रमहरू{% else %}6 programmes{% endif %} →</div>
           </div>
         </a>
 
-        <a href="/data/" class="domain-card">
+        <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" class="domain-card">
           <div class="domain-card__letter">D</div>
           <div class="domain-card__content">
-            <div class="domain-card__title">Open Knowledge</div>
-            <div class="domain-card__sub">Science for everyone</div>
-            <div class="domain-card__body">Live dashboards, open datasets, API access, open-source designs, offline-first platforms, policy engagement.</div>
-            <div class="domain-card__count">Open data →</div>
+            <div class="domain-card__title">{% if request.LANGUAGE_CODE == 'ne' %}खुला ज्ञान{% else %}Open Knowledge{% endif %}</div>
+            <div class="domain-card__sub">{% if request.LANGUAGE_CODE == 'ne' %}सबैका लागि विज्ञान{% else %}Science for everyone{% endif %}</div>
+            <div class="domain-card__body">{% if request.LANGUAGE_CODE == 'ne' %}लाइभ ड्यासबोर्डहरू, खुला तथ्याङ्क सेटहरू, API पहुँच, खुला-स्रोत डिजाइनहरू, अफलाइन-पहिलो प्लेटफर्महरू, नीतिगत संलग्नता।{% else %}Live dashboards, open datasets, API access, open-source designs, offline-first platforms, policy engagement.{% endif %}</div>
+            <div class="domain-card__count">{% if request.LANGUAGE_CODE == 'ne' %}खुला तथ्याङ्क{% else %}Open data{% endif %} →</div>
           </div>
         </a>
       </div>
@@ -138,31 +176,31 @@
 
   <!-- HOW WE WORK -->
   <section class="section">
-    <div class="section__label">How we work</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}हामी कसरी काम गर्छौं{% else %}How we work{% endif %}</div>
     <div class="principles-grid mt-5">
       <div class="principle">
-        <div class="principle__label">Contextual</div>
-        <div class="principle__text">Science done here is about here. Nepal's altitude gradient, atmosphere, communities, and traditional knowledge are the subject — not constraints on imported agendas.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}सान्दर्भिक{% else %}Contextual{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}यहाँ गरिने विज्ञान यहाँकै बारेमा हुनुपर्छ। नेपालको भौगोलिक उचाइ, वायुमण्डल, समुदायहरू, र परम्परागत ज्ञान नै हाम्रो मुख्य विषय हुन् — आयातित एजेन्डाहरूमा सीमित छैन।{% else %}Science done here is about here. Nepal's altitude gradient, atmosphere, communities, and traditional knowledge are the subject — not constraints on imported agendas.{% endif %}</div>
       </div>
       <div class="principle">
-        <div class="principle__label">Open</div>
-        <div class="principle__text">All data published openly. All instrument designs open-source. All learning materials free. Openness is the fastest path to credibility and impact.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}खुला{% else %}Open{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}सबै तथ्याङ्क खुला रूपमा प्रकाशित गरिन्छ। सबै उपकरणका डिजाइनहरू खुला-स्रोत छन्। सबै सिकाइ सामग्रीहरू निःशुल्क छन्। खुलापन नै विश्वसनीयता र प्रभावको सबैभन्दा छिटो बाटो हो।{% else %}All data published openly. All instrument designs open-source. All learning materials free. Openness is the fastest path to credibility and impact.{% endif %}</div>
       </div>
       <div class="principle">
-        <div class="principle__label">Integrated</div>
-        <div class="principle__text">Research and education are not separate departments. The same instruments serve a researcher, a teacher, and a student in the same afternoon.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}एकीकृत{% else %}Integrated{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान र शिक्षा छुट्टाछुट्टै विभागहरू होइनन्। एउटै उपकरणले एकै दिउँसो अनुसन्धानकर्ता, शिक्षक, र विद्यार्थीलाई सेवा दिन्छ।{% else %}Research and education are not separate departments. The same instruments serve a researcher, a teacher, and a student in the same afternoon.{% endif %}</div>
       </div>
       <div class="principle">
-        <div class="principle__label">Rigorous</div>
-        <div class="principle__text">Accessibility does not mean compromised standards. Peer-reviewed methodology and honest uncertainty quantification are non-negotiable.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}कठोर (Rigorous){% else %}Rigorous{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}पहुँचयोग्य हुनुको अर्थ मापदण्डमा सम्झौता गर्नु होइन। पियर-रिभ्यु (Peer-reviewed) विधि र इमानदार अनिश्चितता परिमाणीकरण (uncertainty quantification) सम्झौताविहीन सर्त हुन्।{% else %}Accessibility does not mean compromised standards. Peer-reviewed methodology and honest uncertainty quantification are non-negotiable.{% endif %}</div>
       </div>
       <div class="principle">
-        <div class="principle__label">Embedded</div>
-        <div class="principle__text">Instruments that keep generating data, relationships that outlast funding cycles, fellows who return, datasets that grow. The long game is the only game.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}समर्पित{% else %}Embedded{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}उपकरणहरू जसले तथ्याङ्क उत्पादन गरिरहन्छन्, सम्बन्धहरू जुन फन्डिङ चक्रभन्दा लामो टिक्छन्, फेलोहरू जो फर्केर आउँछन्, र डाटासेटहरू जुन बढ्दै जान्छन्। दीर्घकालीन सोच नै हाम्रो एक मात्र बाटो हो।{% else %}Instruments that keep generating data, relationships that outlast funding cycles, fellows who return, datasets that grow. The long game is the only game.{% endif %}</div>
       </div>
       <div class="principle">
-        <div class="principle__label">Patient</div>
-        <div class="principle__text">Good institutions take time. HICS measures success in decades, not quarters.</div>
+        <div class="principle__label">{% if request.LANGUAGE_CODE == 'ne' %}धैर्यवान{% else %}Patient{% endif %}</div>
+        <div class="principle__text">{% if request.LANGUAGE_CODE == 'ne' %}राम्रा संस्थाहरू बन्न समय लाग्छ। HICS ले सफलतालाई त्रैमासिकमा होइन, दशकहरूमा मापन गर्दछ।{% else %}Good institutions take time. HICS measures success in decades, not quarters.{% endif %}</div>
       </div>
     </div>
   </section>
@@ -170,15 +208,25 @@
   <!-- WHO BUILDS THIS -->
   <section class="section-alt">
     <div class="container">
-      <div class="section__label">Who builds this</div>
+      <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}यसलाई कसले निर्माण गर्दैछ{% else %}Who builds this{% endif %}</div>
       <div class="two-col mt-5">
         <div>
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          <p class="text-muted">HICS वैज्ञानिकहरू, इन्जिनियरहरू, र शिक्षकहरूको एउटा सानो टोलीद्वारा निर्माण गरिएको हो जसको पृष्ठभूमि डार्क म्याटर (dark matter) फेनोमेनोलोजी, उल्का रडार प्रणाली, वायुमण्डलीय विज्ञान, प्यासिभ सोलार वास्तुकला, र शैक्षिक प्रविधिमा रहेको छ।</p>
+          <p class="text-muted mt-4">यसको संस्थापक टोलीले पियर-रिभ्युड भौतिकशास्त्र अनुसन्धान, नेपालका उच्च हिमाली क्षेत्रहरूमा सात वर्षको समर्पित सामुदायिक कार्य, र राष्ट्रिय स्तरमा शिक्षा कार्यक्रम सञ्चालनको अनुभवलाई जोडेको छ।</p>
+          {% else %}
           <p class="text-muted">HICS is built by a small team of scientists, engineers, and educators with research backgrounds in dark matter phenomenology, meteor radar systems, atmospheric science, passive solar architecture, and educational technology.</p>
           <p class="text-muted mt-4">The founding team combines peer-reviewed physics research, seven years of embedded community work in Nepal's high-altitude regions, and national-scale education programme delivery.</p>
+          {% endif %}
         </div>
         <div>
+          {% if request.LANGUAGE_CODE == 'ne' %}
+          <p class="text-muted">HICS लाई अरूलाई सामेल हुनका लागि डिजाइन गरिएको हो — अनुसन्धान साझेदार, सह-निर्देशक, फेलो, र शिक्षकका रूपमा। यो संस्था जानाजानी कुनै पनि व्यक्तिभन्दा लामो समयसम्म टिक्न र धेरै मानिसहरूले आफ्नै वैज्ञानिक प्रश्नहरू ल्याउँदै गर्दा निरन्तर बढ्न सक्ने गरी संरचना गरिएको छ।</p>
+          <p class="mt-5"><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/" style="font-size:0.875rem;">→ हामीसँग जोडिनुहोस् वा सहकार्य गर्नुहोस्</a></p>
+          {% else %}
           <p class="text-muted">HICS is designed for others to join — as research partners, co-directors, fellows, and educators. The institution is deliberately structured to outlast any individual and to grow as more people bring their own scientific questions to it.</p>
           <p class="mt-5"><a href="/contact/" style="font-size:0.875rem;">→ Join us or collaborate</a></p>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -186,8 +234,8 @@
 
   <!-- NETWORKS -->
   <section class="section">
-    <div class="section__label">International scientific networks</div>
-    <p class="text-muted mt-4">Nepal's scientific output, legible to the international community from day one:</p>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}अन्तर्राष्ट्रिय वैज्ञानिक सञ्जालहरू{% else %}International scientific networks{% endif %}</div>
+    <p class="text-muted mt-4">{% if request.LANGUAGE_CODE == 'ne' %}नेपालको वैज्ञानिक उत्पादन, जुन पहिलो दिनदेखि नै अन्तर्राष्ट्रिय समुदायका लागि पठनीय छ:{% else %}Nepal's scientific output, legible to the international community from day one:{% endif %}</p>
     <div class="network-tags mt-5">
       <span class="network-tag network-tag--active">Global Meteor Network</span>
       <span class="network-tag network-tag--active">Raspberry Shake Seismic</span>
@@ -202,30 +250,30 @@
   <!-- PARTNERS -->
   <section class="section-alt">
     <div class="container">
-      <div class="section__label">Partners &amp; collaborators</div>
+      <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}साझेदार र सहयोगीहरू{% else %}Partners &amp; collaborators{% endif %}</div>
       <div class="partner-grid mt-5">
         <div class="partner-item">
           <div class="partner-item__name">Crystal Mountain School</div>
-          <div class="partner-item__location">Dho Tarap, Dolpo · 3,900m</div>
-          <div class="partner-item__text">Co-designed passive solar construction and thermal monitoring at 4,000m. Ongoing partnership since 2018 — the foundation of HICS's building physics programme.</div>
+          <div class="partner-item__location">{% if request.LANGUAGE_CODE == 'ne' %}धो ताराप, डोल्पा · ३,९०० मिटर{% else %}Dho Tarap, Dolpo · 3,900m{% endif %}</div>
+          <div class="partner-item__text">{% if request.LANGUAGE_CODE == 'ne' %}४,००० मिटरको उचाइमा प्यासिभ सोलार निर्माण र थर्मल अनुगमनको सह-डिजाइन। सन् २०१८ देखिको निरन्तर साझेदारी — जुन HICS को भवन भौतिकशास्त्र कार्यक्रमको आधार हो।{% else %}Co-designed passive solar construction and thermal monitoring at 4,000m. Ongoing partnership since 2018 — the foundation of HICS's building physics programme.{% endif %}</div>
         </div>
         <div class="partner-item">
-          <div class="partner-item__name">Nepal Academy of Science and Technology</div>
+          <div class="partner-item__name">{% if request.LANGUAGE_CODE == 'ne' %}नेपाल विज्ञान तथा प्रविधि प्रज्ञा-प्रतिष्ठान (NAST){% else %}Nepal Academy of Science and Technology{% endif %}</div>
           <div class="partner-item__location">NAST · Khumaltar, Lalitpur</div>
-          <div class="partner-item__text">Research grant partner for Nepal's first locally manufactured cosmic ray muon detector and altitude-gradient field campaign.</div>
+          <div class="partner-item__text">{% if request.LANGUAGE_CODE == 'ne' %}नेपालमै पहिलो पटक निर्माण गरिएको कस्मिक रे म्योन डिटेक्टर र उचाइमा आधारित क्षेत्रीय अनुसन्धान (field campaign) का लागि अनुसन्धान अनुदान साझेदार।{% else %}Research grant partner for Nepal's first locally manufactured cosmic ray muon detector and altitude-gradient field campaign.{% endif %}</div>
         </div>
         <div class="partner-item">
           <div class="partner-item__name">CosmicWatch / MIT</div>
-          <div class="partner-item__location">Open-source detector platform</div>
-          <div class="partner-item__text">HICS's muon detector builds on the CosmicWatch v3X open-source architecture developed at MIT, adapted for Himalayan environmental conditions.</div>
+          <div class="partner-item__location">{% if request.LANGUAGE_CODE == 'ne' %}खुला-स्रोत डिटेक्टर प्लेटफर्म{% else %}Open-source detector platform{% endif %}</div>
+          <div class="partner-item__text">{% if request.LANGUAGE_CODE == 'ne' %}HICS को म्योन डिटेक्टर MIT मा विकसित CosmicWatch v3X खुला-स्रोत वास्तुकलामा आधारित छ, जसलाई हिमालयन वातावरणीय अवस्थाहरूको लागि अनुकूलित गरिएको छ।{% else %}HICS's muon detector builds on the CosmicWatch v3X open-source architecture developed at MIT, adapted for Himalayan environmental conditions.{% endif %}</div>
         </div>
         <div class="partner-item">
           <div class="partner-item__name">Vision Dolpo</div>
           <div class="partner-item__location">Dolpo, Nepal</div>
-          <div class="partner-item__text">Institutional partner supporting embedded community work and education programmes in the Dolpo region since 2017.</div>
+          <div class="partner-item__text">{% if request.LANGUAGE_CODE == 'ne' %}सन् २०१७ देखि डोल्पा क्षेत्रमा सामुदायिक कार्य र शैक्षिक कार्यक्रमहरूलाई समर्थन गर्ने संस्थागत साझेदार।{% else %}Institutional partner supporting embedded community work and education programmes in the Dolpo region since 2017.{% endif %}</div>
         </div>
       </div>
-      <p class="text-muted mt-5" style="font-size:0.875rem;">HICS actively seeks new research, education, and instrumentation partners. <a href="/contact/">Get in touch</a>.</p>
+      <p class="text-muted mt-5" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}HICS ले सक्रिय रूपमा नयाँ अनुसन्धान, शिक्षा, र उपकरण साझेदारहरू खोजिरहेको छ। <a href="/ne/contact/">हामीलाई सम्पर्क गर्नुहोस्</a>।{% else %}HICS actively seeks new research, education, and instrumentation partners. <a href="/contact/">Get in touch</a>.{% endif %}</p>
     </div>
   </section>
 
@@ -238,10 +286,15 @@
 
   <!-- REGISTRATION -->
   <section class="section" style="padding-bottom:var(--s7);">
-    <div class="section__label">Registration</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}दर्ता विवरण{% else %}Registration{% endif %}</div>
     <p class="text-mono text-muted" style="font-size:0.8125rem;line-height:1.8;">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेस प्रा. लि.<br>
+      नेपालमा दर्ता · कम्पनी ऐन २०६३ (२००६)
+      {% else %}
       Himalayan Institute For Contextual Sciences Pvt. Ltd.<br>
       Registered Nepal · Companies Act 2063 (2006)
+      {% endif %}
     </p>
     <p class="mt-4"><a href="mailto:info@himalayansciences.org" class="text-mono" style="font-size:0.875rem;">info@himalayansciences.org</a></p>
   </section>
