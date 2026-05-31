@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
 
 {% block title %}About — HICS{% endblock %}
 {% block description %}About the Himalayan Institute for Contextual Sciences — who we are, what we do, and why.{% endblock %}
@@ -9,10 +9,14 @@
 
   <!-- WHO WE ARE -->
   <section class="hero">
-    <div class="section__label">Who we are</div>
-    <h1>Himalayan Institute<br>for Contextual Sciences</h1>
+    <div class="section__label">{% translate "Who we are" %}</div>
+    <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">
-      <p>An independent research, instrumentation, and learning institution based in Nepal, operating across one of the world's most dramatic altitude gradients.</p>
+      {% if page.intro %}
+        {{ page.intro|richtext }}
+      {% else %}
+        <p>An independent research, instrumentation, and learning institution based in Nepal, operating across one of the world's most dramatic altitude gradients.</p>
+      {% endif %}
     </div>
   </section>
 

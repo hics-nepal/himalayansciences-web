@@ -199,6 +199,38 @@ blockquote {
   color: var(--text);
 }
 
+.nav-lang-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  margin-left: var(--s3);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+.lang-btn {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+  cursor: pointer;
+}
+a.lang-btn:hover {
+  color: var(--text);
+}
+span.lang-btn.active {
+  color: var(--accent);
+  font-weight: bold;
+  cursor: default;
+}
+.lang-sep {
+  color: var(--border);
+  user-select: none;
+}
+
 /* Live station widget in header */
 .station-live {
   font-family: var(--font-mono);

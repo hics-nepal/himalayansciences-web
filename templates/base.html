@@ -53,6 +53,28 @@
           <li><a href="/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% translate "Education" %}</a></li>
           <li><a href="/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% translate "Lab Notes" %}</a></li>
           <li><a href="/contact/" {% if request.path == '/contact/' %}class="active"{% endif %}>{% translate "Contact" %}</a></li>
+          
+          <li class="nav-lang-item">
+            {% if page %}
+              {% if page.locale.language_code == 'en' %}
+                <span class="lang-btn active">EN</span>
+                <span class="lang-sep">/</span>
+                {% for translation in page.get_translations %}
+                  <a href="{{ translation.url }}" class="lang-btn">नेपाली</a>
+                {% endfor %}
+              {% else %}
+                {% for translation in page.get_translations %}
+                  <a href="{{ translation.url }}" class="lang-btn">EN</a>
+                {% endfor %}
+                <span class="lang-sep">/</span>
+                <span class="lang-btn active">नेपाली</span>
+              {% endif %}
+            {% else %}
+              <a href="/" class="lang-btn active">EN</a>
+              <span class="lang-sep">/</span>
+              <a href="/ne/" class="lang-btn">नेपाली</a>
+            {% endif %}
+          </li>
         </ul>
       </nav>
 

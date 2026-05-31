@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags i18n %}
 
 {% block title %}Contact — HICS{% endblock %}
 {% block description %}Contact HICS — research collaboration, fellowships, school partnerships, and general enquiries.{% endblock %}
@@ -7,8 +7,8 @@
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Contact</div>
-    <h1>Get in touch</h1>
+    <div class="section__label">{% translate "Contact" %}</div>
+    <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">
       {{ page.intro|richtext }}
     </div>
@@ -79,60 +79,60 @@
         <form method="POST" action="#direct-message" class="contact-form mt-5">
           {% csrf_token %}
           
-          {% if success %}
-            <div class="form-success-card">
-              <div class="form-success-card__icon">
-                <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--green)" stroke-width="2">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
+            {% if success %}
+              <div class="form-success-card">
+                <div class="form-success-card__icon">
+                  <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--green)" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </div>
+                <h3 class="mt-4">{% translate "Message Sent" %}</h3>
+                <p class="text-muted mt-3" style="line-height:1.6;">{{ page.success_message }}</p>
               </div>
-              <h3 class="mt-4">Message Sent</h3>
-              <p class="text-muted mt-3" style="line-height:1.6;">{{ page.success_message }}</p>
-            </div>
-          {% else %}
-            {% if errors %}
-              <div class="form-error-alert mb-5">
-                {{ errors }}
+            {% else %}
+              {% if errors %}
+                <div class="form-error-alert mb-5">
+                  {{ errors }}
+                </div>
+              {% endif %}
+
+              <div class="form-group">
+                <label for="id_name">{% translate "Name" %} <span class="text-accent">*</span></label>
+                <input type="text" id="id_name" name="name" required value="{{ form_data.name }}" placeholder="{% translate 'Your full name' %}">
               </div>
+
+              <div class="form-group">
+                <label for="id_email">{% translate "Email Address" %} <span class="text-accent">*</span></label>
+                <input type="email" id="id_email" name="email" required value="{{ form_data.email }}" placeholder="you@example.com">
+              </div>
+
+              <div class="form-group">
+                <label for="id_category">{% translate "Category" %}</label>
+                <div class="select-wrapper">
+                  <select id="id_category" name="category">
+                    <option value="Research" {% if form_data.category == 'Research' %}selected{% endif %}>{% translate "Research Collaboration" %}</option>
+                    <option value="Fellowship" {% if form_data.category == 'Fellowship' %}selected{% endif %}>{% translate "Fellowships & Positions" %}</option>
+                    <option value="Education" {% if form_data.category == 'Education' %}selected{% endif %}>{% translate "School Partnerships" %}</option>
+                    <option value="General" {% if form_data.category == 'General' or not form_data.category %}selected{% endif %}>{% translate "General Enquiry" %}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="id_subject">{% translate "Subject" %}</label>
+                <input type="text" id="id_subject" name="subject" value="{{ form_data.subject }}" placeholder="{% translate 'What is this regarding?' %}">
+              </div>
+
+              <div class="form-group">
+                <label for="id_message">{% translate "Message" %} <span class="text-accent">*</span></label>
+                <textarea id="id_message" name="message" required rows="6" placeholder="{% translate 'Describe how we can work together... (Min. 10 chars)' %}">{{ form_data.message }}</textarea>
+              </div>
+
+              <button type="submit" class="btn-submit">
+                <span>{% translate "Send Message" %}</span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
             {% endif %}
-
-            <div class="form-group">
-              <label for="id_name">Name <span class="text-accent">*</span></label>
-              <input type="text" id="id_name" name="name" required value="{{ form_data.name }}" placeholder="Your full name">
-            </div>
-
-            <div class="form-group">
-              <label for="id_email">Email Address <span class="text-accent">*</span></label>
-              <input type="email" id="id_email" name="email" required value="{{ form_data.email }}" placeholder="you@example.com">
-            </div>
-
-            <div class="form-group">
-              <label for="id_category">Category</label>
-              <div class="select-wrapper">
-                <select id="id_category" name="category">
-                  <option value="Research" {% if form_data.category == 'Research' %}selected{% endif %}>Research Collaboration</option>
-                  <option value="Fellowship" {% if form_data.category == 'Fellowship' %}selected{% endif %}>Fellowships &amp; Positions</option>
-                  <option value="Education" {% if form_data.category == 'Education' %}selected{% endif %}>School Partnerships</option>
-                  <option value="General" {% if form_data.category == 'General' or not form_data.category %}selected{% endif %}>General Enquiry</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="id_subject">Subject</label>
-              <input type="text" id="id_subject" name="subject" value="{{ form_data.subject }}" placeholder="What is this regarding?">
-            </div>
-
-            <div class="form-group">
-              <label for="id_message">Message <span class="text-accent">*</span></label>
-              <textarea id="id_message" name="message" required rows="6" placeholder="Describe how we can work together... (Min. 10 chars)">{{ form_data.message }}</textarea>
-            </div>
-
-            <button type="submit" class="btn-submit">
-              <span>Send Message</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </button>
-          {% endif %}
         </form>
       </div>
 

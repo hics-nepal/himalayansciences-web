@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags wagtailimages_tags %}
+{% load static wagtailcore_tags wagtailimages_tags i18n %}
 
 {% block title %}Himalayan Institute for Contextual Sciences — HICS{% endblock %}
 {% block description %}HICS — an independent research, instrumentation, and learning institution in Nepal. Contextual science. Open data. Real-world learning.{% endblock %}
@@ -13,15 +13,15 @@
 <div class="container">
   <!-- Section 1 — Hero -->
   <section class="hero">
-    <div class="hero__title">Himalayan Institute for<br>Contextual Sciences</div>
-    <div class="hero__tagline">Contextual Science. &nbsp;Open Data. &nbsp;Real-World Learning.</div>
+    <div class="hero__title">{{ page.title|safe }}</div>
+    <div class="hero__tagline">{{ page.tagline|default:"Contextual Science. &nbsp;Open Data. &nbsp;Real-World Learning."|safe }}</div>
     <div class="hero__mission">
-      An independent research, instrumentation, and learning institution in Nepal. We build instruments, collect data, and do science that is about here — the atmosphere above these valleys and mountains, the ground beneath these active zones, the communities living across all altitudes.
+      {{ page.mission|default:"An independent research, instrumentation, and learning institution in Nepal. We build instruments, collect data, and do science that is about here — the atmosphere above these valleys and mountains, the ground beneath these active zones, the communities living across all altitudes."|safe }}
     </div>
     <div class="hero__links">
-      <a href="/about/">→ About HICS</a>
-      <a href="/instruments/">→ Instruments</a>
-      <a href="/data/">→ Open Data</a>
+      <a href="/about/">{% translate "→ About HICS" %}</a>
+      <a href="/instruments/">{% translate "→ Instruments" %}</a>
+      <a href="/data/">{% translate "→ Open Data" %}</a>
     </div>
   </section>
 
