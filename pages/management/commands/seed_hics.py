@@ -1,5 +1,6 @@
 import os
 from django.core.management.base import BaseCommand
+from django.db import connection
 from django.utils import timezone
 from wagtail.models import Page, Site, Locale
 from pages.models import (
@@ -15,6 +16,30 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("Starting HICS database seeding...")
+
+        # 0. Automatically convert database and tables to utf8mb4 if using MySQL
+        if connection.vendor == 'mysql':
+            try:
+                self.stdout.write("Checking and converting MySQL database and tables to utf8mb4...")
+                db_name = connection.settings_dict['NAME']
+                with connection.cursor() as cursor:
+                    # Convert database charset and collation to support devanagari unicode characters
+                    cursor.execute(f"ALTER DATABASE `{db_name}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;")
+                    
+                    # Fetch all tables
+                    cursor.execute("SHOW TABLES;")
+                    tables = [row[0] for row in cursor.fetchall()]
+                    
+                    # Convert each table
+                    for table in tables:
+                        try:
+                            cursor.execute(f"ALTER TABLE `{table}` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;")
+                        except Exception as table_err:
+                            self.stdout.write(self.style.WARNING(f"Could not convert table {table}: {table_err}"))
+                            
+                self.stdout.write(self.style.SUCCESS("Database and tables successfully converted to utf8mb4 unicode!"))
+            except Exception as db_err:
+                self.stdout.write(self.style.WARNING(f"Database unicode conversion skipped/failed: {db_err}"))
 
         # 1. Get or Create the custom HomePage under the Wagtail Root node
         try:
@@ -266,14 +291,15 @@ class Command(BaseCommand):
             ne_home = HomePage.objects.filter(locale=ne_locale).first()
             if ne_home:
                 # Safeguard: Only update if the content has not been customized by the user in the Wagtail Admin
+                # (Or if it was corrupted to literal question marks '?' due to an unconfigured latin1 database charset)
                 modified = False
-                if ne_home.title == "Himalayan Institute for Contextual Sciences" or not ne_home.title:
+                if ne_home.title == "Himalayan Institute for Contextual Sciences" or not ne_home.title or "?" in str(ne_home.title):
                     ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
                     modified = True
-                if ne_home.tagline == "Contextual Science. Open Data. Real-World Learning." or not ne_home.tagline:
+                if ne_home.tagline == "Contextual Science. Open Data. Real-World Learning." or not ne_home.tagline or "?" in str(ne_home.tagline):
                     ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। व्यावहारिक सिकाइ।"
                     modified = True
-                if "HICS is an independent research" in ne_home.mission or not ne_home.mission:
+                if "HICS is an independent research" in ne_home.mission or not ne_home.mission or "?" in str(ne_home.mission):
                     ne_home.mission = "नेपालमा आधारित एक स्वतन्त्र अनुसन्धान, उपकरण जडान, र सिकाइ संस्था। हामी उपकरणहरू निर्माण गर्छौं, तथ्याङ्क सङ्कलन गर्छौं, र यहाँकै बारेमा विज्ञान गर्छौं — हाम्रा हिमाल माथिको वायुमण्डल, हाम्रा सहरहरू मुनिको जमिन, र उच्च स्थानमा बसोबास गर्ने समुदायहरू।"
                     modified = True
                 
@@ -286,10 +312,10 @@ class Command(BaseCommand):
             ne_about = AboutPage.objects.filter(locale=ne_locale).first()
             if ne_about:
                 modified = False
-                if ne_about.title == "About Us" or ne_about.title == "About" or not ne_about.title:
+                if ne_about.title == "About Us" or ne_about.title == "About" or not ne_about.title or "?" in str(ne_about.title):
                     ne_about.title = "हाम्रो बारेमा"
                     modified = True
-                if "Welcome to HICS" in str(ne_about.intro) or not ne_about.intro:
+                if "Welcome to HICS" in str(ne_about.intro) or not ne_about.intro or "?" in str(ne_about.intro):
                     ne_about.intro = "<p>हामी नेपालको अद्वितीय उचाइ र भौगोलिक विविधतामा सान्दर्भिक अनुसन्धान र खुला उपकरणहरू विकास गर्छौं।</p>"
                     modified = True
                 
@@ -302,13 +328,13 @@ class Command(BaseCommand):
             ne_contact = ContactPage.objects.filter(locale=ne_locale).first()
             if ne_contact:
                 modified = False
-                if ne_contact.title == "Contact" or not ne_contact.title:
+                if ne_contact.title == "Contact" or not ne_contact.title or "?" in str(ne_contact.title):
                     ne_contact.title = "सम्पर्क"
                     modified = True
-                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or not ne_contact.intro:
+                if "Get in touch" in str(ne_contact.intro) or "research partnerships" in str(ne_contact.intro) or not ne_contact.intro or "?" in str(ne_contact.intro):
                     ne_contact.intro = "<p>अनुसन्धान साझेदारी, खुला तथ्याङ्क, वा उपकरण निर्माणको बारेमा हामीसँग सम्पर्क गर्नुहोस्।</p>"
                     modified = True
-                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or not ne_contact.success_message:
+                if ne_contact.success_message == "Thank you for your message. We will get in touch shortly." or not ne_contact.success_message or "?" in str(ne_contact.success_message):
                     ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ। हामी छिट्टै सम्पर्क गर्नेछौं।"
                     modified = True
                 
