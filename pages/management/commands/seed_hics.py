@@ -345,6 +345,72 @@ class Command(BaseCommand):
                 else:
                     self.stdout.write("Nepali ContactPage was modified in Wagtail Admin. Preserving your edits.")
 
+            # 5. Populate default translations for remaining index pages in Nepali locale
+            ne_research = ResearchIndexPage.objects.filter(locale=ne_locale).first()
+            if ne_research:
+                modified = False
+                if ne_research.title == "Research" or not ne_research.title or "?" in str(ne_research.title):
+                    ne_research.title = "अनुसन्धान"
+                    modified = True
+                if "altitude-gradient scientific research" in str(ne_research.intro) or not ne_research.intro or "?" in str(ne_research.intro):
+                    ne_research.intro = "<p>HICS नेपालका विभिन्न हिमाली क्षेत्रहरूमा वातावरणीय उचाइका आधारमा वैज्ञानिक अनुसन्धान गर्दछ। हामी उप-उष्णकटिबन्धीय उपत्यकादेखि उच्च हिमशिखरहरूसम्मका वायुमण्डलीय, भूगर्भशास्त्रीय र जैविक तथ्याङ्कहरू सङ्कलन गर्छौं।</p>"
+                    modified = True
+                if modified:
+                    ne_research.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali ResearchIndexPage translation!"))
+
+            ne_instruments = InstrumentIndexPage.objects.filter(locale=ne_locale).first()
+            if ne_instruments:
+                modified = False
+                if ne_instruments.title == "Instruments" or not ne_instruments.title or "?" in str(ne_instruments.title):
+                    ne_instruments.title = "वैज्ञानिक उपकरणहरू"
+                    modified = True
+                if "telemetry and environmental monitoring" in str(ne_instruments.intro) or not ne_instruments.intro or "?" in str(ne_instruments.intro):
+                    ne_instruments.intro = "<p>HICS ले स्थानीय स्तरमै वातावरणीय र मौसम निगरानी सम्बन्धी वैज्ञानिक उपकरणहरूको डिजाइन तथा स्थापना गर्दछ। हाम्रा सक्रिय अनुसन्धान केन्द्रहरू र प्राविधिक विवरणहरू तल अन्वेषण गर्नुहोस्।</p>"
+                    modified = True
+                if modified:
+                    ne_instruments.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali InstrumentIndexPage translation!"))
+
+            ne_data = DataPage.objects.filter(locale=ne_locale).first()
+            if ne_data:
+                modified = False
+                if ne_data.title == "Open Data" or not ne_data.title or "?" in str(ne_data.title):
+                    ne_data.title = "खुला तथ्याङ्क"
+                    modified = True
+                if "HICS believes in open science" in str(ne_data.intro) or not ne_data.intro or "?" in str(ne_data.intro):
+                    ne_data.intro = "<p>HICS खुला विज्ञानमा विश्वास गर्दछ। हामी हाम्रा सबै अनुसन्धान केन्द्रहरूबाट प्राप्त वायुमण्डलीय तथा वातावरणीय तथ्याङ्कहरू सार्वजनिक रूपमा उपलब्ध गराउँछौं।</p>"
+                    modified = True
+                if modified:
+                    ne_data.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali DataPage translation!"))
+
+            ne_education = EducationIndexPage.objects.filter(locale=ne_locale).first()
+            if ne_education:
+                modified = False
+                if ne_education.title == "Education" or not ne_education.title or "?" in str(ne_education.title):
+                    ne_education.title = "शैक्षिक कार्यक्रम"
+                    modified = True
+                if "experiential learning, hands-on science" in str(ne_education.intro) or not ne_education.intro or "?" in str(ne_education.intro):
+                    ne_education.intro = "<p>हामी नेपालका ग्रामीण तथा हिमाली क्षेत्रका युवा र शिक्षकहरूका लागि स्थलगत सिकाइ, व्यावहारिक विज्ञान र प्रविधि मैत्री शैक्षिक कार्यक्रमहरू सञ्चालन गर्छौं।</p>"
+                    modified = True
+                if modified:
+                    ne_education.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali EducationIndexPage translation!"))
+
+            ne_notes = LabNoteIndexPage.objects.filter(locale=ne_locale).first()
+            if ne_notes:
+                modified = False
+                if ne_notes.title == "Lab Notes" or not ne_notes.title or "?" in str(ne_notes.title):
+                    ne_notes.title = "प्रयोगशाला टिपोटहरू"
+                    modified = True
+                if "Read field experiences, technical updates" in str(ne_notes.intro) or not ne_notes.intro or "?" in str(ne_notes.intro):
+                    ne_notes.intro = "<p>हाम्रा वैज्ञानिक तथा अनुसन्धानकर्ताहरूका नवीनतम स्थलगत अनुभवहरू, प्राविधिक टिपोटहरू र प्रयोगशालाका नियमित गतिविधिहरू यहाँ पढ्नुहोस्।</p>"
+                    modified = True
+                if modified:
+                    ne_notes.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali LabNoteIndexPage translation!"))
+
         except Exception as sync_err:
             self.stdout.write(self.style.WARNING(f"Could not synchronize translated trees: {sync_err}"))
 

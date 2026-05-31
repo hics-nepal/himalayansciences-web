@@ -18,7 +18,7 @@
   <div class="container">
     <div class="site-header__inner">
 
-      <a href="/" class="site-logo" aria-label="HICS — Himalayan Institute for Contextual Sciences">
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/" class="site-logo" aria-label="HICS — Himalayan Institute for Contextual Sciences">
         <svg viewBox="0 0 200 115" height="36" aria-hidden="true" class="site-logo__mark">
           <!-- Mountain polygon -->
           <polygon
@@ -46,13 +46,13 @@
 
       <nav class="site-nav-desktop">
         <ul class="site-nav">
-          <li><a href="/about/" {% if request.path == '/about/' %}class="active"{% endif %}>{% translate "About" %}</a></li>
-          <li><a href="/research/" {% if '/research/' in request.path %}class="active"{% endif %}>{% translate "Research" %}</a></li>
-          <li><a href="/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>{% translate "Instruments" %}</a></li>
-          <li><a href="/data/" {% if request.path == '/data/' %}class="active"{% endif %}>{% translate "Open Data" %}</a></li>
-          <li><a href="/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% translate "Education" %}</a></li>
-          <li><a href="/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% translate "Lab Notes" %}</a></li>
-          <li><a href="/contact/" {% if request.path == '/contact/' %}class="active"{% endif %}>{% translate "Contact" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/" {% if '/about/' in request.path %}class="active"{% endif %}>{% translate "About" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/" {% if '/research/' in request.path %}class="active"{% endif %}>{% translate "Research" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" {% if '/instruments/' in request.path %}class="active"{% endif %}>{% translate "Instruments" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" {% if '/data/' in request.path %}class="active"{% endif %}>{% translate "Open Data" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/" {% if '/education/' in request.path %}class="active"{% endif %}>{% translate "Education" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/" {% if '/notes/' in request.path %}class="active"{% endif %}>{% translate "Lab Notes" %}</a></li>
+          <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/" {% if '/contact/' in request.path %}class="active"{% endif %}>{% translate "Contact" %}</a></li>
           
           <li class="nav-lang-item">
             {% if page %}
@@ -97,14 +97,14 @@
 <!-- Mobile navigation overlay -->
 <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
   <ul class="mobile-nav__list">
-    <li><a href="/">Home</a></li>
-    <li><a href="/about/">About</a></li>
-    <li><a href="/research/">Research</a></li>
-    <li><a href="/instruments/">Instruments</a></li>
-    <li><a href="/data/">Data</a></li>
-    <li><a href="/education/">Education</a></li>
-    <li><a href="/notes/">Lab Notes</a></li>
-    <li><a href="/contact/">Contact</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/">{% translate "Home" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% translate "About" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% translate "Research" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% translate "Instruments" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% translate "Open Data" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% translate "Education" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% translate "Lab Notes" %}</a></li>
+    <li><a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% translate "Contact" %}</a></li>
   </ul>
   <div class="mobile-nav__station" id="mobile-station">
     <div class="station-live">
@@ -139,13 +139,13 @@
       <div class="site-footer__nav-col">
         <div class="site-footer__nav-heading">{% translate "Site" %}</div>
         <div class="site-footer__nav-links">
-          <a href="/about/">{% translate "About" %}</a>
-          <a href="/research/">{% translate "Research" %}</a>
-          <a href="/instruments/">{% translate "Instruments" %}</a>
-          <a href="/data/">{% translate "Open Data" %}</a>
-          <a href="/education/">{% translate "Education" %}</a>
-          <a href="/notes/">{% translate "Lab Notes" %}</a>
-          <a href="/contact/">{% translate "Contact" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/about/">{% translate "About" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/research/">{% translate "Research" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/">{% translate "Instruments" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/">{% translate "Open Data" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/education/">{% translate "Education" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/notes/">{% translate "Lab Notes" %}</a>
+          <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/contact/">{% translate "Contact" %}</a>
         </div>
       </div>
 
