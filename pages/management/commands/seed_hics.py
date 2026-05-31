@@ -411,6 +411,129 @@ class Command(BaseCommand):
                     ne_notes.save_revision().publish()
                     self.stdout.write(self.style.SUCCESS("Populated default Nepali LabNoteIndexPage translation!"))
 
+            # 6. Populate default translations for Research Programmes in Nepali locale
+            ne_prog = ResearchProgrammePage.objects.filter(locale=ne_locale, slug="atmospheric-science").first()
+            if ne_prog:
+                modified = False
+                if ne_prog.title == "Atmospheric Science" or not ne_prog.title or "?" in str(ne_prog.title):
+                    ne_prog.title = "वायुमण्डलीय विज्ञान"
+                    modified = True
+                if "Monitoring atmospheric parameters" in str(ne_prog.summary) or not ne_prog.summary or "?" in str(ne_prog.summary):
+                    ne_prog.summary = "काठमाडौं उपत्यकाको वायुमण्डलीय सूचकहरू, सूक्ष्म कण (PM2.5), र हरितगृह ग्यासहरूको निरन्तर मापन तथा विश्लेषण।"
+                    modified = True
+                if modified:
+                    ne_prog.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Atmospheric Science translation!"))
+
+            # 7. Populate default translations for Instruments in Nepali locale
+            ne_inst = InstrumentPage.objects.filter(locale=ne_locale, slug="iesh-v0").first()
+            if ne_inst:
+                modified = False
+                if ne_inst.title == "IESH v0 Station" or not ne_inst.title or "?" in str(ne_inst.title):
+                    ne_inst.title = "IESH v0 मापन केन्द्र"
+                    modified = True
+                if "first integrated environmental sensing" in str(ne_inst.summary) or not ne_inst.summary or "?" in str(ne_inst.summary):
+                    ne_inst.summary = "हाम्रो पहिलो एकीकृत वातावरणीय मापन प्रणाली, जसलाई उच्च-विश्वसनीय वायु र मौसम सम्बन्धी तथ्याङ्क सङ्कलनका लागि डिजाइन गरिएको हो।"
+                    modified = True
+                if "Measures Temperature" in str(ne_inst.what_it_measures) or not ne_inst.what_it_measures or "?" in str(ne_inst.what_it_measures):
+                    ne_inst.what_it_measures = "<p>तापक्रम, आर्द्रता, वायुमण्डलीय चाप, सूक्ष्म धूलोका कणहरू (PM1.0, PM2.5, PM10), र कार्बनडाइअक्साइड (CO2) मापन गर्दछ।</p>"
+                    modified = True
+                if modified:
+                    ne_inst.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali IESH v0 Instrument translation!"))
+
+            # 8. Populate default translations for Education Programmes in Nepali locale
+            ne_residency = EducationProgrammePage.objects.filter(locale=ne_locale, slug="residency").first()
+            if ne_residency:
+                modified = False
+                if ne_residency.title == "School Science Residency Programme" or not ne_residency.title or "?" in str(ne_residency.title):
+                    ne_residency.title = "विद्यालय विज्ञान आवासीय कार्यक्रम"
+                    modified = True
+                if "Multi-day visits to schools" in str(ne_residency.summary) or not ne_residency.summary or "?" in str(ne_residency.summary):
+                    ne_residency.summary = "काठमाडौं बाहिरका विद्यालयहरूमा बहु-दिवसीय भ्रमण, जस अन्तर्गत तारा-मण्डल (प्लानेटेरियम) प्रदर्शन, वैज्ञानिक उपकरण निर्माण कार्यशाला, तथ्याङ्क विश्लेषण र शिक्षक तालिम समावेश छन्।"
+                    modified = True
+                if "primarily outside Kathmandu" in str(ne_residency.target_audience) or not ne_residency.target_audience or "?" in str(ne_residency.target_audience):
+                    ne_residency.target_audience = "काठमाडौं उपत्यका बाहिरका विद्यालयहरू"
+                    modified = True
+                if modified:
+                    ne_residency.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Residency Programme translation!"))
+
+            ne_fellowship = EducationProgrammePage.objects.filter(locale=ne_locale, slug="fellowship").first()
+            if ne_fellowship:
+                modified = False
+                if ne_fellowship.title == "Youth Research Fellowship" or not ne_fellowship.title or "?" in str(ne_fellowship.title):
+                    ne_fellowship.title = "युवा अनुसन्धान फेलोसिप"
+                    modified = True
+                if "Full-time 12" in str(ne_fellowship.summary) or not ne_fellowship.summary or "?" in str(ne_fellowship.summary):
+                    ne_fellowship.summary = "नेपाली वैज्ञानिक र इन्जिनियरहरूका लागि १२ देखि २४ महिनाको पूर्ण-कालीन अनुसन्धान अवसर। वास्तविक अनुसन्धान, सम्मानजनक वृत्ति (स्टाइपेन्ड), र आधिकारिक प्रकाशनहरू।"
+                    modified = True
+                if "Nepali scientists and engineers" in str(ne_fellowship.target_audience) or not ne_fellowship.target_audience or "?" in str(ne_fellowship.target_audience):
+                    ne_fellowship.target_audience = "नेपाली वैज्ञानिक तथा इन्जिनियरहरू"
+                    modified = True
+                if modified:
+                    ne_fellowship.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Fellowship translation!"))
+
+            ne_camp = EducationProgrammePage.objects.filter(locale=ne_locale, slug="camp").first()
+            if ne_camp:
+                modified = False
+                if ne_camp.title == "Annual Science Camp" or not ne_camp.title or "?" in str(ne_camp.title):
+                    ne_camp.title = "वार्षिक विज्ञान शिविर"
+                    modified = True
+                if "Ten-day residential programme" in str(ne_camp.summary) or not ne_camp.summary or "?" in str(ne_camp.summary):
+                    ne_camp.summary = "नेपालभरिबाट छनोट भएका माध्यमिक तह (कक्षा ९–११) का विद्यार्थीहरूका लागि १० दिवसीय आवासीय कार्यक्रम। काठमाडौं उपत्यका बाहिरका विद्यार्थीहरूलाई विशेष प्राथमिकता।"
+                    modified = True
+                if "Grades 9-11" in str(ne_camp.target_audience) or not ne_camp.target_audience or "?" in str(ne_camp.target_audience):
+                    ne_camp.target_audience = "माध्यमिक तहका विद्यार्थीहरू (कक्षा ९-११)"
+                    modified = True
+                if modified:
+                    ne_camp.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Science Camp translation!"))
+
+            ne_teachers = EducationProgrammePage.objects.filter(locale=ne_locale, slug="teachers").first()
+            if ne_teachers:
+                modified = False
+                if ne_teachers.title == "Teacher Professional Development" or not ne_teachers.title or "?" in str(ne_teachers.title):
+                    ne_teachers.title = "शिक्षक व्यावसायिक विकास कार्यक्रम"
+                    modified = True
+                if "one-week residential intensive" in str(ne_teachers.summary) or not ne_teachers.summary or "?" in str(ne_teachers.summary):
+                    ne_teachers.summary = "वार्षिक एक-हप्ते आवासीय सघन तालिम। शिक्षकहरू आफैंले निर्माण गरेको कार्यशील उपकरण, पठनपाठनका लागि तयार पाठ्यक्रम मोड्युल, र निरन्तर व्यावसायिक सञ्जालको सदस्यता प्राप्त गरी फर्कन्छन्।"
+                    modified = True
+                if "Teachers across Nepal" in str(ne_teachers.target_audience) or not ne_teachers.target_audience or "?" in str(ne_teachers.target_audience):
+                    ne_teachers.target_audience = "नेपालभरिका शिक्षकहरू"
+                    modified = True
+                if modified:
+                    ne_teachers.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Teacher Development translation!"))
+
+            # 9. Populate default translations for Learn & Open Knowledge in Nepali locale
+            ne_learn = LearnIndexPage.objects.filter(locale=ne_locale).first()
+            if ne_learn:
+                modified = False
+                if ne_learn.title == "Learning Resources" or not ne_learn.title or "?" in str(ne_learn.title):
+                    ne_learn.title = "सिकाइ स्रोत र सामग्रीहरू"
+                    modified = True
+                if "freely available" in str(ne_learn.intro) or not ne_learn.intro or "?" in str(ne_learn.intro):
+                    ne_learn.intro = "<p>HICS का सिकाइ स्रोत तथा सामग्रीहरू शिक्षक, विद्यार्थी, र उपकरण तथा तथ्याङ्क पछाडिको विज्ञान बुझ्न चाहने जो कोहीका लागि निःशुल्क उपलब्ध छन्। डाउनलोड गर्नुहोस्, प्रयोग गर्नुहोस्, र अनुकूलन गर्नुहोस्।</p>"
+                    modified = True
+                if modified:
+                    ne_learn.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Learning Resources translation!"))
+
+            ne_open = OpenKnowledgePage.objects.filter(locale=ne_locale).first()
+            if ne_open:
+                modified = False
+                if ne_open.title == "Open Knowledge" or not ne_open.title or "?" in str(ne_open.title):
+                    ne_open.title = "खुला ज्ञान र साझा स्रोत"
+                    modified = True
+                if "public outputs exist for the world" in str(ne_open.intro) or not ne_open.intro or "?" in str(ne_open.intro):
+                    ne_open.intro = "<p>HICS का सार्वजनिक कार्य तथा सामग्रीहरू सम्पूर्ण विश्वका लागि उपलब्ध छन्। हाम्रा सबै तथ्याङ्क, उपकरणका डिजाइनहरू, र सिकाइ सामग्रीहरू खुला-स्रोत र पूर्ण रूपमा निःशुल्क छन्।</p>"
+                    modified = True
+                if modified:
+                    ne_open.save_revision().publish()
+                    self.stdout.write(self.style.SUCCESS("Populated default Nepali Open Knowledge translation!"))
+
         except Exception as sync_err:
             self.stdout.write(self.style.WARNING(f"Could not synchronize translated trees: {sync_err}"))
 
