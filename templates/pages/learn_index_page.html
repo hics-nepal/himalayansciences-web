@@ -1,83 +1,87 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block title %}Learn — HICS{% endblock %}
-{% block description %}Free learning resources from HICS — curriculum modules, instrument build guides, and scientific computing tutorials.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}सिकाइ{% else %}Learn{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS बाट निःशुल्क सिकाइ स्रोतहरू — पाठ्यक्रम मोड्युलहरू, उपकरण निर्माण गाइडहरू, र वैज्ञानिक कम्प्युटिङ ट्युटोरियलहरू।{% else %}Free learning resources from HICS — curriculum modules, instrument build guides, and scientific computing tutorials.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Learn</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सिकाइ{% else %}Learn{% endif %}</div>
     <h1>{{ page.title }}</h1>
     {% if page.intro %}
     <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
     {% else %}
     <div class="hero__sub mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      <p>HICS का सिकाइ स्रोतहरू निःशुल्क उपलब्ध छन् — शिक्षक, विद्यार्थी, र उपकरण तथा तथ्याङ्क पछाडिको विज्ञान बुझ्न चाहने जो कोहीका लागि। तिनलाई डाउनलोड गर्नुहोस्, प्रयोग गर्नुहोस्, र अनुकूलन गर्नुहोस्।</p>
+      {% else %}
       <p>HICS's learning resources are freely available — for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.</p>
+      {% endif %}
     </div>
     {% endif %}
   </section>
 
   <!-- Curriculum Modules -->
   <section class="section">
-    <div class="section__label">Curriculum modules</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}पाठ्यक्रम मोड्युलहरू{% else %}Curriculum modules{% endif %}</div>
     <div class="card-grid">
       <div class="card">
-        <div class="card__label">Grades 8–10 · IESH</div>
-        <div class="card__title">What is the atmosphere?</div>
-        <div class="card__body">Temperature, pressure, and altitude. Explains what the sensors measure and why.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ८–१० · IESH{% else %}Grades 8–10 · IESH{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डल भनेको के हो?{% else %}What is the atmosphere?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}तापक्रम, चाप, र उचाइ। सेन्सरहरूले के मापन गर्छन् र किन भनेर वर्णन गर्दछ।{% else %}Temperature, pressure, and altitude. Explains what the sensors measure and why.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Grades 8–11 · IESH</div>
-        <div class="card__title">Air quality: what is PM2.5?</div>
-        <div class="card__body">Kathmandu Valley air quality as the case study. Why particulate matter matters.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ८–११ · IESH{% else %}Grades 8–11 · IESH{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वायु गुणस्तर: PM2.5 भनेको के हो?{% else %}Air quality: what is PM2.5?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}काठमाडौं उपत्यकाको वायु गुणस्तर एक अध्ययन (केस स्टडी) को रूपमा। सूक्ष्म कण किन महत्त्वपूर्ण छ।{% else %}Kathmandu Valley air quality as the case study. Why particulate matter matters.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Grades 9–11 · CMS project</div>
-        <div class="card__title">Passive solar: how do buildings stay warm?</div>
-        <div class="card__body">The physics of thermal mass and solar gain for Himalayan conditions.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ९–११ · CMS परियोजना{% else %}Grades 9–11 · CMS project{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}प्यासिभ सोलार: भवनहरू कसरी न्यानो रहन्छन्?{% else %}Passive solar: how do buildings stay warm?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}हिमाली अवस्थाहरूका लागि थर्मल मास र सोलार गेनको भौतिकशास्त्र।{% else %}The physics of thermal mass and solar gain for Himalayan conditions.{% endif %}</div>
       </div>
     </div>
   </section>
 
   <!-- Build Guides -->
   <section class="section">
-    <div class="section__label">Instrument build guides</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}उपकरण निर्माण गाइडहरू{% else %}Instrument build guides{% endif %}</div>
     <div class="card-grid">
       <div class="card">
-        <div class="card__label">Moderate · ~NPR 5,000</div>
-        <div class="card__title">IESH v0: Environmental Monitor</div>
-        <div class="card__body">Full guide: wiring, Python code, Flask dashboard, sync script. Build on Raspberry Pi.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}मध्यम · ~रू. ५,०००{% else %}Moderate · ~NPR 5,000{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}IESH v0: वातावरणीय मनिटर{% else %}IESH v0: Environmental Monitor{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}पूर्ण गाइड: वायरिङ, पाइथन कोड, फ्लास्क ड्यासबोर्ड, सिंक स्क्रिप्ट। र्यास्पबेरी पाई (Raspberry Pi) मा निर्माण गर्नुहोस्।{% else %}Full guide: wiring, Python code, Flask dashboard, sync script. Build on Raspberry Pi.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Easy · Zero additional cost</div>
-        <div class="card__title">DSLR Astrophotography</div>
-        <div class="card__body">Camera settings, focusing at night, star trails. First images of the Himalayan sky.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}सजिलो · शून्य अतिरिक्त लागत{% else %}Easy · Zero additional cost{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}DSLR खगोल फोटोग्राफी (Astrophotography){% else %}DSLR Astrophotography{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}क्यामेरा सेटिङहरू, रातमा फोकस गर्ने तरिका, ताराका पथहरू। हिमाली आकाशका पहिलो तस्बिरहरू।{% else %}Camera settings, focusing at night, star trails. First images of the Himalayan sky.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Easy · NPR 500–2,000</div>
-        <div class="card__title">Diffraction Spectroscope</div>
-        <div class="card__body">Build for NPR 500. Sodium streetlight spectrum as first target.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}सजिलो · रू. ५००–२,०००{% else %}Easy · NPR 500–2,000{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}डिफ्र्याक्सन स्पेक्ट्रोस्कोप{% else %}Diffraction Spectroscope{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}रू. ५०० मा निर्माण गर्नुहोस्। सोडियम स्ट्रिटलाइट स्पेक्ट्रम पहिलो लक्ष्यको रूपमा।{% else %}Build for NPR 500. Sodium streetlight spectrum as first target.{% endif %}</div>
       </div>
     </div>
   </section>
 
   <!-- Scientific Computing -->
   <section class="section">
-    <div class="section__label">Scientific computing</div>
-    <p class="text-muted">Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.</p>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}कम्प्युटेसनल विज्ञान{% else %}Scientific computing{% endif %}</div>
+    <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}वास्तविक HICS तथ्याङ्क प्रयोग गरेर पाइथन ट्युटोरियलहरू। प्रत्येकले डाउनलोड गर्न योग्य जुपिटर (Jupyter) नोटबुकमा लिङ्क गर्दछ।{% else %}Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.{% endif %}</p>
     <div class="card-grid mt-5">
       <div class="card">
-        <div class="card__title">Loading and plotting HICS CSV data</div>
-        <div class="card__body">Introduction to Python data analysis using real environmental sensor data.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}HICS CSV तथ्याङ्क लोड गर्ने र प्लट गर्ने{% else %}Loading and plotting HICS CSV data{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}वास्तविक वातावरणीय सेन्सर तथ्याङ्क प्रयोग गरेर पाइथन तथ्याङ्क विश्लेषणको परिचय।{% else %}Introduction to Python data analysis using real environmental sensor data.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__title">Time series analysis</div>
-        <div class="card__body">Finding patterns in atmospheric data — diurnal cycles, seasonal trends.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}समय शृङ्खला विश्लेषण{% else %}Time series analysis{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डलीय तथ्याङ्कमा ढाँचाहरू खोज्दै — दैनिक चक्रहरू, मौसमी प्रवृत्तिहरू।{% else %}Finding patterns in atmospheric data — diurnal cycles, seasonal trends.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__title">Sensor calibration</div>
-        <div class="card__body">Cross-validating two temperature sensors — when instruments disagree.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}सेन्सर क्यालिब्रेसन{% else %}Sensor calibration{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}दुई तापक्रम सेन्सरहरूलाई क्रस-भ्यालिडेट गर्दै — जब उपकरणहरूमा बेमेल हुन्छ।{% else %}Cross-validating two temperature sensors — when instruments disagree.{% endif %}</div>
       </div>
     </div>
   </section>

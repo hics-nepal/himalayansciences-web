@@ -1,27 +1,32 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags %}
 
-{% block title %}Education — HICS{% endblock %}
-{% block description %}HICS education programmes — school residencies, research fellowships, science camps, teacher development, and free learning resources.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS शैक्षिक कार्यक्रमहरू — विद्यालय आवासीय कार्यक्रम, अनुसन्धान फेलोसिप, विज्ञान शिविर, शिक्षक विकास, र निःशुल्क सिकाइ सामग्रीहरू।{% else %}HICS education programmes — school residencies, research fellowships, science camps, teacher development, and free learning resources.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Education</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षा{% else %}Education{% endif %}</div>
     <h1>{{ page.title }}</h1>
     {% if page.intro %}
     <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
     {% else %}
     <div class="hero__sub mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      <p>पाठ्यक्रममा आधारित, उपकरण-मुखी विज्ञान शिक्षा जसले विद्यार्थी, शिक्षक, र समुदायलाई सेवा दिन्छ। यो पाठ्यपुस्तकको विज्ञान होइन — विद्यार्थीहरूले आफ्नो वरपरको संसारबाट वास्तविक सङ्केतहरू सङ्कलन गर्ने वास्तविक उपकरणहरूबाट प्राप्त वास्तविक तथ्याङ्कहरूको विश्लेषण गर्छन्।</p>
+      <p class="text-muted mt-4" style="font-size:0.9rem;">लैङ्गिक समानता हाम्रो संस्थाको संरचनात्मक आधार हो, देखावटी मात्र होइन: फेलोसिप छनोट, शिविर भर्ना, शिक्षक भर्ना, र मेन्टरिङ संरचनाहरूले महिला र बालिकाहरूका लागि रहेका बाधाहरू हटाउन स्पष्ट रूपमा काम गर्छन्।</p>
+      {% else %}
       <p>Curriculum-aligned, instrument-based science education serving students, teachers, and communities. Not textbook science — students analyse real data from real instruments collecting real signals from the world around them.</p>
       <p class="text-muted mt-4" style="font-size:0.9rem;">Gender equity is structural, not symbolic: fellowship selection, camp admissions, teacher recruitment, and mentoring structures all explicitly work to reduce barriers for women and girls.</p>
+      {% endif %}
     </div>
     {% endif %}
   </section>
 
   <!-- Structured programmes -->
   <section class="section">
-    <div class="section__label">Programmes</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}कार्यक्रमहरू{% else %}Programmes{% endif %}</div>
     <div class="card-grid">
       {% for programme in programmes %}
       <a href="{{ programme.url }}" class="card">
@@ -32,34 +37,34 @@
       </a>
       {% empty %}
       <div class="card">
-        <div class="card__title">School Science Residency</div>
-        <div class="card__body">Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}विद्यालय विज्ञान आवासीय कार्यक्रम{% else %}School Science Residency{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}तारा-मण्डल (प्लानेटेरियम) प्रदर्शन, उपकरण कार्यशाला, तथ्याङ्क विश्लेषण, र शिक्षक तालिमलाई जोड्ने बहु-दिवसीय आवासीय कार्यक्रम। विद्यालयहरूले एक पटकको कार्यक्रम मात्र होइन, दिगो सम्बन्ध स्थापित गर्छन्।{% else %}Multi-day residencies combining planetarium sessions, instrument workshops, data analysis, and teacher training. Schools enter lasting relationships, not one-off events.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       <div class="card">
-        <div class="card__title">Youth Research Fellowship</div>
-        <div class="card__body">Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}युवा अनुसन्धान फेलोसिप{% else %}Youth Research Fellowship{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}नेपाली वैज्ञानिकहरूका लागि १२ देखि २४ महिनाको पूर्ण-कालीन अनुसन्धान अवसर। सह-लेखनमा प्रकाशनहरू। विज्ञान गर्न विदेशिनुपर्ने बाध्यताको एक स्पष्ट विकल्प।{% else %}Full-time 12–24 month research positions for Nepali scientists. Co-authored publications. An explicit alternative to emigrating to do science.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       <div class="card">
-        <div class="card__title">Annual Science Camp</div>
-        <div class="card__body">Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वार्षिक विज्ञान शिविर{% else %}Annual Science Camp{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}नेपालभरिबाट छनोट भएका माध्यमिक तहका विद्यार्थीहरूका लागि १० दिवसीय आवासीय कार्यक्रम, जसमा काठमाडौं बाहिरका विद्यार्थीहरूलाई विशेष प्राथमिकता दिइन्छ।{% else %}Ten-day residential programme for high school students selected from across Nepal, with priority for students from districts outside Kathmandu.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       <div class="card">
-        <div class="card__title">Teacher Professional Development</div>
-        <div class="card__body">Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षक व्यावसायिक विकास{% else %}Teacher Professional Development{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}सघन आवासीय तालिम। शिक्षकहरू आफैंले निर्माण गरेको कार्यशील उपकरण, पठनपाठनका लागि तयार पाठ्यक्रम मोड्युल, र निरन्तर व्यावसायिक सञ्जालको सदस्यता प्राप्त गरी फर्कन्छन्।{% else %}Residential intensive. Teachers leave with a working instrument they built, curriculum modules ready to teach, and membership in an ongoing professional community.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       <div class="card">
-        <div class="card__title">Scientific Computing Courses</div>
-        <div class="card__body">Python and data science taught through real HICS data. From loading CSV to machine learning on environmental time-series.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वैज्ञानिक कम्प्युटिङ कोर्सहरू{% else %}Scientific Computing Courses{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}वास्तविक HICS तथ्याङ्क मार्फत सिकाइने पाइथन र डाटा विज्ञान। CSV लोड गर्नेदेखि वातावरणीय समय-शृङ्खलामा मेसिन लर्निङसम्म।{% else %}Python and data science taught through real HICS data. From loading CSV to machine learning on environmental time-series.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       <div class="card">
-        <div class="card__title">Public Science Programme</div>
-        <div class="card__body">Monthly public talks, annual science festival, live data dashboards, and real-time environmental alerts accessible from any phone.</div>
-        <span class="badge badge--planned">Planned</span>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}सार्वजनिक विज्ञान कार्यक्रम{% else %}Public Science Programme{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}मासिक सार्वजनिक वार्ताहरू, वार्षिक विज्ञान महोत्सव, प्रत्यक्ष तथ्याङ्क ड्यासबोर्डहरू, र कुनै पनि फोनबाट पहुँचयोग्य वास्तविक समय (real-time) वातावरणीय अलर्टहरू।{% else %}Monthly public talks, annual science festival, live data dashboards, and real-time environmental alerts accessible from any phone.{% endif %}</div>
+        <span class="badge badge--planned">{% if request.LANGUAGE_CODE == 'ne' %}योजनाबद्ध{% else %}Planned{% endif %}</span>
       </div>
       {% endfor %}
     </div>
@@ -67,73 +72,73 @@
 
   <!-- Free learning resources -->
   <section class="section">
-    <div class="section__label">Free learning resources</div>
-    <p class="text-muted">Freely available for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.</p>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}निःशुल्क सिकाइ स्रोतहरू{% else %}Free learning resources{% endif %}</div>
+    <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}शिक्षक, विद्यार्थी, र उपकरण तथा तथ्याङ्क पछाडिको विज्ञान बुझ्न चाहने जो कोहीका लागि निःशुल्क उपलब्ध। डाउनलोड गर्नुहोस्, प्रयोग गर्नुहोस्, र अनुकूलन गर्नुहोस्।{% else %}Freely available for teachers, students, and anyone who wants to understand the science behind the instruments and data. Download them, use them, adapt them.{% endif %}</p>
 
-    <h3 class="mt-6">Curriculum modules</h3>
+    <h3 class="mt-6">{% if request.LANGUAGE_CODE == 'ne' %}पाठ्यक्रम मोड्युलहरू{% else %}Curriculum modules{% endif %}</h3>
     <div class="card-grid mt-4">
       <div class="card">
-        <div class="card__label">Grades 8–10 · IESH</div>
-        <div class="card__title">What is the atmosphere?</div>
-        <div class="card__body">Temperature, pressure, and altitude. What sensors measure and why.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ८–१० · IESH{% else %}Grades 8–10 · IESH{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डल भनेको के हो?{% else %}What is the atmosphere?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}तापक्रम, चाप, र उचाइ। सेन्सरहरूले के मापन गर्छन् र किन।{% else %}Temperature, pressure, and altitude. What sensors measure and why.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Grades 8–11 · IESH</div>
-        <div class="card__title">Air quality: what is PM2.5?</div>
-        <div class="card__body">Kathmandu Valley air quality as the case study.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ८–११ · IESH{% else %}Grades 8–11 · IESH{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}वायु गुणस्तर: PM2.5 भनेको के हो?{% else %}Air quality: what is PM2.5?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}काठमाडौं उपत्यकाको वायु गुणस्तर एक अध्ययन (केस स्टडी) को रूपमा।{% else %}Kathmandu Valley air quality as the case study.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Grades 9–11 · CMS</div>
-        <div class="card__title">Passive solar: how do buildings stay warm?</div>
-        <div class="card__body">The physics of thermal mass and solar gain for Himalayan conditions.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}कक्षा ९–११ · CMS{% else %}Grades 9–11 · CMS{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}प्यासिभ सोलार: भवनहरू कसरी न्यानो रहन्छन्?{% else %}Passive solar: how do buildings stay warm?{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}हिमाली अवस्थाहरूका लागि थर्मल मास र सोलार गेनको भौतिकशास्त्र।{% else %}The physics of thermal mass and solar gain for Himalayan conditions.{% endif %}</div>
       </div>
     </div>
 
-    <h3 class="mt-6">Instrument build guides</h3>
+    <h3 class="mt-6">{% if request.LANGUAGE_CODE == 'ne' %}उपकरण निर्माण गाइडहरू{% else %}Instrument build guides{% endif %}</h3>
     <div class="card-grid mt-4">
       <div class="card">
-        <div class="card__label">Moderate · ~NPR 5,000</div>
-        <div class="card__title">IESH v0: Environmental Monitor</div>
-        <div class="card__body">Full guide: wiring, Python code, Flask dashboard, sync script.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}मध्यम · ~रू. ५,०००{% else %}Moderate · ~NPR 5,000{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}IESH v0: वातावरणीय मनिटर{% else %}IESH v0: Environmental Monitor{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}पूर्ण गाइड: वायरिङ, पाइथन कोड, फ्लास्क ड्यासबोर्ड, सिंक स्क्रिप्ट।{% else %}Full guide: wiring, Python code, Flask dashboard, sync script.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Easy · Zero additional cost</div>
-        <div class="card__title">DSLR Astrophotography</div>
-        <div class="card__body">Camera settings, focusing at night, star trails.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}सजिलो · शून्य अतिरिक्त लागत{% else %}Easy · Zero additional cost{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}DSLR खगोल फोटोग्राफी{% else %}DSLR Astrophotography{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}क्यामेरा सेटिङहरू, रातमा फोकस गर्ने तरिका, ताराका पथहरू।{% else %}Camera settings, focusing at night, star trails.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__label">Easy · NPR 500–2,000</div>
-        <div class="card__title">Diffraction Spectroscope</div>
-        <div class="card__body">Build for NPR 500. Sodium streetlight spectrum as first target.</div>
+        <div class="card__label">{% if request.LANGUAGE_CODE == 'ne' %}सजिलो · रू. ५००–२,०००{% else %}Easy · NPR 500–2,000{% endif %}</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}डिफ्र्याक्सन स्पेक्ट्रोस्कोप{% else %}Diffraction Spectroscope{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}रू. ५०० मा निर्माण गर्नुहोस्। सोडियम स्ट्रिटलाइट स्पेक्ट्रम पहिलो लक्ष्यको रूपमा।{% else %}Build for NPR 500. Sodium streetlight spectrum as first target.{% endif %}</div>
       </div>
     </div>
 
-    <h3 class="mt-6">Scientific computing</h3>
-    <p class="text-muted" style="font-size:0.9rem;">Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.</p>
+    <h3 class="mt-6">{% if request.LANGUAGE_CODE == 'ne' %}कम्प्युटेसनल विज्ञान{% else %}Scientific computing{% endif %}</h3>
+    <p class="text-muted" style="font-size:0.9rem;">{% if request.LANGUAGE_CODE == 'ne' %}वास्तविक HICS तथ्याङ्क प्रयोग गरेर पाइथन ट्युटोरियलहरू। प्रत्येकले डाउनलोड गर्न योग्य जुपिटर (Jupyter) नोटबुकमा लिङ्क गर्दछ।{% else %}Python tutorials using real HICS data. Each links to a downloadable Jupyter notebook.{% endif %}</p>
     <div class="card-grid mt-4">
       <div class="card">
-        <div class="card__title">Loading and plotting HICS CSV data</div>
-        <div class="card__body">Introduction to Python data analysis using real sensor data.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}HICS CSV तथ्याङ्क लोड गर्ने र प्लट गर्ने{% else %}Loading and plotting HICS CSV data{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}वास्तविक वातावरणीय सेन्सर तथ्याङ्क प्रयोग गरेर पाइथन तथ्याङ्क विश्लेषणको परिचय।{% else %}Introduction to Python data analysis using real sensor data.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__title">Time series analysis</div>
-        <div class="card__body">Finding patterns — diurnal cycles, seasonal trends.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}समय शृङ्खला विश्लेषण{% else %}Time series analysis{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}वायुमण्डलीय तथ्याङ्कमा ढाँचाहरू खोज्दै — दैनिक चक्रहरू, मौसमी प्रवृत्तिहरू।{% else %}Finding patterns — diurnal cycles, seasonal trends.{% endif %}</div>
       </div>
       <div class="card">
-        <div class="card__title">Sensor calibration</div>
-        <div class="card__body">Cross-validating sensors — when instruments disagree.</div>
+        <div class="card__title">{% if request.LANGUAGE_CODE == 'ne' %}सेन्सर क्यालिब्रेसन{% else %}Sensor calibration{% endif %}</div>
+        <div class="card__body">{% if request.LANGUAGE_CODE == 'ne' %}दुई तापक्रम सेन्सरहरूलाई क्रस-भ्यालिडेट गर्दै — जब उपकरणहरूमा बेमेल हुन्छ।{% else %}Cross-validating sensors — when instruments disagree.{% endif %}</div>
       </div>
     </div>
   </section>
 
   <!-- Open knowledge -->
   <section class="section content">
-    <div class="section__label">Open knowledge</div>
-    <p class="text-muted">All of HICS's public outputs exist for the world, not only for enrolled students. Data is open, designs are open-source, curricula are free.</p>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}खुला ज्ञान{% else %}Open knowledge{% endif %}</div>
+    <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}HICS का सबै सार्वजनिक उत्पादनहरू सम्पूर्ण विश्वका लागि उपलब्ध छन्, केवल भर्ना भएका विद्यार्थीहरूका लागि मात्र होइन। तथ्याङ्क खुला छ, डिजाइनहरू खुला-स्रोत छन्, पाठ्यक्रमहरू निःशुल्क छन्।{% else %}All of HICS's public outputs exist for the world, not only for enrolled students. Data is open, designs are open-source, curricula are free.{% endif %}</p>
     <div class="mt-5">
-      <a href="/data/" style="font-size:0.875rem;">→ Live data dashboard and open API</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ प्रत्यक्ष तथ्याङ्क ड्यासबोर्ड र खुला API{% else %}→ Live data dashboard and open API{% endif %}</a>
       &nbsp;·&nbsp;
-      <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">→ Open-source designs on GitHub</a>
+      <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ GitHub मा खुला-स्रोत डिजाइनहरू{% else %}→ Open-source designs on GitHub{% endif %}</a>
     </div>
   </section>
 </div>

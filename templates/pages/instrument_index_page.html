@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 {% load static wagtailcore_tags %}
 
-{% block title %}Instruments — HICS{% endblock %}
-{% block description %}HICS instruments — open-source scientific hardware built for Nepal's conditions.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}उपकरणहरू{% else %}Instruments{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS उपकरणहरू — नेपालको अवस्थाका लागि निर्मित खुला-स्रोत वैज्ञानिक हार्डवेयर।{% else %}HICS instruments — open-source scientific hardware built for Nepal's conditions.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Instrumentation</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}उपकरण निर्माण{% else %}Instrumentation{% endif %}</div>
     <h1>{{ page.title }}</h1>
     {% if page.intro %}
     <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
     {% else %}
     <div class="hero__sub mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      <p>नेपालको अवस्थाका लागि अनुकूलित सुलभ वैज्ञानिक उपकरणहरूको डिजाइन, निर्माण, परीक्षण, र खुला-स्रोत प्रकाशन: अत्यधिक उचाइ, मनसुनको आर्द्रता, तापक्रम चक्र, सीमित सञ्चार सम्पर्क, र अनियमित विद्युत। HICS ले निर्माण गर्ने उपकरणहरू नै HICS ले प्रयोग गर्ने उपकरणहरू हुन्।</p>
+      {% else %}
       <p>Design, fabrication, testing, and open-source publication of affordable scientific instruments optimised for Nepal's conditions: extreme altitude, monsoon humidity, temperature cycling, limited connectivity, and intermittent power. The instruments HICS builds are the instruments HICS uses.</p>
+      {% endif %}
     </div>
     {% endif %}
   </section>
@@ -28,17 +32,21 @@
         <span class="badge badge--{{ instrument.status }}">{{ instrument.get_status_display }}</span>
       </a>
       {% empty %}
-      <p class="text-muted">No instruments published yet.</p>
+      <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}कुनै उपकरणहरू प्रकाशित गरिएका छैनन्।{% else %}No instruments published yet.{% endif %}</p>
       {% endfor %}
     </div>
   </section>
 
   <section class="section content">
     <p class="text-muted" style="font-size:0.9rem;">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      सबै डिजाइनहरू, फर्मवेयर, र एसेम्बली दस्तावेजीकरणहरू खुला-स्रोत लाइसेन्स अन्तर्गत प्रकाशित गरिएका छन् (हार्डवेयरका लागि CERN OHL, सफ्टवेयरका लागि MIT)। जहाँसुकैका कुनै पनि संस्थाले यिनलाई निर्माण गर्न सक्छन्।
+      {% else %}
       All designs, firmware, and assembly documentation are published under open-source licences (CERN OHL for hardware, MIT for software). Any institution anywhere can build them.
+      {% endif %}
     </p>
     <p class="mt-4">
-      <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">→ All designs on GitHub</a>
+      <a href="https://github.com/hics-nepal" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ GitHub मा सबै डिजाइनहरू{% else %}→ All designs on GitHub{% endif %}</a>
     </p>
   </section>
 </div>

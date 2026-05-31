@@ -1,19 +1,23 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
 
-{% block title %}Research — HICS{% endblock %}
-{% block description %}HICS research programmes — cosmic ray physics, atmospheric science, seismology, building physics, and more.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS अनुसन्धान कार्यक्रमहरू — कस्मिक रे भौतिकशास्त्र, वायुमण्डलीय विज्ञान, भूकम्प विज्ञान, भवन भौतिकशास्त्र, र अन्य।{% else %}HICS research programmes — cosmic ray physics, atmospheric science, seismology, building physics, and more.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">Research</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान{% else %}Research{% endif %}</div>
     <h1>{{ page.title }}</h1>
     {% if page.intro %}
     <div class="hero__sub mt-5">{{ page.intro|richtext }}</div>
     {% else %}
     <div class="hero__sub mt-5">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      <p>भौतिक र पृथ्वी विज्ञानमा मौलिक र व्यावहारिक अनुसन्धान, जसले पियर-रिभ्युड प्रकाशनहरू, नवीनतम तथ्याङ्क सेटहरू, र विश्वव्यापी वैज्ञानिक सञ्जालहरूमा योगदान पुर्याउँछ।</p>
+      {% else %}
       <p>Fundamental and applied research in the physical and earth sciences, producing peer-reviewed publications, novel datasets, and contributions to global scientific networks.</p>
+      {% endif %}
     </div>
     {% endif %}
   </section>
@@ -28,19 +32,23 @@
         <span class="badge badge--{{ prog.status }}">{{ prog.get_status_display }}</span>
       </a>
       {% empty %}
-      <p class="text-muted">No research programmes published yet.</p>
+      <p class="text-muted">{% if request.LANGUAGE_CODE == 'ne' %}कुनै अनुसन्धान कार्यक्रमहरू प्रकाशित गरिएका छैनन्।{% else %}No research programmes published yet.{% endif %}</p>
       {% endfor %}
     </div>
   </section>
 
   <section class="section content">
     <p class="text-muted" style="font-size:0.9rem;">
+      {% if request.LANGUAGE_CODE == 'ne' %}
+      सबै अनुसन्धानका नतिजाहरू — प्रकाशनहरू, तथ्याङ्क सेटहरू, उपकरण डिजाइनहरू — खुला रूपमा प्रकाशित गरिन्छन्। तथ्याङ्क निःशुल्क डाउनलोड गर्न सकिन्छ। कोड र डिजाइनहरू गिटहब (GitHub) मा उपलब्ध छन्।
+      {% else %}
       All research outputs — publications, datasets, instrument designs — are published openly. Data is freely downloadable. Code and designs are on GitHub.
+      {% endif %}
     </p>
     <p class="mt-4">
-      <a href="/data/" style="font-size:0.875rem;">→ Open data dashboard</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/data/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ खुला तथ्याङ्क ड्यासबोर्ड{% else %}→ Open data dashboard{% endif %}</a>
       &nbsp;·&nbsp;
-      <a href="/instruments/" style="font-size:0.875rem;">→ Instruments</a>
+      <a href="{% if request.LANGUAGE_CODE == 'ne' %}/ne{% endif %}/instruments/" style="font-size:0.875rem;">{% if request.LANGUAGE_CODE == 'ne' %}→ उपकरणहरू{% else %}→ Instruments{% endif %}</a>
     </p>
   </section>
 </div>
