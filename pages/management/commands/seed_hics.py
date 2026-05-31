@@ -260,6 +260,32 @@ class Command(BaseCommand):
                             self.stdout.write(self.style.WARNING(f"Skipped translation clone for '{p.title}': {translation_err}"))
             
             self.stdout.write(self.style.SUCCESS(f"Multilingual synchronization complete! Cloned {sync_count} pages to 'ne' tree."))
+
+            # Automatically populate default translations for Homepage, About Page, and Contact Page in Nepali locale
+            self.stdout.write("Populating official Nepali translation copy inside the database...")
+            ne_home = HomePage.objects.filter(locale=ne_locale).first()
+            if ne_home:
+                ne_home.title = "हिमालयन इन्स्टिच्युट फर कन्टेक्सचुअल साइन्सेस"
+                ne_home.tagline = "सान्दर्भिक विज्ञान। खुला तथ्याङ्क। व्यावहारिक सिकाइ।"
+                ne_home.mission = "नेपालमा आधारित एक स्वतन्त्र अनुसन्धान, उपकरण जडान, र सिकाइ संस्था। हामी उपकरणहरू निर्माण गर्छौं, तथ्याङ्क सङ्कलन गर्छौं, र यहाँकै बारेमा विज्ञान गर्छौं — हाम्रा हिमाल माथिको वायुमण्डल, हाम्रा सहरहरू मुनिको जमिन, र उच्च स्थानमा बसोबास गर्ने समुदायहरू।"
+                ne_home.save_revision().publish()
+                self.stdout.write(self.style.SUCCESS("Populated Nepali Homepage translation!"))
+
+            ne_about = AboutPage.objects.filter(locale=ne_locale).first()
+            if ne_about:
+                ne_about.title = "हाम्रो बारेमा"
+                ne_about.intro = "<p>हामी नेपालको अद्वितीय उचाइ र भौगोलिक विविधतामा सान्दर्भिक अनुसन्धान र खुला उपकरणहरू विकास गर्छौं।</p>"
+                ne_about.save_revision().publish()
+                self.stdout.write(self.style.SUCCESS("Populated Nepali AboutPage translation!"))
+
+            ne_contact = ContactPage.objects.filter(locale=ne_locale).first()
+            if ne_contact:
+                ne_contact.title = "सम्पर्क"
+                ne_contact.intro = "<p>अनुसन्धान साझेदारी, खुला तथ्याङ्क, वा उपकरण निर्माणको बारेमा हामीसँग सम्पर्क गर्नुहोस्।</p>"
+                ne_contact.success_message = "तपाईंको सन्देश सफलतापूर्वक पठाइएको छ। हामी छिट्टै सम्पर्क गर्नेछौं।"
+                ne_contact.save_revision().publish()
+                self.stdout.write(self.style.SUCCESS("Populated Nepali ContactPage translation!"))
+
         except Exception as sync_err:
             self.stdout.write(self.style.WARNING(f"Could not synchronize translated trees: {sync_err}"))
 
