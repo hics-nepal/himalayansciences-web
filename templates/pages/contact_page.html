@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags i18n %}
 
-{% block title %}Contact — HICS{% endblock %}
-{% block description %}Contact HICS — research collaboration, fellowships, school partnerships, and general enquiries.{% endblock %}
+{% block title %}{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क{% else %}Contact{% endif %} — HICS{% endblock %}
+{% block description %}{% if request.LANGUAGE_CODE == 'ne' %}HICS लाई सम्पर्क गर्नुहोस् — अनुसन्धान सहकार्य, फेलोसिप, विद्यालय साझेदारी, र सामान्य सोधपुछ।{% else %}Contact HICS — research collaboration, fellowships, school partnerships, and general enquiries.{% endif %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <section class="hero">
-    <div class="section__label">{% translate "Contact" %}</div>
+    <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सम्पर्क{% else %}Contact{% endif %}</div>
     <h1>{{ page.title }}</h1>
     <div class="hero__sub mt-5">
       {{ page.intro|richtext }}
@@ -21,11 +21,11 @@
         <div class="contact-card__icon">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
         </div>
-        <div class="contact-card__label">Research collaboration</div>
-        <div class="contact-card__text">Visiting scientist, co-investigator, data user, or joint publication. Tell us about your work and how it connects to ours.</div>
+        <div class="contact-card__label">{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान सहकार्य{% else %}Research collaboration{% endif %}</div>
+        <div class="contact-card__text">{% if request.LANGUAGE_CODE == 'ne' %}आगन्तुक वैज्ञानिक, सह-अनुसन्धानकर्ता, तथ्याङ्क प्रयोगकर्ता, वा संयुक्त प्रकाशन। तपाईंको काम र त्यो हाम्रो कामसँग कसरी जोडिन्छ भन्ने बारे हामीलाई बताउनुहोस्।{% else %}Visiting scientist, co-investigator, data user, or joint publication. Tell us about your work and how it connects to ours.{% endif %}</div>
         <div class="contact-card__cta">
-          <span>→ Direct message</span> &nbsp;·&nbsp;
-          <a href="mailto:info@himalayansciences.org?subject=Research collaboration" onclick="event.stopPropagation();" class="card-inline-email">Email directly</a>
+          <span>{% if request.LANGUAGE_CODE == 'ne' %}→ प्रत्यक्ष सन्देश पठाउनुहोस्{% else %}→ Direct message{% endif %}</span> &nbsp;·&nbsp;
+          <a href="mailto:info@himalayansciences.org?subject=Research collaboration" onclick="event.stopPropagation();" class="card-inline-email">{% if request.LANGUAGE_CODE == 'ne' %}सीधै इमेल गर्नुहोस्{% else %}Email directly{% endif %}</a>
         </div>
       </div>
 
@@ -33,11 +33,11 @@
         <div class="contact-card__icon">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         </div>
-        <div class="contact-card__label">Fellowships &amp; positions</div>
-        <div class="contact-card__text">Research fellowships for Nepali scientists and engineers who want to do serious science here, not abroad.</div>
+        <div class="contact-card__label">{% if request.LANGUAGE_CODE == 'ne' %}फेलोसिप र पदहरू{% else %}Fellowships &amp; positions{% endif %}</div>
+        <div class="contact-card__text">{% if request.LANGUAGE_CODE == 'ne' %}विज्ञान अध्ययन गर्न विदेश जाने होइन, यहीँ गम्भीर विज्ञान गर्न चाहने नेपाली वैज्ञानिकहरू र इन्जिनियरहरूका लागि अनुसन्धान फेलोसिपहरू।{% else %}Research fellowships for Nepali scientists and engineers who want to do serious science here, not abroad.{% endif %}</div>
         <div class="contact-card__cta">
-          <span>→ Direct message</span> &nbsp;·&nbsp;
-          <a href="mailto:info@himalayansciences.org?subject=Fellowship enquiry" onclick="event.stopPropagation();" class="card-inline-email">Email directly</a>
+          <span>{% if request.LANGUAGE_CODE == 'ne' %}→ प्रत्यक्ष सन्देश पठाउनुहोस्{% else %}→ Direct message{% endif %}</span> &nbsp;·&nbsp;
+          <a href="mailto:info@himalayansciences.org?subject=Fellowship enquiry" onclick="event.stopPropagation();" class="card-inline-email">{% if request.LANGUAGE_CODE == 'ne' %}सीधै इमेल गर्नुहोस्{% else %}Email directly{% endif %}</a>
         </div>
       </div>
 
@@ -45,11 +45,11 @@
         <div class="contact-card__icon">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--green)" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         </div>
-        <div class="contact-card__label">School partnerships</div>
-        <div class="contact-card__text">Instruments, data, residency programmes, and curriculum for your school. We work with schools across Nepal's altitude gradient.</div>
+        <div class="contact-card__label">{% if request.LANGUAGE_CODE == 'ne' %}विद्यालय साझेदारी{% else %}School partnerships{% endif %}</div>
+        <div class="contact-card__text">{% if request.LANGUAGE_CODE == 'ne' %}तपाईंको विद्यालयका लागि उपकरण, तथ्याङ्क, आवासीय कार्यक्रम, र पाठ्यक्रम। हामी नेपालको उचाइ ढाँचाभरिका विद्यालयहरूसँग काम गर्छौं।{% else %}Instruments, data, residency programmes, and curriculum for your school. We work with schools across Nepal's altitude gradient.{% endif %}</div>
         <div class="contact-card__cta">
-          <span>→ Direct message</span> &nbsp;·&nbsp;
-          <a href="mailto:info@himalayansciences.org?subject=School partnership" onclick="event.stopPropagation();" class="card-inline-email">Email directly</a>
+          <span>{% if request.LANGUAGE_CODE == 'ne' %}→ प्रत्यक्ष सन्देश पठाउनुहोस्{% else %}→ Direct message{% endif %}</span> &nbsp;·&nbsp;
+          <a href="mailto:info@himalayansciences.org?subject=School partnership" onclick="event.stopPropagation();" class="card-inline-email">{% if request.LANGUAGE_CODE == 'ne' %}सीधै इमेल गर्नुहोस्{% else %}Email directly{% endif %}</a>
         </div>
       </div>
 
@@ -57,11 +57,11 @@
         <div class="contact-card__icon">
           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--amber)" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         </div>
-        <div class="contact-card__label">Funding &amp; institutional support</div>
-        <div class="contact-card__text">We are building something that does not exist anywhere else in this region. We welcome conversations about sponsorship, grants, and partnerships.</div>
+        <div class="contact-card__label">{% if request.LANGUAGE_CODE == 'ne' %}फन्डिङ र संस्थागत सहयोग{% else %}Funding &amp; institutional support{% endif %}</div>
+        <div class="contact-card__text">{% if request.LANGUAGE_CODE == 'ne' %}हामी यस्तो संरचना निर्माण गर्दैछौं जुन यस क्षेत्रमा अन्त कतै पनि छैन। हामी प्रायोजन, अनुदान, र साझेदारीको बारेमा कुराकानी गर्न स्वागत गर्छौं।{% else %}We are building something that does not exist anywhere else in this region. We welcome conversations about sponsorship, grants, and partnerships.{% endif %}</div>
         <div class="contact-card__cta">
-          <span>→ Direct message</span> &nbsp;·&nbsp;
-          <a href="mailto:info@himalayansciences.org?subject=Funding and partnership" onclick="event.stopPropagation();" class="card-inline-email">Email directly</a>
+          <span>{% if request.LANGUAGE_CODE == 'ne' %}→ प्रत्यक्ष सन्देश पठाउनुहोस्{% else %}→ Direct message{% endif %}</span> &nbsp;·&nbsp;
+          <a href="mailto:info@himalayansciences.org?subject=Funding and partnership" onclick="event.stopPropagation();" class="card-inline-email">{% if request.LANGUAGE_CODE == 'ne' %}सीधै इमेल गर्नुहोस्{% else %}Email directly{% endif %}</a>
         </div>
       </div>
 
@@ -74,7 +74,7 @@
     <div class="two-col">
       <!-- Direct Message Form -->
       <div class="contact-form-container">
-        <div class="section__label">{{ page.form_title|default:"Send a direct message" }}</div>
+        <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}प्रत्यक्ष सन्देश पठाउनुहोस्{% else %}{{ page.form_title|default:"Send a direct message" }}{% endif %}</div>
         
         <form method="POST" action="#direct-message" class="contact-form mt-5">
           {% csrf_token %}
@@ -86,7 +86,7 @@
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </div>
-                <h3 class="mt-4">{% translate "Message Sent" %}</h3>
+                <h3 class="mt-4">{% if request.LANGUAGE_CODE == 'ne' %}सन्देश पठाइयो{% else %}Message Sent{% endif %}</h3>
                 <p class="text-muted mt-3" style="line-height:1.6;">{{ page.success_message }}</p>
               </div>
             {% else %}
@@ -97,39 +97,39 @@
               {% endif %}
 
               <div class="form-group">
-                <label for="id_name">{% translate "Name" %} <span class="text-accent">*</span></label>
-                <input type="text" id="id_name" name="name" required value="{{ form_data.name }}" placeholder="{% translate 'Your full name' %}">
+                <label for="id_name">{% if request.LANGUAGE_CODE == 'ne' %}नाम{% else %}Name{% endif %} <span class="text-accent">*</span></label>
+                <input type="text" id="id_name" name="name" required value="{{ form_data.name }}" placeholder="{% if request.LANGUAGE_CODE == 'ne' %}तपाईंको पूरा नाम{% else %}Your full name{% endif %}">
               </div>
 
               <div class="form-group">
-                <label for="id_email">{% translate "Email Address" %} <span class="text-accent">*</span></label>
+                <label for="id_email">{% if request.LANGUAGE_CODE == 'ne' %}इमेल ठेगाना{% else %}Email Address{% endif %} <span class="text-accent">*</span></label>
                 <input type="email" id="id_email" name="email" required value="{{ form_data.email }}" placeholder="you@example.com">
               </div>
 
               <div class="form-group">
-                <label for="id_category">{% translate "Category" %}</label>
+                <label for="id_category">{% if request.LANGUAGE_CODE == 'ne' %}वर्ग (Category){% else %}Category{% endif %}</label>
                 <div class="select-wrapper">
                   <select id="id_category" name="category">
-                    <option value="Research" {% if form_data.category == 'Research' %}selected{% endif %}>{% translate "Research Collaboration" %}</option>
-                    <option value="Fellowship" {% if form_data.category == 'Fellowship' %}selected{% endif %}>{% translate "Fellowships & Positions" %}</option>
-                    <option value="Education" {% if form_data.category == 'Education' %}selected{% endif %}>{% translate "School Partnerships" %}</option>
-                    <option value="General" {% if form_data.category == 'General' or not form_data.category %}selected{% endif %}>{% translate "General Enquiry" %}</option>
+                    <option value="Research" {% if form_data.category == 'Research' %}selected{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}अनुसन्धान सहकार्य{% else %}Research Collaboration{% endif %}</option>
+                    <option value="Fellowship" {% if form_data.category == 'Fellowship' %}selected{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}फेलोसिप र पदहरू{% else %}Fellowships & Positions{% endif %}</option>
+                    <option value="Education" {% if form_data.category == 'Education' %}selected{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}विद्यालय साझेदारी{% else %}School Partnerships{% endif %}</option>
+                    <option value="General" {% if form_data.category == 'General' or not form_data.category %}selected{% endif %}>{% if request.LANGUAGE_CODE == 'ne' %}सामान्य सोधपुछ{% else %}General Enquiry{% endif %}</option>
                   </select>
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="id_subject">{% translate "Subject" %}</label>
-                <input type="text" id="id_subject" name="subject" value="{{ form_data.subject }}" placeholder="{% translate 'What is this regarding?' %}">
+                <label for="id_subject">{% if request.LANGUAGE_CODE == 'ne' %}विषय{% else %}Subject{% endif %}</label>
+                <input type="text" id="id_subject" name="subject" value="{{ form_data.subject }}" placeholder="{% if request.LANGUAGE_CODE == 'ne' %}यो के बारेमा हो?{% else %}What is this regarding?{% endif %}">
               </div>
 
               <div class="form-group">
-                <label for="id_message">{% translate "Message" %} <span class="text-accent">*</span></label>
-                <textarea id="id_message" name="message" required rows="6" placeholder="{% translate 'Describe how we can work together... (Min. 10 chars)' %}">{{ form_data.message }}</textarea>
+                <label for="id_message">{% if request.LANGUAGE_CODE == 'ne' %}सन्देश{% else %}Message{% endif %} <span class="text-accent">*</span></label>
+                <textarea id="id_message" name="message" required rows="6" placeholder="{% if request.LANGUAGE_CODE == 'ne' %}हामी कसरी सँगै काम गर्न सक्छौं भनेर वर्णन गर्नुहोस्... (न्यूनतम १० वर्ण){% else %}Describe how we can work together... (Min. 10 chars){% endif %}">{{ form_data.message }}</textarea>
               </div>
 
               <button type="submit" class="btn-submit">
-                <span>{% translate "Send Message" %}</span>
+                <span>{% if request.LANGUAGE_CODE == 'ne' %}सन्देश पठाउनुहोस्{% else %}Send Message{% endif %}</span>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </button>
             {% endif %}
@@ -139,23 +139,34 @@
       <!-- Right column details -->
       <div style="display:flex; flex-direction:column; gap:var(--s7);">
         <div>
-          <div class="section__label">General enquiries</div>
-          <p class="text-muted mt-4" style="line-height:1.6;">For any other questions, collaborative concepts, media, or direct institutional proposals.</p>
+          <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}सामान्य सोधपुछ{% else %}General enquiries{% endif %}</div>
+          <p class="text-muted mt-4" style="line-height:1.6;">{% if request.LANGUAGE_CODE == 'ne' %}कुनै अन्य प्रश्नहरू, सहकार्यात्मक अवधारणाहरू, मिडिया, वा प्रत्यक्ष संस्थागत प्रस्तावहरूको लागि।{% else %}For any other questions, collaborative concepts, media, or direct institutional proposals.{% endif %}</p>
           <p class="mt-5"><a href="mailto:info@himalayansciences.org" class="text-mono" style="font-size:0.9rem;">info@himalayansciences.org</a></p>
         </div>
         <div>
-          <div class="section__label">Field network coordinates</div>
+          <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}क्षेत्रीय सञ्जाल (Field network){% else %}Field network coordinates{% endif %}</div>
           <p class="text-mono text-muted mt-4" style="font-size:0.875rem;line-height:1.8;">
+            {% if request.LANGUAGE_CODE == 'ne' %}
+            नेपाल (सक्रिय क्षेत्रीय ग्रिड)<br>
+            तराई (~१५० मिटर) देखि उच्च हिमाली भञ्ज्याङहरूसम्म (>५,००० मिटर)
+            {% else %}
             Nepal (Active Field Grid)<br>
             Lowlands (Terai ~150m) to Alpine Passes (>5,000m)
+            {% endif %}
           </p>
         </div>
         <div>
-          <div class="section__label">Legal &amp; Registration</div>
+          <div class="section__label">{% if request.LANGUAGE_CODE == 'ne' %}कानूनी तथा दर्ता विवरण{% else %}Legal &amp; Registration{% endif %}</div>
           <p class="text-mono text-dim mt-4" style="font-size:0.75rem;line-height:1.8;">
+            {% if request.LANGUAGE_CODE == 'ne' %}
+            हिमालयन इन्स्टिच्युट फर कन्टेक्चुअल साइन्सेस प्रा. लि.<br>
+            नेपालमा दर्ता · कम्पनी ऐन २०६३ (२००६)<br>
+            दर्ता नं. १२८४७६/०६३/०६४
+            {% else %}
             Himalayan Institute For Contextual Sciences Pvt. Ltd.<br>
             Registered Nepal · Companies Act 2063 (2006)<br>
             Registration No. 128476/063/064
+            {% endif %}
           </p>
         </div>
       </div>
